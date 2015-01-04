@@ -6,6 +6,7 @@ module FlyoverComments
 
     validates :commentable_id, presence: true
     validates :user_id, presence: true
+    validates :content, presence: true
 
     def commenter_name
       if user.respond_to?(:flyover_comments_name)
