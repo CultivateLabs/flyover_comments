@@ -1,0 +1,7 @@
+en:
+  flyover_comments:
+    flash:
+      comments:
+        create:
+          success: "Comment successfully created."
+          error: "There was an error creating your comment."

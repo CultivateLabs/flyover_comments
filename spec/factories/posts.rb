@@ -1,7 +1,6 @@
 FactoryGirl.define do
   factory :post do
     user nil
-title "MyString"
+    title "MyString"
   end
-
 end
