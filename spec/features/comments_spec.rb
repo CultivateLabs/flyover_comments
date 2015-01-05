@@ -20,6 +20,24 @@ RSpec.feature "Comments" do
     expect(comment.user).to eq(current_user)
   end
 
+  it "shows a list of comments" do
+    post = FactoryGirl.create(:post)
+    c1 = FactoryGirl.create(:comment, commentable: post)
+    c2 = FactoryGirl.create(:comment, commentable: post)
+    c3 = FactoryGirl.create(:comment)
+
+    visit main_app.post_path(post)
+
+    [c1, c2].each do |comment|
+      within "#flyover_comment_#{c1.id}" do
+        expect(page).to have_content(c1.content)
+        expect(page).to have_content(c1.commenter_name)
+      end
+    end
+    
+    expect(page).to_not have_content(c3.content)
+  end
+
   # it "deletes a comment", js: true do
   #   post = FactoryGirl.create(:post)
   #   other_persons_comment = FactoryGirl.create(:comment, commentable: post)

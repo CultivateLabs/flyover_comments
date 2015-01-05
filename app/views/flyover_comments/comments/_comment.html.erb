@@ -3,7 +3,6 @@
     <%= comment.content %>
   </div>
   <div class="flyover-comment-details">
-    <%= delete_resource_link comment %>&nbsp;&nbsp;
-    By: <%= comment.commenter_name %> &middot; <%= comment.created_at.strftime("%B %d, %Y %l:%M%P") %>
+    By: <%= comment.commenter_name %> &middot; <%= comment.created_at.strftime("%B %d, %Y %l:%M%P") %> &middot; <%= delete_flyover_comment_link comment %>
   </div>
 </div>
