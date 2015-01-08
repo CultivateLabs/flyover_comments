@@ -8,7 +8,5 @@ class CreateFlyoverCommentsComments < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_foreign_key :flyover_comments_comments, FlyoverComments.user_class_symbol
-    add_foreign_key :flyover_comments_comments, :parents
   end
 end
