@@ -8,6 +8,21 @@ FlyoverComments is a Rails engine that provides full-stack commenting capabiliti
 
 2. jQuery and Rails' jQuery UJS must be included in your javascript. 
 
+## Setup
+
+Add FlyoverComments to your gemfile:
+
+```
+gem 'flyover_comments'
+```
+
+Add ```flyover_comments.rb``` to your initializers, defining the name of your user class:
+```
+FlyoverComments.configure do |config|
+  config.user_class = "User"
+end
+```
+
 ## Usage
 
 Add comments to your commentable model:

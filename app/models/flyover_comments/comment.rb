@@ -1,11 +1,11 @@
 module FlyoverComments
   class Comment < ActiveRecord::Base
-    belongs_to :user
+    belongs_to :user, class: FlyoverComments.user_class, foreign_key: "#{FlyoverComments.user_class_underscore}_id"
     belongs_to :commentable, polymorphic: true
     belongs_to :parent
 
     validates :commentable_id, presence: true
-    validates :user_id, presence: true
+    validates "#{FlyoverComments.user_class_underscore}_id", presence: true
     validates :content, presence: true
 
     def commenter_name

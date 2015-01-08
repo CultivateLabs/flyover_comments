@@ -11,11 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141231021910) do
+ActiveRecord::Schema.define(version: 20150108021827) do
 
   create_table "flyover_comments_comments", force: :cascade do |t|
     t.text     "content"
-    t.integer  "user_id"
+    t.integer  "ident_user_id"
     t.integer  "commentable_id"
     t.string   "commentable_type"
     t.integer  "parent_id"
@@ -24,19 +24,10 @@ ActiveRecord::Schema.define(version: 20141231021910) do
   end
 
   add_index "flyover_comments_comments", ["commentable_type", "commentable_id"], name: "idx_flyover_comments_comments_commentable_type_commentable_id"
+  add_index "flyover_comments_comments", ["ident_user_id"], name: "index_flyover_comments_comments_on_ident_user_id"
   add_index "flyover_comments_comments", ["parent_id"], name: "index_flyover_comments_comments_on_parent_id"
-  add_index "flyover_comments_comments", ["user_id"], name: "index_flyover_comments_comments_on_user_id"
 
-  create_table "posts", force: :cascade do |t|
-    t.integer  "user_id"
-    t.string   "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "posts", ["user_id"], name: "index_posts_on_user_id"
-
-  create_table "users", force: :cascade do |t|
+  create_table "ident_users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
@@ -51,7 +42,16 @@ ActiveRecord::Schema.define(version: 20141231021910) do
     t.datetime "updated_at"
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  add_index "ident_users", ["email"], name: "index_ident_users_on_email", unique: true
+  add_index "ident_users", ["reset_password_token"], name: "index_ident_users_on_reset_password_token", unique: true
+
+  create_table "posts", force: :cascade do |t|
+    t.integer  "ident_user_id"
+    t.string   "title"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "posts", ["ident_user_id"], name: "index_posts_on_ident_user_id"
 
 end

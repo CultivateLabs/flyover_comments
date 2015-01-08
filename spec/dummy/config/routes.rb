@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :users, class_name: "Ident::User"
   resources :posts
-  devise_for :users
   mount FlyoverComments::Engine => "/flyover_comments"
   root to: "posts#index"
 end

@@ -7,7 +7,7 @@ module FlyoverComments
     end
     
     describe "can_delete_flyover_comment?" do
-      let(:user){ User.new }
+      let(:user){ Ident::User.new }
       let(:comment){ double(user: user) }
 
       it "calls can_delete_flyover_comment? on the passed user if the user defines it" do
@@ -25,13 +25,13 @@ module FlyoverComments
       end
 
       it "returns false if user#can_delete_flyover_comment? isn't defined and the comment's user is not the passed user" do
-        is_allowed = Widget.new.can_delete_flyover_comment?(comment, User.new)
+        is_allowed = Widget.new.can_delete_flyover_comment?(comment, Ident::User.new)
         expect(is_allowed).to eq(false)
       end
     end
 
     describe "can_create_flyover_comment?" do
-      let(:user){ User.new }
+      let(:user){ Ident::User.new }
       let(:comment){ double(user: user) }
 
       it "calls can_create_flyover_comment? on the passed user if the user defines it" do
@@ -49,7 +49,7 @@ module FlyoverComments
       end
 
       it "returns false if user#can_create_flyover_comment? isn't defined and the comment's user is not the passed user" do
-        is_allowed = Widget.new.can_create_flyover_comment?(comment, User.new)
+        is_allowed = Widget.new.can_create_flyover_comment?(comment, Ident::User.new)
         expect(is_allowed).to eq(false)
       end
     end
