@@ -36,11 +36,11 @@ In order, FlyoverComments will try the following to display the commenter name:
 
 1. ```user#flyover_comments_name```. If you want to override what is displayed for the commenter name, add this method to your user class.
 
-2. ```user#name```
+2. ```user#name``` - User's name
 
-3. ```user#full_name```
+3. ```user#full_name``` - User's full name
 
-4. ```user#email```
+4. ```user#email``` - User's email
 
 ## Comment creation & deletion authorization
 
