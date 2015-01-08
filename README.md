@@ -1,7 +1,6 @@
 # FlyoverComments
 
-FlyoverComments is a Rails engine that provides full-stack commenting capabilities.
-
+FlyoverComments is a Rails engine that provides full-stack commenting capabilities. It is built and maintained by [FlyoverWorks](http://www.flyoverworks.com) / [@flyoverworks](http://twitter.com/flyoverworks)
 
 ## Pre-requisites
 
