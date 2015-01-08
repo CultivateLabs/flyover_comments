@@ -7,6 +7,8 @@ FlyoverComments is a Rails engine that provides full-stack commenting capabiliti
 
 1. Devise or similar user authentication system, which provides a ```current_user``` method to controllers and views.
 
+2. jQuery and Rails' jQuery UJS must be included in your javascript. 
+
 ## Usage
 
 Add comments to your commentable model:
@@ -40,3 +42,19 @@ In order, FlyoverComments will try the following to display the commenter name:
 3. ```user#full_name```
 
 4. ```user#email```
+
+## Comment creation & deletion authorization
+
+By default, any user can create comments and a user can delete only comments that s/he created. If you want to override this behavior, you can add the following methods to your user class and FlyoverComments will default to them. E.g:
+
+```
+class User
+  def can_delete_flyover_commment?(comment)
+    self.is_admin? || comment.user == self
+  end
+
+  def can_create_flyover_comment?(comment)
+    !self.is_banned_from_commenting?
+  end
+end
+```

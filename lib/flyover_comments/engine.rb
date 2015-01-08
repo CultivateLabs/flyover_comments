@@ -1,4 +1,5 @@
 require "flyover_comments/commentable"
+require "flyover_comments/authorization"
 
 module FlyoverComments
   class Engine < ::Rails::Engine
@@ -17,6 +18,7 @@ module FlyoverComments
     initializer 'flyover_comments.action_controller' do |app|
       ActiveSupport.on_load :action_controller do
         helper FlyoverComments::CommentsHelper
+        helper FlyoverComments::Authorization
       end
     end
 

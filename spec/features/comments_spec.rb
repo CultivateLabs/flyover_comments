@@ -38,22 +38,22 @@ RSpec.feature "Comments" do
     expect(page).to_not have_content(c3.content)
   end
 
-  # it "deletes a comment", js: true do
-  #   post = FactoryGirl.create(:post)
-  #   other_persons_comment = FactoryGirl.create(:comment, commentable: post)
-  #   comment_to_delete = FactoryGirl.create(:comment, commentable: post, user: current_user)
+  it "deletes a comment", js: true do
+    post = FactoryGirl.create(:post)
+    other_persons_comment = FactoryGirl.create(:comment, commentable: post)
+    comment_to_delete = FactoryGirl.create(:comment, commentable: post, user: current_user)
 
-  #   visit main_app.post_path(post)
+    visit main_app.post_path(post)
 
-  #   expect(page).to have_content(other_persons_comment.content)
-  #   expect(page).to_not have_link("delete_comment_#{other_persons_comment.id}")
+    expect(page).to have_content(other_persons_comment.content)
+    expect(page).to_not have_link("delete_flyover_comment_#{other_persons_comment.id}")
 
-  #   expect(page).to have_content(comment_to_delete.content)
-  #   click_link "delete_comment_#{comment_to_delete.id}"
+    expect(page).to have_content(comment_to_delete.content)
+    click_link "delete_flyover_comment_#{comment_to_delete.id}"
     
-  #   expect(page).to_not have_content(comment_to_delete.content)
+    expect(page).to_not have_content(comment_to_delete.content)
 
-  #   expect{ comment_to_delete.reload }.to raise_error
-  # end
+    expect{ comment_to_delete.reload }.to raise_error
+  end
   
 end
