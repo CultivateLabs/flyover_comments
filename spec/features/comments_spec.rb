@@ -13,7 +13,7 @@ RSpec.feature "Comments" do
     fill_in "comment_content", with: "Here's some comment content"
     click_button "Create Comment"
 
-    expect(page).to have_content(I18n.t('flyover_comments.flash.comments.create.success'))
+    expect(page).to have_content(I18n.t('flyover_comments.comments.flash.create.success'))
     expect(post.comments.count).to eq(comment_count + 1)
     comment = post.comments.last
     expect(comment.content).to eq("Here's some comment content")

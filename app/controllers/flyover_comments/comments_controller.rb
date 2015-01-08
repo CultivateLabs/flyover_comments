@@ -16,7 +16,7 @@ module FlyoverComments
       authorize_flyover_comment_creation!
 
       flash_key = @comment.save ? :success : :error
-      redirect_to :back, :flash => { flash_key => t("flyover_comments.flash.comments.create.#{flash_key.to_s}") }
+      redirect_to :back, :flash => { flash_key => t("flyover_comments.comments.flash.create.#{flash_key.to_s}") }
     end
 
     def destroy
