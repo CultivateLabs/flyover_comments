@@ -28,13 +28,13 @@ module FlyoverComments
   private
 
     def comment_params
-      params.require(:comment).permit(:content)      
+      params.require(:comment).permit(:content)
     end
 
     def load_commentable
-      commentable_type = params[:comment][:commentable_type].camelize.constantize
+      commentable_type = params[:comment].delete(:commentable_type).camelize.constantize
       raise "Invalid commentable type" if commentable_type.reflect_on_association(:comments).nil?
-      @commentable = commentable_type.find(params[:comment][:commentable_id])
+      @commentable = commentable_type.find(params[:comment].delete(:commentable_id))
     end
 
     def authorize_flyover_comment_creation!
