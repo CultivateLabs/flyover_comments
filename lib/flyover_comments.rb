@@ -1,8 +1,9 @@
 require "flyover_comments/engine"
 
 module FlyoverComments
-  mattr_accessor :user_class
+  mattr_accessor :user_class, :current_user_method
   @@user_class = 'User'
+  @@current_user_method = "current_user"
 
   class << self
     def configure

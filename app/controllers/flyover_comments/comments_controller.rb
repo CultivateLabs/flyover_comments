@@ -11,7 +11,7 @@ module FlyoverComments
 
     def create
       @comment = FlyoverComments::Comment.new(comment_params)
-      @comment.user = current_user
+      @comment.user = send(FlyoverComments.current_user_method.to_sym)
       @comment.commentable = @commentable
       authorize_flyover_comment_creation!
 
@@ -32,20 +32,20 @@ module FlyoverComments
     end
 
     def load_commentable
-      commentable_type = params[:comment][:commentable_type].camelize.constantize
+      commentable_type = params[:comment].delete(:commentable_type).camelize.constantize
       raise "Invalid commentable type" if commentable_type.reflect_on_association(:comments).nil?
-      @commentable = commentable_type.find(params[:comment][:commentable_id])
+      @commentable = commentable_type.find(params[:comment].delete(:commentable_id))
     end
 
     def authorize_flyover_comment_creation!
-      if current_user.respond_to?(:can_create_flyover_comment?)
-        raise "User isn't allowed to create comment" unless can_create_flyover_comment(@comment, current_user)
+      if send(FlyoverComments.current_user_method.to_sym).respond_to?(:can_create_flyover_comment?)
+        raise "User isn't allowed to create comment" unless can_create_flyover_comment(@comment, send(FlyoverComments.current_user_method.to_sym))
       end
     end
 
     def authorize_flyover_comment_deletion!
-      if current_user.respond_to?(:can_destroy_flyover_comment?)
-        raise "User isn't allowed to delete comment" unless can_delete_flyover_comment?(@comment, current_user)
+      if send(FlyoverComments.current_user_method.to_sym).respond_to?(:can_destroy_flyover_comment?)
+        raise "User isn't allowed to delete comment" unless can_delete_flyover_comment?(@comment, send(FlyoverComments.current_user_method.to_sym))
       end
     end
 

@@ -16,14 +16,20 @@ Add FlyoverComments to your gemfile:
 gem 'flyover_comments'
 ```
 
-Add ```flyover_comments.rb``` to your initializers, defining the name of your user class:
+Add ```flyover_comments.rb``` to your initializers, defining the name of your user class and the method that returns the current user:
 ```
 FlyoverComments.configure do |config|
   config.user_class = "User"
+  config.current_user_method = "current_user"
 end
 ```
 
 ## Usage
+
+mount the engine in your routes file:
+```
+mount FlyoverComments::Engine, at: "/flyover_comments"
+```
 
 Add comments to your commentable model:
 ```

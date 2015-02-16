@@ -1,3 +1,5 @@
 <div class="flyover-comments">
-  <%= render commentable.comments %>
+  <% commentable.comments.each do |comment| %>
+    <%= render "flyover_comments/comments/comment", comment: comment %>
+  <% end %>
 </div>

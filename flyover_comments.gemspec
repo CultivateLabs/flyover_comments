@@ -9,15 +9,15 @@ Gem::Specification.new do |s|
   s.version     = FlyoverComments::VERSION
   s.authors     = ["Ben Roesch"]
   s.email       = ["bcroesch@gmail.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of FlyoverComments."
-  s.description = "TODO: Description of FlyoverComments."
+  s.homepage    = "http://github.com/flyoverworks/flyover_comments"
+  s.summary     = "Simple commenting gem for Rails 4"
+  s.description = "Simple commenting gem for Rails 4"
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency "rails", "~> 4.2.0"
+  s.add_dependency "rails", "~> 4"
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "factory_girl_rails"

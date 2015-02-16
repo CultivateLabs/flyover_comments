@@ -13,7 +13,7 @@ module FlyoverComments
     def flyover_comments_list(commentable)
       render "flyover_comments/comments/comments", commentable: commentable
     end
-
+ 
     def delete_flyover_comment_link(comment)
       opts = {
         id: "delete_flyover_comment_#{comment.id}", 
