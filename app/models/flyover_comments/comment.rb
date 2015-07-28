@@ -4,7 +4,7 @@ module FlyoverComments
     belongs_to :commentable, polymorphic: true, counter_cache: FlyoverComments.enable_comment_counter_cache
     belongs_to :parent
 
-    validates :commentable_id, presence: true
+    validates :commentable, presence: true
     validates "#{FlyoverComments.user_class_underscore}_id", presence: true
     validates :content, presence: true
 
