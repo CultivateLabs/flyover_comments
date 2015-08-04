@@ -2,7 +2,9 @@ module FlyoverComments
   class Comment < ActiveRecord::Base
     belongs_to :user, class: FlyoverComments.user_class, foreign_key: "#{FlyoverComments.user_class_underscore}_id"
     belongs_to :commentable, polymorphic: true, counter_cache: FlyoverComments.enable_comment_counter_cache
-    belongs_to :parent
+    belongs_to :parent, class_name: "FlyoverComments::Comment"
+    
+    has_many :children, class_name: "FlyoverComments::Comment", foreign_key: "parent_id"
 
     validates :commentable, presence: true
     validates "#{FlyoverComments.user_class_underscore}_id", presence: true

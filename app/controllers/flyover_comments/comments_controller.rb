@@ -7,22 +7,30 @@ module FlyoverComments
 
     before_action :load_commentable, only: :create
     
-    respond_to :json, only: :destroy
+    respond_to :json, only: [:create]
+    respond_to :html, only: [:create]
+    respond_to :js, only: [:destroy]
 
     def create
+      @parent = FlyoverComments::Comment.find(params[:comment].delete(:parent_id)) if params[:comment][:parent_id]
       @comment = FlyoverComments::Comment.new(comment_params)
       @comment.user = send(FlyoverComments.current_user_method.to_sym)
       @comment.commentable = @commentable
+      @comment.parent = @parent
       authorize_flyover_comment_creation!
 
       flash_key = @comment.save ? :success : :error
-      redirect_to :back, :flash => { flash_key => t("flyover_comments.comments.flash.create.#{flash_key.to_s}") }
+      respond_with @comment do |format|
+        format.html{ redirect_to :back, :flash => { flash_key => t("flyover_comments.comments.flash.create.#{flash_key.to_s}") } }
+        format.json{ render partial: "flyover_comments/comments/comment", locals: { comment: @comment } }
+      end
     end
 
     def destroy
       @comment = FlyoverComments::Comment.find(params[:id])
       authorize_flyover_comment_deletion!
       @comment.destroy
+      respond_with @comment
     end
 
   private

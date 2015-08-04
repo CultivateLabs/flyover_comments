@@ -1,13 +1,14 @@
 module FlyoverComments
   module CommentsHelper
 
-    def flyover_comment_form(commentable)
+    def flyover_comment_form(commentable, parent: nil, form: {})
       comment = FlyoverComments::Comment.new({
         commentable_id: commentable.id, 
-        commentable_type: commentable.class.to_s
+        commentable_type: commentable.class.to_s,
+        parent: parent
       })
 
-      render "flyover_comments/comments/form", comment: comment
+      render "flyover_comments/comments/form", comment: comment, form_opts: form
     end
 
     def flyover_comments_list(commentable)
@@ -18,7 +19,11 @@ module FlyoverComments
       opts = {
         id: "delete_flyover_comment_#{comment.id}", 
         class: "delete-flyover-comment-button", 
-        data: { confirm: I18n.t('flyover_comments.comments.delete_confirmation'), flyover_comment_id: comment.id },
+        data: { 
+          type: "script",
+          confirm: I18n.t('flyover_comments.comments.delete_confirmation'), 
+          flyover_comment_id: comment.id 
+        },
         method: :delete,
         remote: true
       }
