@@ -7,3 +7,5 @@ en:
         create:
           success: "Comment successfully created."
           error: "There was an error creating your comment."
+      form:
+        submitting: "Submitting..."

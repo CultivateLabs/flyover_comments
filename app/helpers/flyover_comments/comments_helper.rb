@@ -15,7 +15,9 @@ module FlyoverComments
       render "flyover_comments/comments/comments", commentable: commentable
     end
  
-    def delete_flyover_comment_link(comment)
+    def delete_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.delete_link_text'), opt_overrides = {})
+      return unless can_delete_flyover_comment?(comment, send(FlyoverComments.current_user_method.to_sym))
+      
       opts = {
         id: "delete_flyover_comment_#{comment.id}", 
         class: "delete-flyover-comment-button", 
@@ -26,9 +28,9 @@ module FlyoverComments
         },
         method: :delete,
         remote: true
-      }
+      }.merge(opt_overrides)
       
-      link_to I18n.t('flyover_comments.comments.delete_link_text'), flyover_comments.comment_path(comment), opts
+      link_to content, flyover_comments.comment_path(comment), opts
     end
 
   end
