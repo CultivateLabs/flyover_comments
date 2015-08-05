@@ -12,7 +12,7 @@ module FlyoverComments
     respond_to :js, only: [:destroy]
 
     def create
-      @parent = FlyoverComments::Comment.find(params[:comment].delete(:parent_id)) if params[:comment][:parent_id]
+      @parent = FlyoverComments::Comment.find(params[:comment].delete(:parent_id)) if !params[:comment][:parent_id].blank?
       @comment = FlyoverComments::Comment.new(comment_params)
       @comment.user = send(FlyoverComments.current_user_method.to_sym)
       @comment.commentable = @commentable
