@@ -5,6 +5,7 @@ module FlyoverComments
   class CommentsController < ApplicationController
     include FlyoverComments::Authorization
 
+    before_action :load_parent, only: :create
     before_action :load_commentable, only: :create
     
     respond_to :json, only: [:create]
@@ -12,7 +13,6 @@ module FlyoverComments
     respond_to :js, only: [:destroy]
 
     def create
-      @parent = FlyoverComments::Comment.find(params[:comment].delete(:parent_id)) if !params[:comment][:parent_id].blank?
       @comment = FlyoverComments::Comment.new(comment_params)
       @comment.user = send(FlyoverComments.current_user_method.to_sym)
       @comment.commentable = @commentable
@@ -38,11 +38,20 @@ module FlyoverComments
     def comment_params
       params.require(:comment).permit(:content)
     end
+    
+    def load_parent
+      if params[:comment][:parent_id].present?
+        @parent = FlyoverComments::Comment.find(params[:comment].delete(:parent_id))
+        @commentable = @parent.commentable
+      end
+    end
 
     def load_commentable
-      commentable_type = params[:comment].delete(:commentable_type).camelize.constantize
-      raise "Invalid commentable type" if commentable_type.reflect_on_association(:comments).nil?
-      @commentable = commentable_type.find(params[:comment].delete(:commentable_id))
+      if @commentable.nil?
+        commentable_type = params[:comment].delete(:commentable_type).camelize.constantize
+        raise "Invalid commentable type" if commentable_type.reflect_on_association(:comments).nil?
+        @commentable = commentable_type.find(params[:comment].delete(:commentable_id))
+      end
     end
 
     def authorize_flyover_comment_creation!

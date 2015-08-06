@@ -1,8 +1,8 @@
 module FlyoverComments
   module CommentsHelper
 
-    def flyover_comment_form(commentable, parent: nil, form: {})
-      comment = FlyoverComments::Comment.new({
+    def flyover_comment_form(commentable, comment = nil,  parent: nil, form: {})
+      comment ||= FlyoverComments::Comment.new({
         commentable_id: commentable.id, 
         commentable_type: commentable.class.to_s,
         parent: parent

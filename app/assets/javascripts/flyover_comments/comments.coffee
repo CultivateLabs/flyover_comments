@@ -1,15 +1,17 @@
 $ ->
-  $("[data-flyover-comment-reply-to]").click (e)->
+  $("[data-flyover-comments-reply-link='true']").click (e)->
     e.preventDefault()
-    replyToId = $(@).data("flyover-comment-reply-to")
-    appendToId = $(@).data("flyover-comment-append-to")
+    parentId = $(@).data("parent-id")
+    appendToId = $(@).data("append-to")
     container = $(@).attr("href")
-    $replyForm = $("#flyover-comment-form").clone()
-    $replyForm.attr("id", "#flyover-comment-reply-to-#{replyToId}")
-    $replyForm.data("flyover-comment-append-to", appendToId)
-    $replyForm.addClass("flyover-comment-reply-form")
-    $replyForm.find("[name='comment[parent_id]']").val(replyToId)
-    $(container).append($replyForm)
+    
+    $f = $("#flyover-comment-form").clone()
+    $f.attr("id", "#flyover-comment-reply-to-#{parentId}")
+    $f.data("flyover-comment-append-to", appendToId)
+    $f.addClass("flyover-comment-reply-form")
+    $f.find("[name='comment[parent_id]']").val(parentId)
+     
+    $(container).append($f)
   
   $(document).on "ajax:success", ".flyover-comment-reply-form", (e, response, status, err)->
     $form = $(@)
