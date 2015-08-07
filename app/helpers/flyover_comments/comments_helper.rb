@@ -34,7 +34,8 @@ module FlyoverComments
     end
 
     def flag_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.flag_link_text'), opt_overrides = {})
-      return unless can_flag_flyover_comment?(comment, send(FlyoverComments.current_user_method.to_sym))
+      user = send(FlyoverComments.current_user_method.to_sym)
+      return unless can_flag_flyover_comment?(comment, user)
 
       opts = {
         id: "flag_flyover_comment_#{comment.id}",
@@ -44,11 +45,13 @@ module FlyoverComments
           confirm: I18n.t('flyover_comments.comments.flag_confirmation'),
           flyover_comment_id: comment.id
         },
-        method: :create,
+        method: :post,
         remote: true
       }.merge(opt_overrides)
 
-      link_to content, flyover_comments.comment_path(comment), opts
+      opts[:disabled] = 'disabled' if FlyoverComments::Flag.where(comment: comment, user: user).exists?
+
+      button_to content, flyover_comments.comment_flags_path(comment), opts
     end
 
   end

@@ -7,7 +7,7 @@ module FlyoverComments
 
     before_action :load_parent, only: :create
     before_action :load_commentable, only: :create
-    
+
     respond_to :json, only: [:create]
     respond_to :html, only: [:create]
     respond_to :js, only: [:destroy]
@@ -38,7 +38,7 @@ module FlyoverComments
     def comment_params
       params.require(:comment).permit(:content)
     end
-    
+
     def load_parent
       if params[:comment][:parent_id].present?
         @parent = FlyoverComments::Comment.find(params[:comment].delete(:parent_id))

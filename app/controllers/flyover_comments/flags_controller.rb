@@ -8,9 +8,11 @@ module FlyoverComments
     respond_to :js, only: [:create]
 
     def create
-      @comment = FlyoverComments::Comment.find(params[:id])
+      @comment = FlyoverComments::Comment.find(params[:comment_id])
       authorize_flyover_flag_creation!
-      @flag = @comment.flag.create(user: send(FlyoverComments.current_user_method.to_sym))
+      @flag = @comment.flags.new
+      @flag.user = send(FlyoverComments.current_user_method.to_sym)
+      @flag.save
       respond_with @flag
     end
 

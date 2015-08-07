@@ -1,3 +1,5 @@
 FlyoverComments::Engine.routes.draw do
-  resources :comments
+  resources :comments, only: [:create, :destroy] do
+    resources :flags, only: :create
+  end
 end
