@@ -67,15 +67,11 @@ module FlyoverComments
         Widget.new.can_flag_flyover_comment?(comment, user)
       end
 
-      it "returns true if user#can_flag_flyover_comment? isn't defined and the comment's user is the passed user" do
+      it "returns true if user#can_flag_flyover_comment? isn't defined and the user is logged in" do
         is_allowed = Widget.new.can_flag_flyover_comment?(comment, user)
         expect(is_allowed).to eq(true)
       end
 
-      it "returns false if user#can_flag_flyover_comment? isn't defined and the comment's user is not the passed user" do
-        is_allowed = Widget.new.can_flag_flyover_comment?(comment, Ident::User.new)
-        expect(is_allowed).to eq(false)
-      end
     end
 
   end
