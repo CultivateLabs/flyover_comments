@@ -2,9 +2,22 @@ require 'rails_helper'
 
 RSpec.feature "Flags" do
 
-  before{ login }
+  it "doesn't allow flagging if not logged in", js: true do
+    post = FactoryGirl.create(:post)
+    other_persons_comment = FactoryGirl.create(:comment, commentable: post)
+    comment_to_flag = FactoryGirl.create(:comment, commentable: post, user: current_user)
 
-  it "flgas a comment", js: true do
+    visit main_app.post_path(post)
+
+    expect(page).to have_content(other_persons_comment.content)
+    expect(page).to_not have_button('flag')
+    expect(page).to have_content(comment_to_flag.content)
+
+  end
+
+  it "flags a comment", js: true do
+    login
+
     post = FactoryGirl.create(:post)
     other_persons_comment = FactoryGirl.create(:comment, commentable: post)
     comment_to_flag = FactoryGirl.create(:comment, commentable: post, user: current_user)
