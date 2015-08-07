@@ -3,6 +3,8 @@ en:
     comments:
       delete_confirmation: "Are you sure you want to delete this comment?"
       delete_link_text: "delete"
+      flag_confirmation: "Are you sure you want to flag this comment?"
+      flag_link_text: "flag"
       flash:
         create:
           success: "Comment successfully created."
