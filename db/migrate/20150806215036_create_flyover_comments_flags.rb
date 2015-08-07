@@ -6,7 +6,5 @@ class CreateFlyoverCommentsFlags < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_foreign_key :flyover_comments_flags, :comments
-    add_foreign_key :flyover_comments_flags, :users
   end
 end
