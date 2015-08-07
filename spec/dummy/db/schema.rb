@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150108021827) do
+ActiveRecord::Schema.define(version: 20150806215036) do
 
   create_table "flyover_comments_comments", force: :cascade do |t|
     t.text     "content"
@@ -26,6 +26,16 @@ ActiveRecord::Schema.define(version: 20150108021827) do
   add_index "flyover_comments_comments", ["commentable_type", "commentable_id"], name: "idx_flyover_comments_comments_commentable_type_commentable_id"
   add_index "flyover_comments_comments", ["ident_user_id"], name: "index_flyover_comments_comments_on_ident_user_id"
   add_index "flyover_comments_comments", ["parent_id"], name: "index_flyover_comments_comments_on_parent_id"
+
+  create_table "flyover_comments_flags", force: :cascade do |t|
+    t.integer  "comment_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "flyover_comments_flags", ["comment_id"], name: "index_flyover_comments_flags_on_comment_id"
+  add_index "flyover_comments_flags", ["user_id"], name: "index_flyover_comments_flags_on_user_id"
 
   create_table "ident_users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
