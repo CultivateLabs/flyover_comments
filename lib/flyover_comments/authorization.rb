@@ -27,7 +27,7 @@ module FlyoverComments
       elsif user.respond_to?(:can_flag_flyover_comment?)
         user.can_flag_flyover_comment?(comment)
       else
-        comment.user == user
+        !user.nil?
       end
     end
 
