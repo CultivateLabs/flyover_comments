@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.feature "Flags" do
 
-  it "doesn't allow flagging if not logged in", js: true do
+  it "doesn't allow flagging if not logged in" do
     post = FactoryGirl.create(:post)
     other_persons_comment = FactoryGirl.create(:comment, commentable: post)
     comment_to_flag = FactoryGirl.create(:comment, commentable: post, user: current_user)
