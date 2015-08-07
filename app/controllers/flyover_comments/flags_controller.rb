@@ -10,6 +10,8 @@ module FlyoverComments
     def create
       @comment = FlyoverComments::Comment.find(params[:id])
       authorize_flyover_flag_creation!
+      @flag = @comment.flag.create(user: send(FlyoverComments.current_user_method.to_sym))
+      respond_with @flag
     end
 
     private
