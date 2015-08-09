@@ -5,7 +5,7 @@ module FlyoverComments
     belongs_to :parent, class_name: "FlyoverComments::Comment"
 
     has_many :children, class_name: "FlyoverComments::Comment", foreign_key: "parent_id"
-    has_many :flags
+    has_many :flags, dependent: :destroy
 
     validates :commentable, presence: true
     validates "#{FlyoverComments.user_class_underscore}_id", presence: true
