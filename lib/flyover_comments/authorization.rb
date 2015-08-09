@@ -22,7 +22,7 @@ module FlyoverComments
     end
 
     def can_flag_flyover_comment?(comment, user)
-      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, comment)
+      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, FlyoverComments::Flag.new(comment: comment, user: user))
         policy.create?
       elsif user.respond_to?(:can_flag_flyover_comment?)
         user.can_flag_flyover_comment?(comment)
