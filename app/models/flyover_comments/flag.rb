@@ -5,6 +5,7 @@ module FlyoverComments
 
     validates :comment_id, presence: true, uniqueness: {scope: "#{FlyoverComments.user_class_underscore}_id"}
     validates "#{FlyoverComments.user_class_underscore}_id", presence: true
-
+    
+    delegate :user, to: :comment, prefix: true, allow_nil: true
   end
 end

@@ -41,15 +41,18 @@ module FlyoverComments
         id: "flag_flyover_comment_#{comment.id}",
         class: "flag-flyover-comment-button",
         data: {
-          type: "script",
           confirm: I18n.t('flyover_comments.comments.flag_confirmation'),
           flyover_comment_id: comment.id
         },
         method: :post,
-        remote: true
+        remote: true,
+        form: { data: { type: "script" } }
       }.merge(opt_overrides)
 
-      opts[:disabled] = 'disabled' if FlyoverComments::Flag.where(comment: comment, user: user).exists?
+      if FlyoverComments::Flag.where(comment: comment, user: user).exists?
+        opts[:disabled] = 'disabled' 
+        content = t('flyover_comments.flags.flagged')
+      end
 
       button_to content, flyover_comments.comment_flags_path(comment), opts
     end
