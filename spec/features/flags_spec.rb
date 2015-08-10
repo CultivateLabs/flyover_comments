@@ -35,6 +35,7 @@ RSpec.feature "Flags" do
     flag = FlyoverComments::Flag.last
     expect(flag.comment_id).to eq(comment_to_flag.id)
     expect(flag.user).to eq(current_user)
+    expect(flag.flagged).to eq(true)
 
   end
 
