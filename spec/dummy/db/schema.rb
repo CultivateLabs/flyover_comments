@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20150810171829) do
     t.integer  "parent_id"
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
-    t.boolean  "approved",         default: true
+    t.boolean  "approved",         default: false
     t.boolean  "flagged",          default: false
   end
 
