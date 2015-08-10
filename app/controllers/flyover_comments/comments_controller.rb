@@ -25,6 +25,14 @@ module FlyoverComments
         format.json{ render partial: "flyover_comments/comments/comment", locals: { comment: @comment } }
       end
     end
+    
+    def update
+      # you are expecting button_to in the helper to give you: params: { comment: { all_flags_reviewed: "true" } }
+      @comment = FlyoverComments::Comment.find(params[:id])
+      @comment.assign_attributes(comment_params)
+      authorize_flyover_comment_update!
+      @comment.save
+    end
 
     def destroy
       @comment = FlyoverComments::Comment.find(params[:id])
@@ -36,7 +44,7 @@ module FlyoverComments
   private
 
     def comment_params
-      params.require(:comment).permit(:content)
+      params.require(:comment).permit(:content, :all_flags_reviewed)
     end
 
     def load_parent
@@ -54,6 +62,10 @@ module FlyoverComments
         raise "Invalid commentable type" if commentable_type.reflect_on_association(:comments).nil?
         @commentable = commentable_type.find(params[:comment].delete(:commentable_id))
       end
+    end
+    
+    def authorize_flyover_comment_update!
+      raise "User isn't allowed to update comment" unless can_update_flyover_comment?(@comment, send(FlyoverComments.current_user_method.to_sym))
     end
 
     def authorize_flyover_comment_creation!

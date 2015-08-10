@@ -10,6 +10,10 @@ module FlyoverComments
     validates :commentable, presence: true
     validates "#{FlyoverComments.user_class_underscore}_id", presence: true
     validates :content, presence: true
+    
+    attr_accessor :all_flags_reviewed
+    
+    after_save :update_flags
 
     def commenter_name
       if user.respond_to?(:flyover_comments_name)
@@ -20,6 +24,12 @@ module FlyoverComments
         user.full_name
       else
         user.email
+      end
+    end
+    
+    def update_flags
+      if all_flags_reviewed
+        flags.update_all reviewed: true
       end
     end
   end

@@ -20,6 +20,16 @@ module FlyoverComments
         comment.user == user
       end
     end
+    
+    def can_update_flyover_comment?(comment, user)
+      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, comment)
+        policy.update?
+      elsif user.respond_to?(:can_update_flyover_comment?)
+        user.can_update_flyover_comment?(comment)
+      else
+        comment.user == user
+      end
+    end
 
     def can_flag_flyover_comment?(comment, user)
       if Object.const_defined?("Pundit") && policy = Pundit.policy(user, FlyoverComments::Flag.new(comment: comment, user: user))

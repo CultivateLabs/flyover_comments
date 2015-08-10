@@ -56,6 +56,9 @@ module FlyoverComments
 
       button_to content, flyover_comments.comment_flags_path(comment), opts
     end
-
+    
+    def mark_flyover_comment_flags_reviewed(comment, ...)
+      button_to "Approve", flyover_comments.comment_path(comment), params: { all_flags_reviewed: true }, method: :patch
+    end
   end
 end
