@@ -8,5 +8,7 @@ module FlyoverComments
 
     delegate :user, to: :comment, prefix: true, allow_nil: true
 
+    scope :not_reviewed, ->{ where reviewed: false }
+
   end
 end
