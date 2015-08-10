@@ -10,7 +10,7 @@ RSpec.feature "Flags" do
     visit main_app.post_path(post)
 
     expect(page).to have_content(other_persons_comment.content)
-    expect(page).to_not have_button('flag')
+    expect(page).to_not have_button('Flag')
     expect(page).to have_content(comment_to_flag.content)
 
   end
@@ -25,12 +25,12 @@ RSpec.feature "Flags" do
     visit main_app.post_path(post)
 
     expect(page).to have_content(other_persons_comment.content)
-    expect(page).to have_button('flag')
+    expect(page).to have_button('Flag')
 
     expect(page).to have_content(comment_to_flag.content)
     click_button "flag_flyover_comment_#{comment_to_flag.id}"
 
-    expect(page).to have_button('flag', disabled: true)
+    expect(page).to have_button('Flag', disabled: true)
 
     flag = FlyoverComments::Flag.last
     expect(flag.comment_id).to eq(comment_to_flag.id)

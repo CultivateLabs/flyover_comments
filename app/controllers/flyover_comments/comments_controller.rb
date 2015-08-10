@@ -43,6 +43,8 @@ module FlyoverComments
       if params[:comment][:parent_id].present?
         @parent = FlyoverComments::Comment.find(params[:comment].delete(:parent_id))
         @commentable = @parent.commentable
+        params[:comment].delete(:commentable_type)
+        params[:comment].delete(:commentable_id)
       end
     end
 
