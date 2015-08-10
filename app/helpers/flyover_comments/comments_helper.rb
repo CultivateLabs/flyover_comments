@@ -50,15 +50,32 @@ module FlyoverComments
       }.merge(opt_overrides)
 
       if FlyoverComments::Flag.where(comment: comment, user: user).exists?
-        opts[:disabled] = 'disabled' 
+        opts[:disabled] = 'disabled'
         content = t('flyover_comments.flags.flagged')
       end
 
       button_to content, flyover_comments.comment_flags_path(comment), opts
     end
-    
-    def mark_flyover_comment_flags_reviewed(comment, ...)
-      button_to "Approve", flyover_comments.comment_path(comment), params: { all_flags_reviewed: true }, method: :patch
+
+    def mark_flyover_comment_flags_reviewed(comment, content = I18n.t('flyover_comments.comments.approve_link_text'), opt_overrides = {})
+
+      opts = {
+        id: "approve_flyover_comment_#{comment.id}",
+        class: "approve-flyover-comment-button",
+        data: {
+          confirm: I18n.t('flyover_comments.comments.approve_confirmation'),
+          flyover_comment_id: comment.id
+        },
+        params: {
+          all_flags_reviewed: true
+        },
+        method: :patch,
+        remote: true,
+        form: { data: { type: "script" } }
+      }.merge(opt_overrides)
+
+
+      button_to content, flyover_comments.comment_flags_path(comment), opts
     end
   end
 end
