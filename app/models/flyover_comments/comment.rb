@@ -15,6 +15,8 @@ module FlyoverComments
     
     after_save :update_flags
 
+    scope :with_unreviewed_flags, ->{ joins(:flags).where(flyover_comments_flags: { reviewed: false }) }
+
     def commenter_name
       if user.respond_to?(:flyover_comments_name)
         user.flyover_comments_name
