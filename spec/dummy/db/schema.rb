@@ -19,10 +19,8 @@ ActiveRecord::Schema.define(version: 20150810171829) do
     t.integer  "commentable_id"
     t.string   "commentable_type"
     t.integer  "parent_id"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-    t.boolean  "approved",         default: false
-    t.boolean  "flagged",          default: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   add_index "flyover_comments_comments", ["commentable_type", "commentable_id"], name: "idx_flyover_comments_comments_commentable_type_commentable_id"
@@ -32,8 +30,9 @@ ActiveRecord::Schema.define(version: 20150810171829) do
   create_table "flyover_comments_flags", force: :cascade do |t|
     t.integer  "comment_id"
     t.integer  "ident_user_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.boolean  "reviewed",      default: false
   end
 
   add_index "flyover_comments_flags", ["comment_id"], name: "index_flyover_comments_flags_on_comment_id"

@@ -8,14 +8,5 @@ module FlyoverComments
 
     delegate :user, to: :comment, prefix: true, allow_nil: true
 
-    after_create: set_flag
-
-
-    def set_flag
-      if !self.approved?
-        update_attribute(:flagged, true)
-      end
-    end
-
   end
 end
