@@ -75,7 +75,7 @@ module FlyoverComments
       }.merge(opt_overrides)
 
 
-      button_to content, flyover_comments.comment_flags_path(comment), opts
+      button_to content, flyover_comments.comment_path(comment), opts
     end
   end
 end
