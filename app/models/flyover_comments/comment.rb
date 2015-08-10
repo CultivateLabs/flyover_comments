@@ -11,6 +11,8 @@ module FlyoverComments
     validates "#{FlyoverComments.user_class_underscore}_id", presence: true
     validates :content, presence: true
 
+    scope :with_unreviewed_flags, ->{ joins(:flags).where(flyover_comments_flags: { reviewed: false }) }
+
     def commenter_name
       if user.respond_to?(:flyover_comments_name)
         user.flyover_comments_name
