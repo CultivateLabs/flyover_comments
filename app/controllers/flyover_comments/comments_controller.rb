@@ -25,9 +25,8 @@ module FlyoverComments
         format.json{ render partial: "flyover_comments/comments/comment", locals: { comment: @comment } }
       end
     end
-    
+
     def update
-      # you are expecting button_to in the helper to give you: params: { comment: { all_flags_reviewed: "true" } }
       @comment = FlyoverComments::Comment.find(params[:id])
       @comment.assign_attributes(comment_params)
       authorize_flyover_comment_update!
@@ -63,7 +62,7 @@ module FlyoverComments
         @commentable = commentable_type.find(params[:comment].delete(:commentable_id))
       end
     end
-    
+
     def authorize_flyover_comment_update!
       raise "User isn't allowed to update comment" unless can_update_flyover_comment?(@comment, send(FlyoverComments.current_user_method.to_sym))
     end

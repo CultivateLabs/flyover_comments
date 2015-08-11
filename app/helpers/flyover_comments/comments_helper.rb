@@ -57,7 +57,7 @@ module FlyoverComments
       button_to content, flyover_comments.comment_flags_path(comment), opts
     end
 
-    def mark_flyover_comment_flags_reviewed(comment, content = I18n.t('flyover_comments.comments.approve_link_text'), opt_overrides = {})
+    def mark_flyover_comment_flags_reviewed_link(comment, content = I18n.t('flyover_comments.comments.approve_link_text'), opt_overrides = {})
 
       opts = {
         id: "approve_flyover_comment_#{comment.id}",
@@ -67,7 +67,7 @@ module FlyoverComments
           flyover_comment_id: comment.id
         },
         params: {
-          all_flags_reviewed: true
+          "comment[all_flags_reviewed]" => true
         },
         method: :patch,
         remote: true,
