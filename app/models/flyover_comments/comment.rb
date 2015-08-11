@@ -10,9 +10,9 @@ module FlyoverComments
     validates :commentable, presence: true
     validates "#{FlyoverComments.user_class_underscore}_id", presence: true
     validates :content, presence: true
-    
+
     attr_accessor :all_flags_reviewed
-    
+
     after_save :update_flags
 
     scope :with_unreviewed_flags, ->{ joins(:flags).where(flyover_comments_flags: { reviewed: false }) }
@@ -28,11 +28,16 @@ module FlyoverComments
         user.email
       end
     end
-    
+
     def update_flags
       if all_flags_reviewed
         flags.update_all reviewed: true
       end
     end
+
+    def unreviewed_flag_count
+      flags.not_reviewed.count
+    end
+
   end
 end
