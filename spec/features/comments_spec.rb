@@ -64,6 +64,7 @@ RSpec.feature "Comments" do
 
     visit main_app.flags_path
 
+    expect(flag.reviewed).to eq(false)
     expect(page).to have_content(comment.content)
     expect(page).to have_selector("input[value='Approve']")
 
