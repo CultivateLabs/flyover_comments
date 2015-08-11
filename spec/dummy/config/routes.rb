@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   resources :posts
   mount FlyoverComments::Engine => "/flyover_comments"
   root to: "posts#index"
+  get 'flags' => 'flags#show'
 end

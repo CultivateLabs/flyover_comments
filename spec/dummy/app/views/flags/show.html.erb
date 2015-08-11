@@ -1,0 +1,6 @@
+<% @comments.each do |comment| %>
+  <div id="flyover_comment_<%= comment.id %>">
+    <%= comment.content %>
+    <%= mark_flyover_comment_flags_reviewed_link(comment) %>
+  </div>
+<% end %>

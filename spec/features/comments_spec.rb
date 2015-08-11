@@ -34,7 +34,7 @@ RSpec.feature "Comments" do
         expect(page).to have_content(c1.commenter_name)
       end
     end
-    
+
     expect(page).to_not have_content(c3.content)
   end
 
@@ -50,10 +50,30 @@ RSpec.feature "Comments" do
 
     expect(page).to have_content(comment_to_delete.content)
     click_link "delete_flyover_comment_#{comment_to_delete.id}"
-    
+
     expect(page).to_not have_content(comment_to_delete.content)
 
     expect{ comment_to_delete.reload }.to raise_error
   end
-  
+
+  it "sets a comment as reviewed", js: true do
+
+    post = FactoryGirl.create(:post)
+    comment = FactoryGirl.create(:comment, commentable: post, user: current_user)
+    flag = FactoryGirl.create(:flag, comment: comment, user: current_user)
+
+    visit main_app.flags_path
+
+    expect(page).to have_content(comment.content)
+    expect(page).to have_selector("input[value='Approve']")
+
+    click_button "Approve"
+    expect(page).to_not have_content(comment.content)
+    expect(page).to_not have_selector("input[value='Approve']")
+
+    flag.reload
+    expect(flag.reviewed).to eq(true)
+
+  end
+
 end
