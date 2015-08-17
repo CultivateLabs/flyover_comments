@@ -16,7 +16,7 @@ module FlyoverComments
     end
 
     def delete_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.delete_link_text'), opt_overrides = {})
-      return unless can_delete_flyover_comment?(comment, send(FlyoverComments.current_user_method.to_sym))
+      return unless comment && can_delete_flyover_comment?(comment, send(FlyoverComments.current_user_method.to_sym))
 
       opts = {
         id: "delete_flyover_comment_#{comment.id}",
@@ -35,7 +35,7 @@ module FlyoverComments
 
     def flag_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.flag_link_text'), opt_overrides = {})
       user = send(FlyoverComments.current_user_method.to_sym)
-      return unless can_flag_flyover_comment?(comment, user)
+      return unless comment && can_flag_flyover_comment?(comment, user)
 
       opts = {
         id: "flag_flyover_comment_#{comment.id}",
