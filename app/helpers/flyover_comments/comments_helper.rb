@@ -49,7 +49,7 @@ module FlyoverComments
         form: { data: { type: "script" } }
       }.merge(opt_overrides)
 
-      if FlyoverComments::Flag.where(comment: comment, ident_user: user).exists?
+      if FlyoverComments::Flag.where(:comment => comment, FlyoverComments.user_class_symbol => user).exists?
         opts[:disabled] = 'disabled'
         content = t('flyover_comments.flags.flagged')
       end
