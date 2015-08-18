@@ -7,7 +7,7 @@ module FlyoverComments
       elsif user.respond_to?(:can_delete_flyover_comment?)
         user.can_delete_flyover_comment?(comment)
       else
-        comment.user == user
+        comment._user == user
       end
     end
 
@@ -17,7 +17,7 @@ module FlyoverComments
       elsif user.respond_to?(:can_create_flyover_comment?)
         user.can_create_flyover_comment?(comment)
       else
-        comment.user == user
+        comment._user == user
       end
     end
     
@@ -27,12 +27,12 @@ module FlyoverComments
       elsif user.respond_to?(:can_update_flyover_comment?)
         user.can_update_flyover_comment?(comment)
       else
-        comment.user == user
+        comment._user == user
       end
     end
 
     def can_flag_flyover_comment?(comment, user)
-      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, FlyoverComments::Flag.new(comment: comment, user: user))
+      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, FlyoverComments::Flag.new(:comment => comment, FlyoverComments.user_class_symbol => user))
         policy.create?
       elsif user.respond_to?(:can_flag_flyover_comment?)
         user.can_flag_flyover_comment?(comment)

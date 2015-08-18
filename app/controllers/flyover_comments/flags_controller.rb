@@ -11,7 +11,7 @@ module FlyoverComments
       @comment = FlyoverComments::Comment.find(params[:comment_id])
       authorize_flyover_flag_creation!
       @flag = @comment.flags.new
-      @flag.user = send(FlyoverComments.current_user_method.to_sym)
+      @flag._user = send(FlyoverComments.current_user_method.to_sym)
       @flag.save
       respond_with @flag
     end

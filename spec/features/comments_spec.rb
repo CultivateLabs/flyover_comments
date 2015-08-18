@@ -17,7 +17,7 @@ RSpec.feature "Comments" do
     expect(post.comments.count).to eq(comment_count + 1)
     comment = post.comments.last
     expect(comment.content).to eq("Here's some comment content")
-    expect(comment.user).to eq(current_user)
+    expect(comment._user).to eq(current_user)
   end
 
   it "shows a list of comments" do
@@ -41,7 +41,7 @@ RSpec.feature "Comments" do
   it "deletes a comment", js: true do
     post = FactoryGirl.create(:post)
     other_persons_comment = FactoryGirl.create(:comment, commentable: post)
-    comment_to_delete = FactoryGirl.create(:comment, commentable: post, user: current_user)
+    comment_to_delete = FactoryGirl.create(:comment, commentable: post, ident_user: current_user)
 
     visit main_app.post_path(post)
 
@@ -59,8 +59,8 @@ RSpec.feature "Comments" do
   it "sets a comment as reviewed", js: true do
 
     post = FactoryGirl.create(:post)
-    comment = FactoryGirl.create(:comment, commentable: post, user: current_user)
-    flag = FactoryGirl.create(:flag, comment: comment, user: current_user)
+    comment = FactoryGirl.create(:comment, commentable: post, ident_user: current_user)
+    flag = FactoryGirl.create(:flag, comment: comment, ident_user: current_user)
 
     visit main_app.flags_path
 

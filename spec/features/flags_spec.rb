@@ -5,7 +5,7 @@ RSpec.feature "Flags" do
   it "doesn't allow flagging if not logged in" do
     post = FactoryGirl.create(:post)
     other_persons_comment = FactoryGirl.create(:comment, commentable: post)
-    comment_to_flag = FactoryGirl.create(:comment, commentable: post, user: current_user)
+    comment_to_flag = FactoryGirl.create(:comment, commentable: post, ident_user: current_user)
 
     visit main_app.post_path(post)
 
@@ -20,7 +20,7 @@ RSpec.feature "Flags" do
 
     post = FactoryGirl.create(:post)
     other_persons_comment = FactoryGirl.create(:comment, commentable: post)
-    comment_to_flag = FactoryGirl.create(:comment, commentable: post, user: current_user)
+    comment_to_flag = FactoryGirl.create(:comment, commentable: post, ident_user: current_user)
 
     visit main_app.post_path(post)
 
@@ -34,7 +34,7 @@ RSpec.feature "Flags" do
 
     flag = FlyoverComments::Flag.last
     expect(flag.comment_id).to eq(comment_to_flag.id)
-    expect(flag.user).to eq(current_user)
+    expect(flag.ident_user).to eq(current_user)
     expect(flag.reviewed).to eq(false)
 
   end

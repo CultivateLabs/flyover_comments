@@ -1,6 +1,6 @@
 module FlyoverComments
   class Comment < ActiveRecord::Base
-    belongs_to :user, class: FlyoverComments.user_class, foreign_key: "#{FlyoverComments.user_class_underscore}_id"
+    belongs_to FlyoverComments.user_class_symbol, class: FlyoverComments.user_class, foreign_key: "#{FlyoverComments.user_class_underscore}_id"
     belongs_to :commentable, polymorphic: true, counter_cache: FlyoverComments.enable_comment_counter_cache
     belongs_to :parent, class_name: "FlyoverComments::Comment"
 
@@ -18,6 +18,7 @@ module FlyoverComments
     scope :with_unreviewed_flags, ->{ joins(:flags).where(flyover_comments_flags: { reviewed: false }) }
 
     def commenter_name
+      user = send(FlyoverComments.user_class_underscore)
       if user.respond_to?(:flyover_comments_name)
         user.flyover_comments_name
       elsif user.respond_to?(:name)
@@ -37,6 +38,14 @@ module FlyoverComments
 
     def unreviewed_flag_count
       flags.not_reviewed.count
+    end
+    
+    def _user
+      send(FlyoverComments.user_class_symbol)
+    end
+    
+    def _user=(val)
+      send("#{FlyoverComments.user_class_symbol}=", val)
     end
 
   end

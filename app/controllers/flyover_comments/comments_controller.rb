@@ -14,7 +14,7 @@ module FlyoverComments
 
     def create
       @comment = FlyoverComments::Comment.new(comment_params)
-      @comment.user = send(FlyoverComments.current_user_method.to_sym)
+      @comment._user = send(FlyoverComments.current_user_method.to_sym)
       @comment.commentable = @commentable
       @comment.parent = @parent
       authorize_flyover_comment_creation!
