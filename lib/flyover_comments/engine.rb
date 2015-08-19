@@ -1,5 +1,6 @@
 require "flyover_comments/commentable"
 require "flyover_comments/authorization"
+require "flyover_comments/link_parsing"
 
 module FlyoverComments
   class Engine < ::Rails::Engine

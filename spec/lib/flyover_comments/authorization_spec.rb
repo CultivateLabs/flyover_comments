@@ -2,10 +2,7 @@ require 'rails_helper'
 
 module FlyoverComments
   RSpec.describe Authorization do
-    class Widget
-      include FlyoverComments::Authorization
-    end
-
+    
     describe "can_delete_flyover_comment?" do
       let(:user){ Ident::User.new }
       let(:comment){ FlyoverComments::Comment.new(ident_user: user) }

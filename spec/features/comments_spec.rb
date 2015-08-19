@@ -10,13 +10,13 @@ RSpec.feature "Comments" do
 
     visit main_app.post_path(post)
 
-    fill_in "comment_content", with: "Here's some comment content"
+    fill_in "comment_content", with: "Some comment content"
     click_button "Create Comment"
 
     expect(page).to have_content(I18n.t('flyover_comments.comments.flash.create.success'))
     expect(post.comments.count).to eq(comment_count + 1)
     comment = post.comments.last
-    expect(comment.content).to eq("Here's some comment content")
+    expect(comment.content).to eq("Some comment content")
     expect(comment._user).to eq(current_user)
   end
 
