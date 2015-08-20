@@ -12,12 +12,12 @@ module FlyoverComments
     end
 
     def can_view_flyover_comment?(comment, user)
-      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, FlyoverComments::Flag.new(:comment => comment, FlyoverComments.user_class_symbol => user))
+      if Object.const_defined?("Pundit") && policy = Pundit.policy.show?
         policy.create?
-      elsif user.respond_to?(:can_flag_flyover_comment?)
-        user.can_flag_flyover_comment?(comment)
+      elsif user.respond_to?(:can_view_flyover_comment?)
+        user.can_view_flyover_comment?(comment)
       else
-        !user.nil?
+        true
       end
     end
 
