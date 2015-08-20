@@ -15,6 +15,10 @@ module FlyoverComments
       render "flyover_comments/comments/comments", commentable: commentable
     end
 
+    def flyover_comment_replies(comment, collapsed: true)
+      render "flyover_comments/comments/replies", comment: comment, collapsed: collapsed
+    end
+
     def delete_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.delete_link_text'), opt_overrides = {})
       return unless comment && can_delete_flyover_comment?(comment, send(FlyoverComments.current_user_method.to_sym))
 

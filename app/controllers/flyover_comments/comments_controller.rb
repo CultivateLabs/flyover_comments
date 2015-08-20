@@ -10,7 +10,7 @@ module FlyoverComments
 
     respond_to :json, only: [:create]
     respond_to :html, only: [:create]
-    respond_to :js, only: [:destroy]
+    respond_to :js, only: [:destroy, :show]
 
     def create
       @comment = FlyoverComments::Comment.new(comment_params)
@@ -24,6 +24,11 @@ module FlyoverComments
         format.html{ redirect_to :back, :flash => { flash_key => t("flyover_comments.comments.flash.create.#{flash_key.to_s}") } }
         format.json{ render partial: "flyover_comments/comments/comment", locals: { comment: @comment } }
       end
+    end
+
+    def show
+      @comment = FlyoverComments::Comment.find(params[:id])
+      authorize_flyover_comment_show!
     end
 
     def update
@@ -61,6 +66,10 @@ module FlyoverComments
         raise "Invalid commentable type" if commentable_type.reflect_on_association(:comments).nil?
         @commentable = commentable_type.find(params[:comment].delete(:commentable_id))
       end
+    end
+
+    def authorize_flyover_comment_show!
+      raise "User isn't allowed to view comment" unless can_view_flyover_comment?(@comment, send(FlyoverComments.current_user_method.to_sym))
     end
 
     def authorize_flyover_comment_update!

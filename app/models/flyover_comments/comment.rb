@@ -1,7 +1,7 @@
 module FlyoverComments
   class Comment < ActiveRecord::Base
     include FlyoverComments::LinkParsing
-    
+
     belongs_to FlyoverComments.user_class_symbol, class: FlyoverComments.user_class, foreign_key: "#{FlyoverComments.user_class_underscore}_id"
     belongs_to :commentable, polymorphic: true, counter_cache: FlyoverComments.enable_comment_counter_cache
     belongs_to :parent, class_name: "FlyoverComments::Comment"
@@ -18,7 +18,8 @@ module FlyoverComments
     after_save :update_flags
 
     scope :with_unreviewed_flags, ->{ joins(:flags).where(flyover_comments_flags: { reviewed: false }) }
-    
+    scope :top_level, -> { where(parent_id: nil) }
+
     def content=(value)
       value = ERB::Util.html_escape(value) if FlyoverComments.auto_escapes_html_in_comment_content
       value = add_html_tags_to_detected_links(value) if FlyoverComments.insert_html_tags_for_detected_links
@@ -47,11 +48,11 @@ module FlyoverComments
     def unreviewed_flag_count
       flags.not_reviewed.count
     end
-    
+
     def _user
       send(FlyoverComments.user_class_symbol)
     end
-    
+
     def _user=(val)
       send("#{FlyoverComments.user_class_symbol}=", val)
     end

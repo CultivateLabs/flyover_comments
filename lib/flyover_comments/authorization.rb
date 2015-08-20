@@ -11,6 +11,16 @@ module FlyoverComments
       end
     end
 
+    def can_view_flyover_comment?(comment, user)
+      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, comment)
+        policy.show?
+      elsif user.respond_to?(:can_view_flyover_comment?)
+        user.can_view_flyover_comment?(comment)
+      else
+        true
+      end
+    end
+
     def can_create_flyover_comment?(comment, user)
       if Object.const_defined?("Pundit") && policy = Pundit.policy(user, comment)
         policy.create?
@@ -20,7 +30,7 @@ module FlyoverComments
         comment._user == user
       end
     end
-    
+
     def can_update_flyover_comment?(comment, user)
       if Object.const_defined?("Pundit") && policy = Pundit.policy(user, comment)
         policy.update?
