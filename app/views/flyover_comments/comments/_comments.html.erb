@@ -1,3 +1,6 @@
 <div class="flyover-comments">
-  <%= render partial: "flyover_comments/comments/comment", collection: commentable.comments %>
+  <% commentable.comments.top_level.each do |comment| %>
+    <%= render "flyover_comments/comments/comment", comment: comment %>
+    <%= flyover_comment_replies comment, collapsed: true %>
+  <% end %>
 </div>

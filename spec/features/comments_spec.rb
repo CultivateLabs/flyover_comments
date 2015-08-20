@@ -74,7 +74,28 @@ RSpec.feature "Comments" do
 
     flag.reload
     expect(flag.reviewed).to eq(true)
+  end
 
+  it "views a comment as replies", js: true do
+
+    post = FactoryGirl.create(:post)
+    comment = FactoryGirl.create(:comment, commentable: post, ident_user: current_user)
+    sub_comment1 = FactoryGirl.create(:comment, commentable: post, parent_id: comment.id, ident_user: current_user)
+    sub_comment2 = FactoryGirl.create(:comment, commentable: post, parent_id: comment.id, ident_user: current_user)
+
+    visit main_app.post_path(post)
+
+    expect(page).to have_content(comment.content)
+    expect(page).to have_content(sub_comment2.content)
+    expect(page).to_not have_content(sub_comment1.content)
+    expect(page).to have_content('Load more comments')
+
+    click_link 'Load more comments'
+
+    expect(page).to have_content(comment.content)
+    expect(page).to have_content(sub_comment2.content)
+    expect(page).to have_content(sub_comment1.content)
+    expect(page).to_not have_content('Load more comments')
   end
 
 end
