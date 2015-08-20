@@ -13,5 +13,7 @@ en:
           error: "There was an error creating your comment."
       form:
         submitting: "Submitting..."
+      replies:
+        load_more_comments: "Load more comments"
     flags:
       flagged: "Flagged"
