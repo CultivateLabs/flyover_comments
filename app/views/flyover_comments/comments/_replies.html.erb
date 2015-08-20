@@ -1,0 +1,15 @@
+<div class="flyover-comment-area" id="flyover-comment-<%= comment.id %>-replies">
+  <% if collapsed && comment.children.count > 1 %>
+
+    <div class="flyover-comment flyover-comment-reply">
+      <div>
+        <%= link_to "Load more comments", flyover_comments.comment_path(comment), remote: true, data: {type: 'script'} %>
+      </div>
+    </div>
+
+    <%= render comment.children.last %>
+
+  <% else %>
+    <%= render comment.children %>
+  <% end %>
+</div>
