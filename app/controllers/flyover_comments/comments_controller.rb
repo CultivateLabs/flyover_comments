@@ -29,9 +29,6 @@ module FlyoverComments
     def show
       @comment = FlyoverComments::Comment.find(params[:id])
       authorize_flyover_comment_show!
-      respond_to do |format|
-        format.js
-      end
     end
 
     def update
