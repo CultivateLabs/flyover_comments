@@ -2,7 +2,7 @@ module FlyoverComments
   class Comment < ActiveRecord::Base
     include FlyoverComments::LinkParsing
 
-    belongs_to FlyoverComments.user_class_symbol, class: FlyoverComments.user_class, foreign_key: "#{FlyoverComments.user_class_underscore}_id"
+    belongs_to FlyoverComments.user_class_symbol, class_name: "#{FlyoverComments.user_class}", foreign_key: "#{FlyoverComments.user_class_underscore}_id"
     belongs_to :commentable, polymorphic: true, counter_cache: FlyoverComments.enable_comment_counter_cache
     belongs_to :parent, class_name: "FlyoverComments::Comment"
 
