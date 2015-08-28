@@ -11,7 +11,6 @@ module FlyoverComments
 
     validates :commentable, presence: true
     validates "#{FlyoverComments.user_class_underscore}_id", presence: true
-    validates :content, presence: true
 
     attr_accessor :all_flags_reviewed
 
