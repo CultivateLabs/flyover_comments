@@ -24,7 +24,7 @@ module FlyoverComments
         format.html{ redirect_to :back, :flash => { flash_key => t("flyover_comments.comments.flash.create.#{flash_key.to_s}") } }
         format.json{
           if @comment.errors.any?
-            render @comment.errors.to_json, status: :unprocessable_entity
+            render json: { errors: @comment.errors }, status: :unprocessable_entity
           else
             render partial: "flyover_comments/comments/comment", locals: { comment: @comment }
           end
