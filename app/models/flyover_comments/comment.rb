@@ -38,6 +38,10 @@ module FlyoverComments
       end
     end
 
+    def has_been_flagged_by?(flagger)
+      flags.where(FlyoverComments.user_class_symbol => flagger).exists?
+    end
+
     def update_flags
       if all_flags_reviewed
         flags.update_all reviewed: true
