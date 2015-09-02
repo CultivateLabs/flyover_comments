@@ -14,3 +14,4 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 gem 'devise'
 gem 'jquery-rails'
+gem 'coffee-rails'

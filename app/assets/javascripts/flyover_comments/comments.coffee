@@ -20,3 +20,23 @@ $ ->
     appendToId = $form.data("flyover-comment-append-to")
     $(appendToId).append(response.comment_html)
     $form.remove()
+
+  $(".edit-flyover-comment-link").click (e)->
+    e.preventDefault()
+    commentId = $(@).data("flyover-comment-id")
+    action = $(@).data("url")
+    container = $(@).closest('.flyover-comment')
+    content = container.find(".flyover-comment-content")
+    if $(container).children(".flyover-comment-edit-form").length
+      $(container).children(".flyover-comment-edit-form").remove()
+      content.show()
+    else
+      $f = $("#flyover-comment-form").clone()
+      $f.attr("id", "#flyover-comment-edit-#{commentId}")
+      $f.attr("action", action)
+      $f.attr("method", "patch")
+      $f.addClass("flyover-comment-edit-form")
+      $f.find("textarea").text(content.text().trim())
+      content.hide()
+      container.prepend($f)
+
