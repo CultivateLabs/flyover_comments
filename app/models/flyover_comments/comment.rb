@@ -14,6 +14,7 @@ module FlyoverComments
 
     attr_accessor :all_flags_reviewed
 
+    before_save :update_last_edited_at
     after_save :update_flags
 
     scope :with_unreviewed_flags, ->{ joins(:flags).where(flyover_comments_flags: { reviewed: false }) }
