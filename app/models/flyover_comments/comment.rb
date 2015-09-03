@@ -43,6 +43,10 @@ module FlyoverComments
       flags.where(FlyoverComments.user_class_symbol => flagger).exists?
     end
 
+    def update_last_edited_at
+      self.last_edited_at = Time.now if content_changed?
+    end
+
     def update_flags
       if all_flags_reviewed
         flags.update_all reviewed: true
