@@ -26,7 +26,7 @@ $ ->
     commentId = $(@).data("flyover-comment-id")
     url = $(@).data("url")
     container = $(@).closest('.flyover-comment')
-    content = container.find(".flyover-comment-content")
+    content = container.find(".flyover-comment-content:first")
     if !container.children(".flyover-comment-edit-form").length
       $f = $("#flyover-comment-form").clone()
       $f.attr("id", "#flyover-comment-edit-#{commentId}")
@@ -46,8 +46,8 @@ $ ->
 
   $(document).on "ajax:success", ".flyover-comment-edit-form", (e, response, status, err)->
     container = $(@).closest('.flyover-comment')
-    content = container.find(".flyover-comment-content")
-    content.text(response.content)
+    content = container.find(".flyover-comment-content:first")
+    content.html(response.content_html)
     content.show()
     $(@).remove()
 
