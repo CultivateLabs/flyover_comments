@@ -8,9 +8,9 @@ module FlyoverComments
     before_action :load_parent, only: :create
     before_action :load_commentable, only: :create
 
-    respond_to :json, only: [:create]
+    respond_to :json, only: [:create, :update]
     respond_to :html, only: [:create]
-    respond_to :js, only: [:destroy, :show, :update]
+    respond_to :js, only: [:destroy, :show]
 
     def create
       @comment = FlyoverComments::Comment.new(comment_params)
@@ -42,6 +42,7 @@ module FlyoverComments
       @comment.assign_attributes(comment_params)
       authorize_flyover_comment_update!
       @comment.save
+      render json: @comment
     end
 
     def destroy

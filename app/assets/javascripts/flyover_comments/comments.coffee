@@ -45,3 +45,11 @@ $ ->
       content.hide()
       container.prepend($f)
 
+  $(document).on "ajax:success", ".flyover-comment-edit-form", (e, response, status, err)->
+    $form = $(@)
+    container = $(@).closest('.flyover-comment')
+    $form.remove()
+    content = container.find(".flyover-comment-content")
+    content.text(response.content)
+    content.show()
+
