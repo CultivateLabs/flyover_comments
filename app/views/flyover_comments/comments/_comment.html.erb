@@ -3,6 +3,7 @@
     <%= comment.content %>
   </div>
   <div class="flyover-comment-details">
-    By: <%= comment.commenter_name %> &middot; <%= comment.created_at.strftime("%B %d, %Y %l:%M%P") %> &middot; <%= edit_flyover_comment_link comment %> &middot; <%= delete_flyover_comment_link comment %> &middot; <%= flag_flyover_comment_link comment %>
+    By: <%= comment.commenter_name %> &middot; <%= comment.created_at.strftime("%B %d, %Y %l:%M%P") %> &middot; <%= edit_flyover_comment_link comment %> &middot; <%= delete_flyover_comment_link comment %> &middot; <%= flag_flyover_comment_link comment %> &middot;
+    Last Updated At: <%= comment.last_updated_at.nil? ? "Never" : comment.last_updated_at  %>
   </div>
 </div>
