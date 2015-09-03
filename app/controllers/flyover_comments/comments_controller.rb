@@ -44,6 +44,7 @@ module FlyoverComments
       @comment.save
       respond_with @comment do |format|
 
+        format.js { respond_with @comment }
         format.json{
           if @comment.errors.any?
             render json: { errors: @comment.errors }, status: :unprocessable_entity

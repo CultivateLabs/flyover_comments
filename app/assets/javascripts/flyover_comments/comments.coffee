@@ -21,7 +21,7 @@ $ ->
     $(appendToId).append(response.comment_html)
     $form.remove()
 
-  $(".edit-flyover-comment-link").click (e)->
+  $(document).on "click", ".edit-flyover-comment-link", (e)->
     e.preventDefault()
     commentId = $(@).data("flyover-comment-id")
     url = $(@).data("url")
