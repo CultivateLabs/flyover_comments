@@ -44,7 +44,7 @@ module FlyoverComments
     end
 
     def update_last_edited_at
-      self.last_edited_at = Time.now if content_changed?
+      self.last_updated_at = Time.now if content_changed? && id
     end
 
     def update_flags

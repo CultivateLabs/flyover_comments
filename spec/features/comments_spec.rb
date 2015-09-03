@@ -43,6 +43,7 @@ RSpec.feature "Comments" do
     other_persons_comment = FactoryGirl.create(:comment, commentable: post)
     comment_to_edit = FactoryGirl.create(:comment, commentable: post, ident_user: current_user)
     new_content = "Updated comment content"
+    expect(comment_to_edit.last_updated_at).to eq(nil)
 
     visit main_app.post_path(post)
 
@@ -60,6 +61,7 @@ RSpec.feature "Comments" do
     expect(page).to have_content(new_content)
 
     expect(comment_to_edit.reload.content).to eq(new_content)
+    expect(comment_to_edit.reload.last_updated_at).to_not eq(nil)
   end
 
   it "deletes a comment", js: true do
