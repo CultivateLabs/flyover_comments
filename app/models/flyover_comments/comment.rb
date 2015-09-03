@@ -6,7 +6,7 @@ module FlyoverComments
     belongs_to :commentable, polymorphic: true, counter_cache: FlyoverComments.enable_comment_counter_cache
     belongs_to :parent, class_name: "FlyoverComments::Comment"
 
-    has_many :children, class_name: "FlyoverComments::Comment", foreign_key: "parent_id"
+    has_many :children, ->{ order(:created_at) } , class_name: "FlyoverComments::Comment", foreign_key: "parent_id"
     has_many :flags, dependent: :destroy
 
     validates :commentable, presence: true
