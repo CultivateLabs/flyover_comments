@@ -39,12 +39,16 @@ $ ->
           .attr('value', "put")
           .appendTo($f)
       $f.data("remote", "true")
+      $f.data("type", "json")
       $f.addClass("flyover-comment-edit-form")
-      $f.find("textarea").text(content.text().trim())
+      textarea = $f.find("textarea")
+      textarea.attr("id", "comment_content_"+commentId)
+      textarea.text(content.text().trim())
       content.hide()
       container.prepend($f)
 
   $(document).on "ajax:success", ".flyover-comment-edit-form", (e, response, status, err)->
+    console.log "Response is #{response}"
     container = $(@).closest('.flyover-comment')
     content = container.find(".flyover-comment-content:first")
     content.html(response.content_html)

@@ -11,7 +11,7 @@ RSpec.feature "Comments" do
     visit main_app.post_path(post)
 
     fill_in "comment_content", with: "Some comment content"
-    click_button "Create Comment"
+    click_button "Submit"
 
     expect(page).to have_content(I18n.t('flyover_comments.comments.flash.create.success'))
     expect(post.comments.count).to eq(comment_count + 1)
@@ -36,6 +36,30 @@ RSpec.feature "Comments" do
     end
 
     expect(page).to_not have_content(c3.content)
+  end
+
+  it "edits a comment", js: true do
+    post = FactoryGirl.create(:post)
+    other_persons_comment = FactoryGirl.create(:comment, commentable: post)
+    comment_to_edit = FactoryGirl.create(:comment, commentable: post, ident_user: current_user)
+    new_content = "Updated comment content"
+
+    visit main_app.post_path(post)
+
+    expect(page).to have_content(other_persons_comment.content)
+    expect(page).to_not have_link("edit_flyover_comment_#{other_persons_comment.id}")
+
+    expect(page).to have_content(comment_to_edit.content)
+    within(:css, "#flyover_comment_#{comment_to_edit.id}") do
+      click_link "edit_flyover_comment_#{comment_to_edit.id}"
+      fill_in "comment_content_#{comment_to_edit.id}", with: new_content
+      click_button "Submit"
+    end
+
+    expect(page).to_not have_content(comment_to_edit.content)
+    expect(page).to have_content(new_content)
+
+    expect(comment_to_edit.reload.content).to eq(new_content)
   end
 
   it "deletes a comment", js: true do
