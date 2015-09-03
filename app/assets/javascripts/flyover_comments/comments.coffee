@@ -61,6 +61,6 @@ $ ->
     commentId = $(@).data("flyover-comment-id")
     container = $(@).closest('.flyover-comment')
     content = container.find(".flyover-comment-content:first")
-    $f = container.find(".flyover-comment-edit-form")
+    $f = container.find(".flyover-comment-form:last")
     $f.remove()
     content.show()

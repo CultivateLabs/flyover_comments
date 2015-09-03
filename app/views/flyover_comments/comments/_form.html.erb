@@ -1,4 +1,4 @@
-<%= form_for comment, {url: flyover_comments.comments_path, html: { id: "flyover-comment-form" }}.merge(form_opts) do |f| %>
+<%= form_for comment, {url: flyover_comments.comments_path, html: { id: "flyover-comment-form", class: "flyover-comment-form" }}.merge(form_opts) do |f| %>
   <%= f.hidden_field :commentable_id if comment.commentable_id %>
   <%= f.hidden_field :commentable_type if comment.commentable_type %>
   <%= f.hidden_field :parent_id %>
