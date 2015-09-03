@@ -6,7 +6,7 @@ module FlyoverComments
     belongs_to :commentable, polymorphic: true, counter_cache: FlyoverComments.enable_comment_counter_cache
     belongs_to :parent, class_name: "FlyoverComments::Comment"
 
-    has_many :children, class_name: "FlyoverComments::Comment", foreign_key: "parent_id"
+    has_many :children, ->{ order(:created_at) } , class_name: "FlyoverComments::Comment", foreign_key: "parent_id"
     has_many :flags, dependent: :destroy
 
     validates :commentable, presence: true
@@ -14,6 +14,7 @@ module FlyoverComments
 
     attr_accessor :all_flags_reviewed
 
+    before_save :update_last_edited_at
     after_save :update_flags
 
     scope :with_unreviewed_flags, ->{ joins(:flags).where(flyover_comments_flags: { reviewed: false }) }
@@ -40,6 +41,10 @@ module FlyoverComments
 
     def has_been_flagged_by?(flagger)
       flags.where(FlyoverComments.user_class_symbol => flagger).exists?
+    end
+
+    def update_last_edited_at
+      self.last_updated_at = Time.now if content_changed? && id
     end
 
     def update_flags

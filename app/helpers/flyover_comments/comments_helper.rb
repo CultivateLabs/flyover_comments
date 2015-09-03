@@ -19,6 +19,21 @@ module FlyoverComments
       render "flyover_comments/comments/replies", comment: comment, collapsed: collapsed
     end
 
+    def edit_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.edit_link_text'), opt_overrides = {})
+      return unless comment && can_update_flyover_comment?(comment, send(FlyoverComments.current_user_method.to_sym))
+
+      opts = {
+        id: "edit_flyover_comment_#{comment.id}",
+        class: "edit-flyover-comment-link",
+        data: {
+          flyover_comment_id: comment.id,
+          url: flyover_comments.comment_path(comment)
+        },
+      }.merge(opt_overrides)
+
+      link_to content, flyover_comments.comment_path(comment), opts
+    end
+
     def delete_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.delete_link_text'), opt_overrides = {})
       return unless comment && can_delete_flyover_comment?(comment, send(FlyoverComments.current_user_method.to_sym))
 

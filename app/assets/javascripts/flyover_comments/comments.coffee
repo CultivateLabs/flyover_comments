@@ -20,3 +20,47 @@ $ ->
     appendToId = $form.data("flyover-comment-append-to")
     $(appendToId).append(response.comment_html)
     $form.remove()
+
+  $(document).on "click", ".edit-flyover-comment-link", (e)->
+    e.preventDefault()
+    commentId = $(@).data("flyover-comment-id")
+    url = $(@).data("url")
+    container = $(@).closest('.flyover-comment')
+    content = container.find(".flyover-comment-content:first")
+    if !container.children(".flyover-comment-edit-form").length
+      $f = $("#flyover-comment-form").clone()
+      $f.attr("id", "#flyover-comment-edit-#{commentId}")
+      $f.attr("action", url)
+      $f.find("input[id=comment_parent_id]").remove()
+      $f.find("input[id=comment_commentable_id]").remove()
+      $f.find("input[id=comment_commentable_type]").remove()
+      $('<input />').attr('type', 'hidden')
+          .attr('name', "_method")
+          .attr('value', "put")
+          .appendTo($f)
+      $f.data("remote", "true")
+      $f.data("type", "json")
+      $f.addClass("flyover-comment-edit-form")
+      $f.find("input[class=comment_cancel]").show()
+      textarea = $f.find("textarea")
+      textarea.attr("id", "comment_content_"+commentId)
+      textarea.text(content.text().trim())
+      content.hide()
+      container.prepend($f)
+
+  $(document).on "ajax:success", ".flyover-comment-edit-form", (e, response, status, err)->
+    console.log "Response is #{response}"
+    container = $(@).closest('.flyover-comment')
+    content = container.find(".flyover-comment-content:first")
+    content.html(response.content_html)
+    content.show()
+    $(@).remove()
+
+  $(document).on "click", ".flyover-comment-cancel", (e)->
+    e.preventDefault()
+    commentId = $(@).data("flyover-comment-id")
+    container = $(@).closest('.flyover-comment')
+    content = container.find(".flyover-comment-content:first")
+    $f = container.find(".flyover-comment-form:last")
+    $f.remove()
+    content.show()
