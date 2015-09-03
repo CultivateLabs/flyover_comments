@@ -24,17 +24,13 @@ $ ->
   $(".edit-flyover-comment-link").click (e)->
     e.preventDefault()
     commentId = $(@).data("flyover-comment-id")
-    action = $(@).data("url")
+    url = $(@).data("url")
     container = $(@).closest('.flyover-comment')
     content = container.find(".flyover-comment-content")
-    if $(container).children(".flyover-comment-edit-form").length
-      $(container).children(".flyover-comment-edit-form").remove()
-      content.show()
-    else
+    if !container.children(".flyover-comment-edit-form").length
       $f = $("#flyover-comment-form").clone()
       $f.attr("id", "#flyover-comment-edit-#{commentId}")
-      $f.attr("action", action)
-      $f.attr("method", "post")
+      $f.attr("action", url)
       $('<input />').attr('type', 'hidden')
           .attr('name', "_method")
           .attr('value', "put")
@@ -46,10 +42,11 @@ $ ->
       container.prepend($f)
 
   $(document).on "ajax:success", ".flyover-comment-edit-form", (e, response, status, err)->
-    $form = $(@)
     container = $(@).closest('.flyover-comment')
-    $form.remove()
     content = container.find(".flyover-comment-content")
     content.text(response.content)
     content.show()
+    $(@).remove()
 
+  $(".edit-flyover-comment-cancel").click (e)->
+    e.preventDefault()
