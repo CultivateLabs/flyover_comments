@@ -39,7 +39,7 @@ $ ->
           .attr('name', "_method")
           .attr('value', "put")
           .appendTo($f)
-      $f.attr("remote", "true")
+      $f.data("remote", "true")
       $f.addClass("flyover-comment-edit-form")
       $f.find("textarea").text(content.text().trim())
       content.hide()

@@ -10,7 +10,7 @@ module FlyoverComments
 
     respond_to :json, only: [:create]
     respond_to :html, only: [:create]
-    respond_to :js, only: [:destroy, :show]
+    respond_to :js, only: [:destroy, :show, :update]
 
     def create
       @comment = FlyoverComments::Comment.new(comment_params)
