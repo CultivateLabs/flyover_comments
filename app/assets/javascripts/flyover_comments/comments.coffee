@@ -41,6 +41,7 @@ $ ->
       $f.data("remote", "true")
       $f.data("type", "json")
       $f.addClass("flyover-comment-edit-form")
+      $f.find("input[class=comment_cancel]").show()
       textarea = $f.find("textarea")
       textarea.attr("id", "comment_content_"+commentId)
       textarea.text(content.text().trim())
@@ -55,5 +56,11 @@ $ ->
     content.show()
     $(@).remove()
 
-  $(".edit-flyover-comment-cancel").click (e)->
+  $(document).on "click", ".flyover-comment-cancel", (e)->
     e.preventDefault()
+    commentId = $(@).data("flyover-comment-id")
+    container = $(@).closest('.flyover-comment')
+    content = container.find(".flyover-comment-content:first")
+    $f = container.find(".flyover-comment-edit-form")
+    $f.remove()
+    content.show()

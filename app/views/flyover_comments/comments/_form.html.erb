@@ -4,4 +4,5 @@
   <%= f.hidden_field :parent_id %>
   <div class="flyover-comment-text-area"><%= f.text_area :content %></div>
   <div class="flyover-comment-submit"><%= f.submit t('.submit'), data: { disable_with: t('.submitting') } %></div>
+  <%= link_to t('.cancel'), "#", class: "flyover-comment-cancel" %>
 <% end %>
