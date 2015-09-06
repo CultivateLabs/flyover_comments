@@ -1,5 +1,5 @@
 $ ->
-  $("[data-flyover-comments-reply-link='true']").click (e)->
+  $(document).on "click", "[data-flyover-comments-reply-link='true']", (e)->
     e.preventDefault()
     parentId = $(@).data("parent-id")
     container = $(@).attr("href")
@@ -49,7 +49,6 @@ $ ->
       container.prepend($f)
 
   $(document).on "ajax:success", ".flyover-comment-edit-form", (e, response, status, err)->
-    console.log "Response is #{response}"
     container = $(@).closest('.flyover-comment')
     content = container.find(".flyover-comment-content:first")
     content.html(response.content_html)
