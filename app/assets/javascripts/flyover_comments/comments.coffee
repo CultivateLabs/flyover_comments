@@ -25,7 +25,7 @@ $ ->
     e.preventDefault()
     commentId = $(@).data("flyover-comment-id")
     url = $(@).data("url")
-    container = $(@).closest('.flyover-comment')
+    container = $("#flyover_comment_#{commentId}")
     content = container.find(".flyover-comment-content:first")
     if !container.children(".flyover-comment-edit-form").length
       $f = $("#flyover-comment-form").clone()
