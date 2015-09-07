@@ -57,9 +57,5 @@ $ ->
 
   $(document).on "click", ".flyover-comment-cancel", (e)->
     e.preventDefault()
-    commentId = $(@).data("flyover-comment-id")
-    container = $(@).closest('.flyover-comment')
-    content = container.find(".flyover-comment-content:first")
-    $f = container.find(".flyover-comment-form:last")
-    $f.remove()
-    content.show()
+    $(this).closest(".flyover-comment").find(".flyover-comment-content").show()
+    $(this).closest(".flyover-comment-form").remove()
