@@ -76,18 +76,6 @@ module FlyoverComments
       button_to content, flyover_comments.comment_flags_path(comment), opts
     end
 
-    def flag_flyover_comment_form(comment, opt_overrides: {})
-      user = send(FlyoverComments.current_user_method.to_sym)
-      return unless comment && can_flag_flyover_comment?(comment, user)
-
-      opts = {
-        remote: true,
-        data: { type: "script" }
-      }.merge(opt_overrides)
-
-      render "flyover_comments/flags/form", comment: comment, form_opts: opts
-    end
-
     def flag_flyover_comment_modal
       render "flyover_comments/flags/modal"
     end
