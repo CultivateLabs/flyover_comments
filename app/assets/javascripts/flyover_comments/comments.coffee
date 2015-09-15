@@ -32,7 +32,6 @@ $ ->
   $(document).on "click", ".flag-flyover-comment-modal-link", (e)->
     e.preventDefault()
     url = $(@).data("url")
-    commentId = $(@).data("flyover-comment-id")
     $modal = $("#flyover-comment-flag-modal")
     $f = $modal.find("form")
     $f.attr("action", url)
