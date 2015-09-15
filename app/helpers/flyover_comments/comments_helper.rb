@@ -65,7 +65,8 @@ module FlyoverComments
         },
         method: :post,
         remote: true,
-        form: { data: { type: "script" } }
+        form: { data: { type: "script" } },
+        params: { "flag[reason]" =>  nil }
       }.merge(opt_overrides)
 
       if user_already_flagged_comment?(comment, user)
