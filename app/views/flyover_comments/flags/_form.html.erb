@@ -2,6 +2,6 @@
   <div class="flyover-comment-flag-reason-area"><%= f.text_area :reason %></div>
   <div class="flyover-comment-flag-submit">
     <%= f.submit t('.submit'), data: { disable_with: t('.submitting') } %>
-    <%= link_to t('.cancel'), "#", class: "flyover-comment-cancel" %>
+    <%= link_to t('.cancel'), "#", class: "flyover-comment-cancel",  data: { dismiss: "modal" } %>
   </div>
 <% end %>
