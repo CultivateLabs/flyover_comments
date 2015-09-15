@@ -1,0 +1,7 @@
+<%= form_for FlyoverComments::Flag.new, {url: "", html: { id: "flyover-comment-flag-form", class: "flyover-comment-flag-form", remote: true, data: { type: "script" } }} do |f| %>
+  <div class="flyover-comment-flag-reason-area"><%= f.text_area :reason %></div>
+  <div class="flyover-comment-flag-submit">
+    <%= f.submit t('.submit'), data: { disable_with: t('.submitting') } %>
+    <%= link_to t('.cancel'), "#", class: "flyover-comment-cancel" %>
+  </div>
+<% end %>

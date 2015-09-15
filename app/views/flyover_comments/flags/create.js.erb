@@ -1,1 +1,1 @@
-$("#flag_flyover_comment_<%= @comment.id %>").attr('disabled', 'disabled').val("<%= t('flyover_comments.flags.flagged') %>");
+$("#flag_flyover_comment_<%= @comment.id %>").attr('disabled', 'disabled').text("<%= t('flyover_comments.flags.flagged') %>").val("<%= t('flyover_comments.flags.flagged') %>").attr('data-target', '').attr('data-toggle', '');

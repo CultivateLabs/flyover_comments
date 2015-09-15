@@ -8,6 +8,7 @@ en:
       edit_link_text: "Edit"
       flag_confirmation: "Are you sure you want to flag this comment?"
       flag_link_text: "Flag"
+      flagged_link_text: "Flagged"
       flash:
         create:
           success: "Comment successfully created."
@@ -21,3 +22,7 @@ en:
         loading: "Loading..."
     flags:
       flagged: "Flagged"
+      form:
+        cancel: "Cancel"
+        submit: "Submit"
+        submitting: "Submitting..."
