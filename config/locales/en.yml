@@ -26,3 +26,5 @@ en:
         cancel: "Cancel"
         submit: "Submit"
         submitting: "Submitting..."
+      modal:
+        reason: "Reason for Flag"
