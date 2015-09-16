@@ -65,15 +65,46 @@ module FlyoverComments
         },
         method: :post,
         remote: true,
-        form: { data: { type: "script" } }
+        form: { data: { type: "script" } },
+        params: { "flag[reason]" =>  nil }
       }.merge(opt_overrides)
 
-      if FlyoverComments::Flag.where(:comment => comment, FlyoverComments.user_class_symbol => user).exists?
+      if user_already_flagged_comment?(comment, user)
         opts[:disabled] = 'disabled'
         content = t('flyover_comments.flags.flagged')
       end
 
       button_to content, flyover_comments.comment_flags_path(comment), opts
+    end
+
+    def flag_flyover_comment_modal
+      render "flyover_comments/flags/modal"
+    end
+
+    def user_already_flagged_comment?(comment, user = send(FlyoverComments.current_user_method.to_sym))
+      FlyoverComments::Flag.where(:comment => comment, FlyoverComments.user_class_symbol => user).exists?
+    end
+
+    def flag_flyover_comment_modal_link(comment, content = I18n.t('flyover_comments.comments.flag_link_text'), opt_overrides = {})
+      user = send(FlyoverComments.current_user_method.to_sym)
+      return unless comment && can_flag_flyover_comment?(comment, user)
+
+      opts = {
+        id: "flag_flyover_comment_#{comment.id}_modal_link",
+        class: "flag-flyover-comment-modal-link"
+      }.merge(opt_overrides)
+      if user_already_flagged_comment?(comment)
+        opts[:disabled] = 'disabled'
+        content = t('flyover_comments.flags.flagged')
+      else
+        opts[:data] = {
+          toggle: "modal",
+          target: "#flyover-comment-flag-modal",
+          url: flyover_comments.comment_flags_path(comment)
+        }
+      end
+
+      link_to content, "#flyover-comment-#{comment.id}-flag-modal", opts
     end
 
     def mark_flyover_comment_flags_reviewed_link(comment, content = I18n.t('flyover_comments.comments.approve_link_text'), opt_overrides = {})
@@ -92,7 +123,6 @@ module FlyoverComments
         remote: true,
         form: { data: { type: "script" } }
       }.merge(opt_overrides)
-
 
       button_to content, flyover_comments.comment_path(comment), opts
     end

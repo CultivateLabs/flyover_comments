@@ -23,6 +23,19 @@ $ ->
       $(@).append(response.comment_html)
     $form.remove()
 
+  $(document).on "ajax:success", ".flyover-comment-flag-form", (e, response, status, err)->
+    $f = $(@)
+    $f.find("textarea[id=flag_reason]").val("")
+    $modal = $f.closest(".modal")
+    $modal.modal("hide")
+
+  $(document).on "click", ".flag-flyover-comment-modal-link", (e)->
+    e.preventDefault()
+    url = $(@).data("url")
+    $modal = $("#flyover-comment-flag-modal")
+    $f = $modal.find("form")
+    $f.attr("action", url)
+
   $(document).on "click", ".edit-flyover-comment-link", (e)->
     e.preventDefault()
     commentId = $(@).data("flyover-comment-id")
