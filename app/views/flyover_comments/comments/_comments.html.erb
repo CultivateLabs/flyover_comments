@@ -1,5 +1,5 @@
 <div class="flyover-comments">
-  <% commentable.comments.top_level.each do |comment| %>
+  <% commentable.comments.top_level.newest_first.each do |comment| %>
     <%= render "flyover_comments/comments/comment", comment: comment %>
     <%= flyover_comment_replies comment, collapsed: true %>
   <% end %>

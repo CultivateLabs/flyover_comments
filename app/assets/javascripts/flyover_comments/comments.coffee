@@ -23,6 +23,11 @@ $ ->
       $(@).append(response.comment_html)
     $form.remove()
 
+  $(document).on "ajax:success", ".flyover-comment-form", (e, response, status, err)->
+    $form = $(@)
+    $(".flyover-comments").prepend(response.comment_html)
+    $form.find("textarea").val("")
+
   $(document).on "ajax:success", ".flyover-comment-flag-form", (e, response, status, err)->
     $f = $(@)
     $f.find("textarea[id=flag_reason]").val("")
