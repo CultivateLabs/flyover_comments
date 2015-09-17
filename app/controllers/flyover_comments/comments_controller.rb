@@ -67,11 +67,14 @@ module FlyoverComments
     end
 
     def load_parent
-      if params[:comment][:parent_id].present?
-        @parent = FlyoverComments::Comment.find(params[:comment].delete(:parent_id))
-        @commentable = @parent.commentable
-        params[:comment].delete(:commentable_type)
-        params[:comment].delete(:commentable_id)
+      if params[:comment].has_key?(:parent_id)
+        begin
+          @parent = FlyoverComments::Comment.find(params[:comment].delete(:parent_id))
+          @commentable = @parent.commentable
+          params[:comment].delete(:commentable_type)
+          params[:comment].delete(:commentable_id)
+        rescue
+        end
       end
     end
 
