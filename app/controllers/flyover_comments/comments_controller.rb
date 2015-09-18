@@ -4,13 +4,20 @@ require_dependency "flyover_comments/authorization"
 module FlyoverComments
   class CommentsController < ApplicationController
     include FlyoverComments::Authorization
+    include FlyoverComments::Concerns::CommentFiltering
 
     before_action :load_parent, only: :create
-    before_action :load_commentable, only: :create
+    before_action :load_commentable, only: [:index, :create]
 
     respond_to :json, only: [:create, :update]
     respond_to :html, only: [:create]
     respond_to :js, only: [:destroy, :show, :update]
+
+    def index
+      authorize_flyover_comment_index!
+      load_filtered_comments_list(@commentable)
+      render partial: "flyover_comments/comments/comments", locals: { comments: @comments }
+    end
 
     def create
       @comment = FlyoverComments::Comment.new(comment_params)
@@ -77,10 +84,16 @@ module FlyoverComments
 
     def load_commentable
       if @commentable.nil?
-        commentable_type = params[:comment].delete(:commentable_type).camelize.constantize
+        type_param = params[:commentable_type] || params[:comment].delete(:commentable_type)
+        commentable_type = type_param.camelize.constantize
         raise "Invalid commentable type" if commentable_type.reflect_on_association(:comments).nil?
-        @commentable = commentable_type.find(params[:comment].delete(:commentable_id))
+        id_param = params[:commentable_id] || params[:comment].delete(:commentable_id)
+        @commentable = commentable_type.find(id_param)
       end
+    end
+
+    def authorize_flyover_comment_index!
+      raise "User isn't allowed to index comments" unless can_index_flyover_comments?(params, send(FlyoverComments.current_user_method.to_sym))
     end
 
     def authorize_flyover_comment_show!

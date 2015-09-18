@@ -1,4 +1,5 @@
 require "jbuilder"
+require "kaminari"
 require "flyover_comments/commentable"
 require "flyover_comments/authorization"
 require "flyover_comments/link_parsing"

@@ -19,7 +19,9 @@ module FlyoverComments
     after_save :update_flags
 
     scope :with_unreviewed_flags, ->{ joins(:flags).where(flyover_comments_flags: { reviewed: false }) }
+    scope :with_links, ->{ where(contains_links: true) }
     scope :top_level, -> { where(parent_id: nil) }
+    scope :newest_first, -> { order(created_at: :desc) }
 
     def content=(value)
       value = ERB::Util.html_escape(value) if FlyoverComments.auto_escapes_html_in_comment_content

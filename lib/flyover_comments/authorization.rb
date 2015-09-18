@@ -1,6 +1,16 @@
 module FlyoverComments
   module Authorization
 
+    def can_index_flyover_comments?(params, user)
+      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, params)
+        policy.index?
+      elsif user.respond_to?(:can_index_flyover_comments?)
+        user.can_index_flyover_comments?(params)
+      else
+        true
+      end
+    end
+
     def can_delete_flyover_comment?(comment, user)
       if Object.const_defined?("Pundit") && policy = Pundit.policy(user, comment)
         policy.destroy?

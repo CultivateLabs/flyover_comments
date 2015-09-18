@@ -12,7 +12,7 @@ module FlyoverComments
     end
 
     def flyover_comments_list(commentable)
-      render "flyover_comments/comments/comments", commentable: commentable
+      render "flyover_comments/comments/comments", comments: commentable.comments.top_level
     end
 
     def flyover_comment_replies(comment, collapsed: true)
