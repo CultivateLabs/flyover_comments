@@ -3,6 +3,15 @@ require 'rails_helper'
 module FlyoverComments
   RSpec.describe Comment, :type => :model do
 
+    it "tracks whether there is a link in the comment" do
+      post = FactoryGirl.create(:post)
+      comment = FlyoverComments::Comment.new(content: "Linked string http://www.cultivatelabs.com", commentable: post, ident_user_id: 123)
+      expect(comment.contains_links).to eq(false)
+      comment.save
+      comment.reload
+      expect(comment.contains_links).to eq(true)
+    end
+
     context "when FlyoverComments.insert_html_tags_for_detected_links = true" do
       before{ FlyoverComments.insert_html_tags_for_detected_links = true }
 

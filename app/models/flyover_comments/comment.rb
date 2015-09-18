@@ -15,6 +15,7 @@ module FlyoverComments
     attr_accessor :all_flags_reviewed
 
     before_save :update_last_edited_at
+    before_save :update_contains_links
     after_save :update_flags
 
     scope :with_unreviewed_flags, ->{ joins(:flags).where(flyover_comments_flags: { reviewed: false }) }
@@ -45,6 +46,11 @@ module FlyoverComments
 
     def update_last_edited_at
       self.last_updated_at = Time.now if content_changed? && id
+    end
+
+    def update_contains_links
+      self.contains_links = contains_links?(:content)
+      return # prevent callback chain from aborting if this is false
     end
 
     def update_flags
