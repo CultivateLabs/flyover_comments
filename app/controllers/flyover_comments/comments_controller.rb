@@ -16,7 +16,8 @@ module FlyoverComments
     def index
       authorize_flyover_comment_index!
       load_filtered_comments_list(@commentable)
-      render partial: "flyover_comments/comments/comments", locals: { comments: @comments }
+      render partial: "flyover_comments/comments/comments", locals: { commentable: @commentable, comments: @comments }
+      # flyover_comments_list(@commentable, comments: @comments)
     end
 
     def create
@@ -73,9 +74,17 @@ module FlyoverComments
       params.require(:comment).permit(:content, :all_flags_reviewed)
     end
 
+    def parent_id
+      @parent_id ||= if params[:parent_id]
+        params.delete(:parent_id)
+      elsif params[:comment][:parent_id]
+        params[:comment].delete(:parent_id)
+      end
+    end
+
     def load_parent
-      if params[:comment][:parent_id].present?
-        @parent = FlyoverComments::Comment.find(params[:comment].delete(:parent_id))
+      unless parent_id.blank?
+        @parent = FlyoverComments::Comment.find(parent_id)
         @commentable = @parent.commentable
         params[:comment].delete(:commentable_type)
         params[:comment].delete(:commentable_id)

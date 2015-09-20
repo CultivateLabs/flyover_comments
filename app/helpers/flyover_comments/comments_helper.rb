@@ -11,8 +11,8 @@ module FlyoverComments
       render "flyover_comments/comments/form", comment: comment, form_opts: form
     end
 
-    def flyover_comments_list(commentable)
-      render "flyover_comments/comments/comments", comments: commentable.comments.top_level
+    def flyover_comments_list(commentable, comments: commentable.comments.top_level.newest_first, page: 1, per_page: 10)
+      render "flyover_comments/comments/comments", commentable: commentable, comments: comments.page(page).per(per_page)
     end
 
     def flyover_comment_replies(comment, collapsed: true)
