@@ -61,8 +61,8 @@ $ ->
         textarea = $f.find("textarea")
         textarea.attr("id", "comment_content_"+commentId)
         textarea.text(content.text().trim())
+        $f.insertAfter(content)
         content.hide()
-        $(@).prepend($f)
 
   $(document).on "ajax:success", ".flyover-comment-edit-form", (e, response, status, err)->
     $(@).remove()
