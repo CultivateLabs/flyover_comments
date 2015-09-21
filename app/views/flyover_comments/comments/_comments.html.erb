@@ -4,7 +4,6 @@
 
     <% comments.each do |comment| %>
       <%= render "flyover_comments/comments/comment", comment: comment %>
-      <%= flyover_comment_replies comment, collapsed: true %>
     <% end %>
   </div>
 
@@ -16,7 +15,7 @@
                             id: nil,
                             commentable_type: commentable.class.to_s,
                             commentable_id: commentable.id
-                          }, 
+                          },
                           remote: true %>
   </div>
 </div>
