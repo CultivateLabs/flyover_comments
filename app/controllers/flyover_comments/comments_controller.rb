@@ -63,10 +63,11 @@ module FlyoverComments
 
     def destroy
       @comment = FlyoverComments::Comment.find(params[:id])
-      authorize_flyover_comment_deletion!
       if params[:hard_delete] == true
+        authorize_flyover_comment_hard_deletion!
         @comment.destroy
       else
+        authorize_flyover_comment_soft_deletion!
         @comment.deleted_at = Time.now
         @comment.save
       end
@@ -122,8 +123,12 @@ module FlyoverComments
       raise "User isn't allowed to create comment" unless can_create_flyover_comment?(@comment, send(FlyoverComments.current_user_method.to_sym))
     end
 
-    def authorize_flyover_comment_deletion!
-      raise "User isn't allowed to delete comment" unless can_delete_flyover_comment?(@comment, send(FlyoverComments.current_user_method.to_sym))
+    def authorize_flyover_comment_hard_deletion!
+      raise "User isn't allowed to delete comment" unless can_hard_delete_flyover_comment?(@comment, send(FlyoverComments.current_user_method.to_sym))
+    end
+
+    def authorize_flyover_comment_soft_deletion!
+      raise "User isn't allowed to delete comment" unless can_soft_delete_flyover_comment?(@comment, send(FlyoverComments.current_user_method.to_sym))
     end
 
   end
