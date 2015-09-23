@@ -64,11 +64,11 @@ module FlyoverComments
     def destroy
       @comment = FlyoverComments::Comment.find(params[:id])
       authorize_flyover_comment_deletion!
-      unless params[:hard_delete] == true
+      if params[:hard_delete] == true
+        @comment.destroy
+      else
         @comment.deleted_at = Time.now
         @comment.save
-      else
-        @comment.destroy
       end
       respond_with @comment
     end
