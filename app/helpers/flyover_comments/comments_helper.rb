@@ -1,6 +1,14 @@
 module FlyoverComments
   module CommentsHelper
 
+    def flyover_comment_content(comment)
+      unless comment.deleted_at.nil?
+        comment.content
+      else
+        "Commented deleted on #{comment.deleted_at.to_s(:normal)}"
+      end
+    end
+
     def flyover_comment_form(commentable, comment = nil,  parent: nil, form: {})
       comment ||= FlyoverComments::Comment.new({
         commentable_id: commentable.id,
