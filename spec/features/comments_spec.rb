@@ -78,9 +78,8 @@ RSpec.feature "Comments" do
     click_link "delete_flyover_comment_#{comment_to_delete.id}"
 
     expect(page).to_not have_content(comment_to_delete.content)
+    expect(comment_to_delete.reload.deleted_at).to_not eq(nil)
     expect(page).to have_content(comment_to_delete.deleted_at.to_s(:normal))
-
-    expect{ comment_to_delete.reload }.to raise_error
   end
 
   it "sets a comment as reviewed", js: true do
