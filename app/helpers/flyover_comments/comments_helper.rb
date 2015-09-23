@@ -42,7 +42,7 @@ module FlyoverComments
       link_to content, flyover_comments.comment_path(comment), opts
     end
 
-    def delete_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.delete_link_text'), opt_overrides = {})
+    def soft_delete_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.delete_link_text'), opt_overrides = {})
       return unless comment && can_soft_delete_flyover_comment?(comment, send(FlyoverComments.current_user_method.to_sym)) && comment.deleted_at.nil?
 
       opts = {
@@ -55,6 +55,25 @@ module FlyoverComments
         },
         method: :delete,
         remote: true
+      }.merge(opt_overrides)
+
+      link_to content, flyover_comments.comment_path(comment), opts
+    end
+
+    def hard_delete_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.delete_link_text'), opt_overrides = {})
+      return unless comment && can_hard_delete_flyover_comment?(comment, send(FlyoverComments.current_user_method.to_sym))
+
+      opts = {
+        id: "delete_flyover_comment_#{comment.id}",
+        class: "delete-flyover-comment-button",
+        data: {
+          type: "script",
+          confirm: I18n.t('flyover_comments.comments.delete_confirmation'),
+          flyover_comment_id: comment.id
+        },
+        method: :delete,
+        remote: true,
+        params: { "hard_delete" => true }
       }.merge(opt_overrides)
 
       link_to content, flyover_comments.comment_path(comment), opts
