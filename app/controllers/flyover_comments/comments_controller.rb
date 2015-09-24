@@ -63,7 +63,7 @@ module FlyoverComments
 
     def destroy
       @comment = FlyoverComments::Comment.find(params[:id])
-      if params[:hard_delete] == true
+      if params[:hard_delete] == "true"
         authorize_flyover_comment_hard_deletion!
         @comment.destroy
       else
