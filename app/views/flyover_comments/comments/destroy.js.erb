@@ -1,4 +1,4 @@
-<% if @comment.destroyed? %>
+<% if @comment.destroyed? || params[:hide_after_deletion] == "true" %>
 $("[id=flyover_comment_<%= @comment.id %>]").remove();
 <% else %>
 $("[id=flyover_comment_<%= @comment.id %>]").replaceWith('<%= escape_javascript(render @comment) %>');

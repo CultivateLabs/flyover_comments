@@ -75,7 +75,7 @@ module FlyoverComments
         remote: true
       }.merge(opt_overrides)
 
-      link_to content, flyover_comments.comment_path(comment, hard_delete: true), opts
+      link_to content, flyover_comments.comment_path(comment, hard_delete: true, hide_after_deletion: opt_overrides[:hide_after_deletion]), opts
     end
 
     def flag_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.flag_link_text'), opt_overrides = {})
