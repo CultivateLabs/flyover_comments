@@ -11,11 +11,21 @@ module FlyoverComments
       end
     end
 
-    def can_delete_flyover_comment?(comment, user)
+    def can_hard_delete_flyover_comment?(comment, user)
       if Object.const_defined?("Pundit") && policy = Pundit.policy(user, comment)
-        policy.destroy?
-      elsif user.respond_to?(:can_delete_flyover_comment?)
-        user.can_delete_flyover_comment?(comment)
+        policy.hard_destroy?
+      elsif user.respond_to?(:can_hard_delete_flyover_comment?)
+        user.can_hard_delete_flyover_comment?(comment)
+      else
+        false
+      end
+    end
+
+    def can_soft_delete_flyover_comment?(comment, user)
+      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, comment)
+        policy.soft_destroy?
+      elsif user.respond_to?(:can_soft_delete_flyover_comment?)
+        user.can_soft_delete_flyover_comment?(comment)
       else
         comment._user == user
       end

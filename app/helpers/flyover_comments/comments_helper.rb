@@ -1,6 +1,14 @@
 module FlyoverComments
   module CommentsHelper
 
+    def flyover_comment_content(comment)
+      if comment.deleted_at.nil?
+        comment.content
+      else
+        I18n.t('.comment_deleted_text', deleted_time_stamp: comment.deleted_at.to_s(:normal))
+      end
+    end
+
     def flyover_comment_form(commentable, comment = nil,  parent: nil, form: {})
       comment ||= FlyoverComments::Comment.new({
         commentable_id: commentable.id,
@@ -34,8 +42,8 @@ module FlyoverComments
       link_to content, flyover_comments.comment_path(comment), opts
     end
 
-    def delete_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.delete_link_text'), opt_overrides = {})
-      return unless comment && can_delete_flyover_comment?(comment, send(FlyoverComments.current_user_method.to_sym))
+    def soft_delete_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.delete_link_text'), opt_overrides = {})
+      return unless comment && can_soft_delete_flyover_comment?(comment, send(FlyoverComments.current_user_method.to_sym)) && comment.deleted_at.nil?
 
       opts = {
         id: "delete_flyover_comment_#{comment.id}",
@@ -49,7 +57,25 @@ module FlyoverComments
         remote: true
       }.merge(opt_overrides)
 
-      link_to content, flyover_comments.comment_path(comment), opts
+      link_to content, flyover_comments.comment_path(comment, hide_after_deletion: opt_overrides[:hide_after_deletion]), opts
+    end
+
+    def hard_delete_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.delete_link_text'), opt_overrides = {})
+      #return unless comment && can_hard_delete_flyover_comment?(comment, send(FlyoverComments.current_user_method.to_sym))
+
+      opts = {
+        id: "delete_flyover_comment_#{comment.id}",
+        class: "delete-flyover-comment-button",
+        data: {
+          type: "script",
+          confirm: I18n.t('flyover_comments.comments.delete_confirmation'),
+          flyover_comment_id: comment.id
+        },
+        method: :delete,
+        remote: true
+      }.merge(opt_overrides)
+
+      link_to content, flyover_comments.comment_path(comment, hard_delete: true), opts
     end
 
     def flag_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.flag_link_text'), opt_overrides = {})
