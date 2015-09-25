@@ -5,7 +5,7 @@ module FlyoverComments
       if comment.deleted_at.nil?
         comment.content
       else
-        I18n.t('.comment_deleted_text', deleted_time_stamp: comment.deleted_at.to_s(:normal))
+        I18n.t('flyover_comments.comments.comment_deleted_text', deleted_time_stamp: comment.deleted_at.to_s(:normal))
       end
     end
 
