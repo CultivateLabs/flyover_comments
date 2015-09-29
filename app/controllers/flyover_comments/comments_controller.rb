@@ -10,7 +10,7 @@ module FlyoverComments
     before_action :load_commentable, only: [:index, :create]
 
     respond_to :json, only: [:create, :update]
-    respond_to :html, only: [:create]
+    respond_to :html, only: [:create, :show]
     respond_to :js, only: [:destroy, :show, :update]
 
     def index
@@ -42,7 +42,12 @@ module FlyoverComments
 
     def show
       @comment = FlyoverComments::Comment.find(params[:id])
+      @top_level_comment = @comment.parent || @comment
       authorize_flyover_comment_show!
+      respond_with @comment do |format|
+        format.html
+        format.js
+      end
     end
 
     def update
