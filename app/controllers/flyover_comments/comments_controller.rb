@@ -44,10 +44,7 @@ module FlyoverComments
       @comment = FlyoverComments::Comment.find(params[:id])
       @top_level_comment = @comment.parent || @comment
       authorize_flyover_comment_show!
-      respond_with @comment do |format|
-        format.html
-        format.js
-      end
+      respond_with @comment
     end
 
     def update
