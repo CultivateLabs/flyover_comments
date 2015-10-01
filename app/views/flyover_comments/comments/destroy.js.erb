@@ -1,7 +1,5 @@
-<% if @comment.destroyed? || params[:hide_after_deletion] == "true" %>
-$("[id=flyover_comment_<%= @comment.id %>]").remove();
-<% elsif params[:hide_delete_after_deletion] == "true" %>
-$("[id=delete_flyover_comment_<%= @comment.id %>]").remove();
+<% if @comment.destroyed? || params[:hide_after_deletion].present? %>
+$("[id=<%= params[:hide_after_deletion] %>").remove();
 <% else %>
 $("[id=flyover_comment_<%= @comment.id %>]").replaceWith('<%= escape_javascript(render @comment) %>');
 <% end %>
