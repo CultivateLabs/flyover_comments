@@ -29,7 +29,7 @@ module FlyoverComments
       authorize_flyover_comment_creation!
 
       flash_key = @comment.save ? :success : :error
-      process_comment_creation(comment) if @comment.persisted?
+      process_comment_creation(comment, parent) if @comment.persisted? && !@parent.nil?
       respond_with @comment do |format|
         format.html{ redirect_to :back, :flash => { flash_key => t("flyover_comments.comments.flash.create.#{flash_key.to_s}") } }
         format.json{
