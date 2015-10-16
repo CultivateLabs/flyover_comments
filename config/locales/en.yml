@@ -18,6 +18,7 @@ en:
           error: "There was an error creating your comment."
       form:
         cancel: "Cancel"
+        comment_content_placeholder: "Enter your comment"
         submit: "Submit"
         submitting: "Submitting..."
       replies:
