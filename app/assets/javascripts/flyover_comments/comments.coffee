@@ -86,7 +86,6 @@ $ ->
   $(document).on "ajax:success", ".flyover-comment-edit-form", (e, response, status, err)->
     $(@).remove()
     $("[id=flyover_comment_#{response.id}]").each ->
-      debugger
       content = $(@).find(".flyover-comment-content:first")
       content.html(response.content_html)
       content.show()
