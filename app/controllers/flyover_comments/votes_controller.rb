@@ -35,6 +35,11 @@ module FlyoverComments
 
   private
 
+
+    def authorize_flyover_flag_creation!
+      raise "User isn't allowed to vote on comment" unless can_vote_flyover_comment?(@comment, send(FlyoverComments.current_user_method.to_sym))
+    end
+
     def load_vote
       @vote = FlyoverComments::Vote.find(params[:id])
     end
