@@ -1,21 +1,9 @@
-<div class="pagination-container">
-  <div class="flyover-comments">
-    <%= content_tag :div, t('.empty'), class: "empty-text" if comments.empty? %>
-
-    <% comments.each do |comment| %>
-      <%= render "flyover_comments/comments/comment", comment: comment %>
-    <% end %>
-  </div>
-
-  <div class="pull-right">
-    <%= paginate comments, params: {
-                            route_set: flyover_comments,
-                            controller: "flyover_comments/comments",
-                            action: "index",
-                            id: nil,
-                            commentable_type: commentable.class.to_s,
-                            commentable_id: commentable.id
-                          },
-                          remote: true %>
-  </div>
-</div>
+<%= paginate comments, params: {
+                        route_set: flyover_comments,
+                        controller: "flyover_comments/comments",
+                        action: "index",
+                        id: nil,
+                        commentable_type: commentable.class.to_s,
+                        commentable_id: commentable.id
+                      },
+                      remote: true %>
