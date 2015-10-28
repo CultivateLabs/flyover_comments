@@ -8,6 +8,7 @@ module FlyoverComments
 
     has_many :children, ->{ order(:created_at) } , class_name: "FlyoverComments::Comment", foreign_key: "parent_id"
     has_many :flags, dependent: :destroy
+    has_many :votes, dependent: :destroy
 
     validates :commentable, presence: true
     validates "#{FlyoverComments.user_class_underscore}_id", presence: true

@@ -81,6 +81,25 @@ module FlyoverComments
       end
     end
 
+    def can_update_flyover_vote?(vote, user)
+      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, vote)
+        policy.update?
+      elsif user.respond_to?(:can_update_flyover_vote?)
+        user.can_update_flyover_vote?(vote)
+      else
+        vote._user == user
+      end
+    end
+
+    def can_delete_flyover_vote?(vote, user)
+      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, vote)
+        policy.destroy?
+      elsif user.respond_to?(:can_delete_flyover_vote?)
+        user.can_delete_flyover_vote?(vote)
+      else
+        vote._user == user
+      end
+    end
 
   end
 end

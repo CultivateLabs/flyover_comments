@@ -16,5 +16,13 @@ module FlyoverComments
       send(FlyoverComments.user_class_symbol)
     end
 
+    def upvote?
+      value && value > 0
+    end
+
+    def downvote?
+      value && value < 0
+    end
+
   end
 end

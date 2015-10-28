@@ -1,0 +1,5 @@
+<% Post.find_each do |post| %>
+  <div>
+    <%= link_to "Post #{post.id}: #{post.title}", post_path(post) %>
+  </div>
+<% end %>

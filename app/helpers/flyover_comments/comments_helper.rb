@@ -107,6 +107,88 @@ module FlyoverComments
       render "flyover_comments/flags/modal"
     end
 
+    def vote_flyover_comment_buttons(comment, vote = nil)
+      user = send(FlyoverComments.current_user_method.to_sym)
+      return unless comment && can_vote_flyover_comment?(comment, user)
+
+      if user == comment.ident_user
+        content_tag :span, pluralize(comment.votes.count, I18n.t('flyover_comments.comments.upvote')), class: "vote-count"
+
+        vote ||= FlyoverComments::Vote.find_or_initialize_by(ident_user: user, comment: comment)
+        render "flyover_comments/votes/vote_buttons.html", vote: vote, comment: comment
+      end
+
+    end
+
+    def vote_button_method(vote, value)
+      if vote.new_record? || vote.destroyed?
+        :post
+      elsif vote.value == value
+        :delete
+      else
+        :patch
+      end
+    end
+
+    def upvote_button_text(vote)
+      vote.persisted? && vote.upvote? ? t('flyover_comments.comments.upvoted') : t('flyover_comments.comments.upvote')
+    end
+
+    def downvote_button_text(vote)
+      vote.persisted? && vote.downvote? ? t('flyover_comments.comments.downvoted') : t('flyover_comments.comments.downvote')
+    end
+
+    def upvote_button_options(vote)
+      method = vote_button_method(vote, 1)
+      btn_class = method == :delete ? "btn-info" : "btn-success"
+      {
+        method: method,
+        params: { comment_id: vote.comment_id, value: 1 },
+        class: "btn #{btn_class}",
+        form_class: "button_to upvote-button vote-button",
+        remote: true
+      }
+    end
+
+    def downvote_button_options(vote)
+      method = vote_button_method(vote, -1)
+      btn_class = method == :delete ? "downvoted" : ""
+      {
+        method: method,
+        params: { comment_id: vote.comment_id, value: -1 },
+        class: "btn btn-link btn-downvote #{btn_class}",
+        form_class: "button_to downvote-button vote-button",
+        remote: true
+      }
+    end
+
+
+
+    def vote_flyover_comment_links(comment, content = I18n.t('flyover_comments.comments.flag_link_text'), opt_overrides = {})
+      user = send(FlyoverComments.current_user_method.to_sym)
+      return unless comment && can_flag_flyover_comment?(comment, user)
+
+      opts = {
+        id: "flag_flyover_comment_#{comment.id}",
+        class: "flag-flyover-comment-button",
+        data: {
+          confirm: I18n.t('flyover_comments.comments.flag_confirmation'),
+          flyover_comment_id: comment.id
+        },
+        method: :post,
+        remote: true,
+        form: { data: { type: "script" } },
+        params: { "flag[reason]" =>  nil }
+      }.merge(opt_overrides)
+
+      if user_already_flagged_comment?(comment, user)
+        opts[:disabled] = 'disabled'
+        content = t('flyover_comments.flags.flagged')
+      end
+
+      button_to content, flyover_comments.comment_flags_path(comment), opts
+    end
+
     def user_already_flagged_comment?(comment, user = send(FlyoverComments.current_user_method.to_sym))
       FlyoverComments::Flag.where(:comment => comment, FlyoverComments.user_class_symbol => user).exists?
     end
