@@ -5,7 +5,7 @@ module FlyoverComments
   class VotesController < ApplicationController
     include FlyoverComments::Authorization
 
-    respond_to :json, only: [:create, :destroy]
+    respond_to :json, only: [:create, :update, :destroy]
 
     before_action :load_vote, only: [:update, :destroy]
 
