@@ -4,7 +4,7 @@ class AddUpvotesCountAndDownvotesCountToFlyoverCommentsComment < ActiveRecord::M
     add_column :flyover_comments_comments, :downvote_count, :integer, default: 0
     FlyoverComments::Comment.reset_column_information
     FlyoverComments::Comment.find_each do |comment|
-      comment.reset_vote_counts!
+      comment.recalculate_vote_counts!
     end
   end
 end
