@@ -10,6 +10,7 @@ module FlyoverComments
 
     scope :upvotes, ->{ where value: 1 }
     scope :downvotes, ->{ where value: -1 }
+    scope :created_after, ->(datetime){ where("flyover_comments_votes.created_at > ?", datetime) }
 
     def _user=(val)
       send("#{FlyoverComments.user_class_symbol}=", val)
