@@ -32,3 +32,8 @@ en:
         submitting: "Submitting..."
       modal:
         reason: "Reason for Flag"
+    votes:
+      downvote: "Downvote"
+      downvoted: "Downvoted"
+      upvote: "Upvote"
+      upvoted: "Upvoted"
