@@ -8,6 +8,9 @@ module FlyoverComments
 
     delegate FlyoverComments.user_class_symbol, to: :comment, prefix: true, allow_nil: true
 
+    scope :upvotes, ->{ where value: 1 }
+    scope :downvotes, ->{ where value: -1 }
+
     def _user=(val)
       send("#{FlyoverComments.user_class_symbol}=", val)
     end

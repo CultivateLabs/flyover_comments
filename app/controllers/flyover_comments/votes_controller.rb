@@ -15,7 +15,9 @@ module FlyoverComments
       @vote = @comment.votes.new(value: params[:value])
       @vote._user = send(FlyoverComments.current_user_method.to_sym)
 
-      @vote.save
+      if @vote.save
+        @comment.recalculate_vote_counts!
+      end
 
       respond_with_vote_partial
     end
@@ -23,12 +25,14 @@ module FlyoverComments
     def update
       authorize_flyover_vote_update!
       @vote.update(value: params[:value])
+      @vote.comment.recalculate_vote_counts!
       respond_with_vote_partial
     end
 
     def destroy
       authorize_flyover_vote_delete!
       @vote.destroy
+      @vote.comment.recalculate_vote_counts!
       respond_with_vote_partial
     end
 

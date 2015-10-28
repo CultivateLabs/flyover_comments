@@ -74,5 +74,22 @@ module FlyoverComments
       send("#{FlyoverComments.user_class_symbol}=", val)
     end
 
+    def recalculate_vote_counts!
+      recalculate_upvote_count!
+      recalculate_downvote_count!
+    end
+
+    def recalculate_upvote_count!
+      self.update_attribute(:upvote_count, votes.upvotes.count)
+    end
+
+    def recalculate_downvote_count!
+      self.update_attribute(:downvote_count, votes.downvotes.count)
+    end
+
+    def votes_count
+      upvote_count - downvote_count
+    end
+
   end
 end
