@@ -8,8 +8,8 @@ module FlyoverComments
 
     delegate FlyoverComments.user_class_symbol, to: :comment, prefix: true, allow_nil: true
 
-    scope :upvotes, ->{ where value: 1 }
-    scope :downvotes, ->{ where value: -1 }
+    scope :upvotes, ->{ where("flyover_comments_votes.value > 0") }
+    scope :downvotes, ->{ where("flyover_comments_votes.value < 0") }
     scope :created_after, ->(datetime){ where("flyover_comments_votes.created_at > ?", datetime) }
 
     def _user=(val)
