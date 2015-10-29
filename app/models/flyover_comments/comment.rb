@@ -24,7 +24,7 @@ module FlyoverComments
     scope :with_links, ->{ where(contains_links: true) }
     scope :top_level, -> { where(parent_id: nil) }
     scope :newest_first, -> { order(created_at: :desc) }
-    scope :top_first, -> { reorder(upvote_count: :desc) }
+    scope :highest_net_votes, -> { order("flyover_comments_comments.upvote_count - flyover_comments_comments.downvote_count DESC") }
 
     def content=(value)
       value = ERB::Util.html_escape(value) if FlyoverComments.auto_escapes_html_in_comment_content
