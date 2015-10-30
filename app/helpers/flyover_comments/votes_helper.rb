@@ -9,7 +9,6 @@ module FlyoverComments
 
       vote ||= FlyoverComments::Vote.find_or_initialize_by(FlyoverComments.user_class_symbol => user, :comment => comment)
       render "flyover_comments/votes/vote_buttons.html", vote: vote, comment: comment
-
     end
 
     def vote_button_method(vote, value)

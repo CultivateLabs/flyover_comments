@@ -1,5 +1,5 @@
 <div class="vote-buttons" data-comment-id="<%= vote.comment_id %>">
-  <span class="vote-count"><%= comment.votes_count %></span>
+  <span class="vote-count"><%= comment.net_votes_count %></span>
   <%= render "flyover_comments/votes/upvote_button.html", vote: vote %>
   <%= render "flyover_comments/votes/downvote_button.html", vote: vote %>
 </div>

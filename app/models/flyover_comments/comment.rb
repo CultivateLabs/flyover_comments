@@ -89,7 +89,7 @@ module FlyoverComments
       self.update_attribute(:downvote_count, votes.downvotes.count)
     end
 
-    def votes_count
+    def net_votes_count
       upvote_count - downvote_count
     end
 

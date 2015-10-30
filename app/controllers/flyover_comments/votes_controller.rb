@@ -15,9 +15,7 @@ module FlyoverComments
       @vote = @comment.votes.new(value: params[:value])
       @vote._user = send(FlyoverComments.current_user_method.to_sym)
 
-      if @vote.save
-        @comment.recalculate_vote_counts!
-      end
+      @vote.save
 
       respond_with_vote_partial
     end
@@ -25,19 +23,16 @@ module FlyoverComments
     def update
       authorize_flyover_vote_update!
       @vote.update(value: params[:value])
-      @vote.comment.recalculate_vote_counts!
       respond_with_vote_partial
     end
 
     def destroy
       authorize_flyover_vote_delete!
       @vote.destroy
-      @vote.comment.recalculate_vote_counts!
       respond_with_vote_partial
     end
 
   private
-
 
     def authorize_flyover_vote_create!
       raise "User isn't allowed to vote on comment" unless can_vote_flyover_comment?(@comment, send(FlyoverComments.current_user_method.to_sym))
