@@ -5,8 +5,6 @@ module FlyoverComments
       user = send(FlyoverComments.current_user_method.to_sym)
       return unless comment && can_vote_flyover_comment?(comment, user)
 
-      content_tag :span, pluralize(comment.votes.count, I18n.t('flyover_comments.comments.upvote')), class: "vote-count"
-
       vote ||= FlyoverComments::Vote.find_or_initialize_by(FlyoverComments.user_class_symbol => user, :comment => comment)
       render "flyover_comments/votes/vote_buttons.html", vote: vote, comment: comment
     end
