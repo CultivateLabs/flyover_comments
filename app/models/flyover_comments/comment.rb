@@ -93,5 +93,9 @@ module FlyoverComments
       upvote_count - downvote_count
     end
 
+    def vote_value_for_user(user)
+      votes.where(FlyoverComments.user_class_symbol => user).pluck(:value).first || 0
+    end
+
   end
 end

@@ -15,6 +15,8 @@ module FlyoverComments
         expect(comment.upvote_count).to eq(1)
         expect(comment.downvote_count).to eq(0)
         expect(comment.net_votes_count).to eq(1)
+        expect(comment.vote_value_for_user(user)).to eq(1)
+        expect(comment.vote_value_for_user(user2)).to eq(0)
       end
 
       it "decrements vote count on downvote" do
@@ -23,6 +25,8 @@ module FlyoverComments
         expect(comment.upvote_count).to eq(0)
         expect(comment.downvote_count).to eq(1)
         expect(comment.net_votes_count).to eq(-1)
+        expect(comment.vote_value_for_user(user)).to eq(-1)
+        expect(comment.vote_value_for_user(user2)).to eq(0)
       end
 
     end
@@ -35,12 +39,16 @@ module FlyoverComments
         expect(comment.upvote_count).to eq(0)
         expect(comment.downvote_count).to eq(1)
         expect(comment.net_votes_count).to eq(-1)
+        expect(comment.vote_value_for_user(user)).to eq(-1)
+        expect(comment.vote_value_for_user(user2)).to eq(0)
         vote.value = 1
         vote.save
         comment.reload
         expect(comment.upvote_count).to eq(1)
         expect(comment.downvote_count).to eq(0)
         expect(comment.net_votes_count).to eq(1)
+        expect(comment.vote_value_for_user(user)).to eq(1)
+        expect(comment.vote_value_for_user(user2)).to eq(0)
       end
 
       it "decrements vote count on downvote update" do
@@ -49,12 +57,16 @@ module FlyoverComments
         expect(comment.upvote_count).to eq(1)
         expect(comment.downvote_count).to eq(0)
         expect(comment.net_votes_count).to eq(1)
+        expect(comment.vote_value_for_user(user)).to eq(1)
+        expect(comment.vote_value_for_user(user2)).to eq(0)
         vote.value = -1
         vote.save
         comment.reload
         expect(comment.upvote_count).to eq(0)
         expect(comment.downvote_count).to eq(1)
         expect(comment.net_votes_count).to eq(-1)
+        expect(comment.vote_value_for_user(user)).to eq(-1)
+        expect(comment.vote_value_for_user(user2)).to eq(0)
       end
 
     end
@@ -67,11 +79,15 @@ module FlyoverComments
         expect(comment.upvote_count).to eq(1)
         expect(comment.downvote_count).to eq(0)
         expect(comment.net_votes_count).to eq(1)
+        expect(comment.vote_value_for_user(user)).to eq(1)
+        expect(comment.vote_value_for_user(user2)).to eq(0)
         vote.destroy
         comment.reload
         expect(comment.upvote_count).to eq(0)
         expect(comment.downvote_count).to eq(0)
         expect(comment.net_votes_count).to eq(0)
+        expect(comment.vote_value_for_user(user)).to eq(0)
+        expect(comment.vote_value_for_user(user2)).to eq(0)
       end
 
       it "increments vote count on downvote destroy" do
@@ -80,11 +96,15 @@ module FlyoverComments
         expect(comment.upvote_count).to eq(0)
         expect(comment.downvote_count).to eq(1)
         expect(comment.net_votes_count).to eq(-1)
+        expect(comment.vote_value_for_user(user)).to eq(-1)
+        expect(comment.vote_value_for_user(user2)).to eq(0)
         vote.destroy
         comment.reload
         expect(comment.upvote_count).to eq(0)
         expect(comment.downvote_count).to eq(0)
         expect(comment.net_votes_count).to eq(0)
+        expect(comment.vote_value_for_user(user)).to eq(0)
+        expect(comment.vote_value_for_user(user2)).to eq(0)
       end
 
     end
