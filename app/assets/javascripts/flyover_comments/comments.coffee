@@ -14,6 +14,8 @@ $ ->
         $f.addClass("flyover-comment-reply-form")
         $f.find("[name='comment[parent_id]']").val(parentId)
         $f.find(".flyover-comment-cancel").removeClass("hide")
+        $f.find("textarea").val("")
+        $f.find(".flyover-comment-submit").find("input").attr('disabled',true)
 
         $(@).append($f)
 
@@ -100,3 +102,11 @@ $ ->
     e.preventDefault()
     $(this).closest(".flyover-comment").find(".flyover-comment-content").show()
     $(this).closest(".flyover-comment-form").remove()
+
+  $(document).on "keyup", ".flyover-comment-text-area-input", (e)->
+    submit_button = $(@).closest('.flyover-comment-form').find(".flyover-comment-submit").find("input")
+    if($(@).val().length !=0)
+      submit_button.attr('disabled', false)
+    else
+      submit_button.attr('disabled', true)
+  $(".flyover-comment-submit").find("input").attr('disabled',true)
