@@ -3,7 +3,9 @@ module FlyoverComments
     module CommentFiltering
 
       def load_filtered_comments_list(commentable)
-        @comments = commentable.comments.top_level.newest_first.page(params[:page]).per(10)
+        @comments = commentable.comments.top_level.page(params[:page]).per(10)
+        @comments = @comments.highest_net_votes if params[:sort].present? && params[:sort] == "top" #need this first because of sql ordering or orders
+        @comments = @comments.newest_first
         @comments = @comments.with_links if params[:with_links].present? && params[:with_links] != "false"
 
         if params[:filter] == "current_user"

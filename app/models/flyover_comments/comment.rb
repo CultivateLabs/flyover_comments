@@ -9,6 +9,7 @@ module FlyoverComments
 
     has_many :children, ->{ order(:created_at) } , class_name: "FlyoverComments::Comment", foreign_key: "parent_id"
     has_many :flags, dependent: :destroy
+    has_many :votes, dependent: :destroy
 
     validates :commentable, presence: true
     validates "#{FlyoverComments.user_class_underscore}_id", presence: true
@@ -23,6 +24,7 @@ module FlyoverComments
     scope :with_links, ->{ where(contains_links: true) }
     scope :top_level, -> { where(parent_id: nil) }
     scope :newest_first, -> { order(created_at: :desc) }
+    scope :highest_net_votes, -> { order("flyover_comments_comments.upvote_count - flyover_comments_comments.downvote_count DESC") }
 
     def content=(value)
       value = ERB::Util.html_escape(value) if FlyoverComments.auto_escapes_html_in_comment_content
@@ -72,6 +74,27 @@ module FlyoverComments
 
     def _user=(val)
       send("#{FlyoverComments.user_class_symbol}=", val)
+    end
+
+    def recalculate_vote_counts!
+      recalculate_upvote_count!
+      recalculate_downvote_count!
+    end
+
+    def recalculate_upvote_count!
+      self.update_attribute(:upvote_count, votes.upvotes.count)
+    end
+
+    def recalculate_downvote_count!
+      self.update_attribute(:downvote_count, votes.downvotes.count)
+    end
+
+    def net_votes_count
+      upvote_count - downvote_count
+    end
+
+    def vote_value_for_user(user)
+      votes.where(FlyoverComments.user_class_symbol => user).pluck(:value).first || 0
     end
 
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150923193714) do
+ActiveRecord::Schema.define(version: 20151028175153) do
 
   create_table "flyover_comments_comments", force: :cascade do |t|
     t.text     "content"
@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(version: 20150923193714) do
     t.datetime "last_updated_at"
     t.boolean  "contains_links",   default: false
     t.datetime "deleted_at"
+    t.integer  "upvote_count",     default: 0
+    t.integer  "downvote_count",   default: 0
   end
 
   add_index "flyover_comments_comments", ["commentable_type", "commentable_id"], name: "idx_flyover_comments_comments_commentable_type_commentable_id"
@@ -41,6 +43,17 @@ ActiveRecord::Schema.define(version: 20150923193714) do
 
   add_index "flyover_comments_flags", ["comment_id"], name: "index_flyover_comments_flags_on_comment_id"
   add_index "flyover_comments_flags", ["ident_user_id"], name: "index_flyover_comments_flags_on_ident_user_id"
+
+  create_table "flyover_comments_votes", force: :cascade do |t|
+    t.integer  "comment_id"
+    t.integer  "value"
+    t.integer  "ident_user_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "flyover_comments_votes", ["comment_id"], name: "index_flyover_comments_votes_on_comment_id"
+  add_index "flyover_comments_votes", ["ident_user_id"], name: "index_flyover_comments_votes_on_ident_user_id"
 
   create_table "ident_users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

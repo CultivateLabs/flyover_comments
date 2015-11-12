@@ -14,9 +14,11 @@ module FlyoverComments
 
     config.to_prepare do
       ::ApplicationController.helper FlyoverComments::CommentsHelper
+      ::ApplicationController.helper FlyoverComments::VotesHelper
       ::ApplicationController.helper FlyoverComments::Authorization
 
       ActionView::Base.include FlyoverComments::CommentsHelper
+      ActionView::Base.include FlyoverComments::VotesHelper
       ActionView::Base.include FlyoverComments::Authorization
     end
 

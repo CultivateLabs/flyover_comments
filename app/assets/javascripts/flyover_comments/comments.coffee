@@ -39,6 +39,11 @@ $ ->
     $modal = $f.closest(".modal")
     $modal.modal("hide")
 
+  $(document).on "ajax:success", "form.vote-button", (e, response, status, err)->
+    voteButtons = $(@).closest(".vote-buttons")
+    sameVoteableButtons = $("[data-comment-id='#{voteButtons.data('comment-id')}']")
+    sameVoteableButtons.replaceWith(response.updated_buttons_html)
+
   $(document).on "click", ".flag-flyover-comment-modal-link", (e)->
     e.preventDefault()
     url = $(@).data("url")

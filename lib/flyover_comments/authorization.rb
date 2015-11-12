@@ -71,5 +71,35 @@ module FlyoverComments
       end
     end
 
+    def can_vote_flyover_comment?(comment, user)
+      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, FlyoverComments::Vote.new(:comment => comment, FlyoverComments.user_class_symbol => user))
+        policy.create?
+      elsif user.respond_to?(:can_vote_flyover_comment?)
+        user.can_vote_flyover_comment?(comment)
+      else
+        !user.nil?
+      end
+    end
+
+    def can_update_flyover_vote?(vote, user)
+      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, vote)
+        policy.update?
+      elsif user.respond_to?(:can_update_flyover_vote?)
+        user.can_update_flyover_vote?(vote)
+      else
+        vote._user == user
+      end
+    end
+
+    def can_delete_flyover_vote?(vote, user)
+      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, vote)
+        policy.destroy?
+      elsif user.respond_to?(:can_delete_flyover_vote?)
+        user.can_delete_flyover_vote?(vote)
+      else
+        vote._user == user
+      end
+    end
+
   end
 end
