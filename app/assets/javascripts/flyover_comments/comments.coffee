@@ -95,3 +95,10 @@ $ ->
     e.preventDefault()
     $(this).closest(".flyover-comment").find(".flyover-comment-content").show()
     $(this).closest(".flyover-comment-form").remove()
+
+  $(".flyover-comment-submit").find("input").attr('disabled',true)
+  $(".flyover-comment-text-area").find("textarea").keyup ->
+    if($(@).val().length !=0)
+      $(@).closest('#flyover-comment-form').find(".flyover-comment-submit").find("input").attr('disabled', false)
+    else
+      $(@).closest('#flyover-comment-form').find(".flyover-comment-submit").find("input").attr('disabled', true)
