@@ -17,23 +17,37 @@ module FlyoverComments
     after_destroy :decrement_comment_counter_cache
 
     def increment_comment_counter_cache
-      FlyoverComments::Comment.increment_counter(:upvote_count, comment_id) if upvote?
-      FlyoverComments::Comment.increment_counter(:downvote_count, comment_id) if downvote?
+      if upvote?
+        FlyoverComments::Comment.increment_counter(:upvote_count, comment_id)
+        comment.upvote_count += 1
+      elsif downvote?
+        FlyoverComments::Comment.increment_counter(:downvote_count, comment_id)
+        comment.downvote_count += 1
+      end
     end
 
     def decrement_comment_counter_cache
-      FlyoverComments::Comment.decrement_counter(:upvote_count, comment_id) if upvote?
-      FlyoverComments::Comment.decrement_counter(:downvote_count, comment_id) if downvote?
+      if upvote?
+        FlyoverComments::Comment.decrement_counter(:upvote_count, comment_id)
+        comment.upvote_count -= 1
+      elsif downvote?
+        FlyoverComments::Comment.decrement_counter(:downvote_count, comment_id)
+        comment.downvote_count -= 1
+      end
     end
 
     def update_comment_counter_caches_for_value_change
       if value_changed?
         if upvote?
           FlyoverComments::Comment.increment_counter(:upvote_count, comment_id)
+          comment.upvote_count += 1
           FlyoverComments::Comment.decrement_counter(:downvote_count, comment_id)
+          comment.downvote_count -= 1
         else
           FlyoverComments::Comment.increment_counter(:downvote_count, comment_id)
+          comment.downvote_count += 1
           FlyoverComments::Comment.decrement_counter(:upvote_count, comment_id)
+          comment.upvote_count -= 1
         end
       end
     end
