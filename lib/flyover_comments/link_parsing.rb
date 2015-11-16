@@ -1,13 +1,13 @@
 module FlyoverComments
   module LinkParsing
 
-    LINK_REGEX = /((?:http:\/\/|https:\/\/|www.)\S+)/
-ASDF = /\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/?)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s\`!()\[\]{};:\'\".,<>?«»“”‘’]))/i
+    LINK_REGEX = /\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/?)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s\`!()\[\]{};:\'\".,<>?«»“”‘’]))/i
+    #shoutout to Ryan Angilly (http://ryanangilly.com/post/8654404046/grubers-improved-regex-for-matching-urls-written)
 
     def parse_links(field)
       content = send(field)
       return [] if content.blank?
-      content.scan(ASDF).flatten.compact
+      content.scan(LINK_REGEX ).flatten.compact
     end
 
     def contains_links?(field)
@@ -15,7 +15,7 @@ ASDF = /\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/?)(?:[^\s()<>
     end
 
     def add_html_tags_to_detected_links(value)
-      value.gsub(ASDF) do |match|
+      value.gsub(LINK_REGEX ) do |match|
         href = match.include?("://") ? match : "http://#{match}"
         "<a target=\"_blank\" href=\"#{href}\">#{match}</a>"
       end
