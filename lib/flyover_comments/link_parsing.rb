@@ -7,7 +7,7 @@ module FlyoverComments
     def parse_links(field)
       content = send(field)
       return [] if content.blank?
-      content.scan(LINK_REGEX ).flatten.compact
+      content.scan(LINK_REGEX).flatten.compact
     end
 
     def contains_links?(field)
@@ -15,7 +15,7 @@ module FlyoverComments
     end
 
     def add_html_tags_to_detected_links(value)
-      value.gsub(LINK_REGEX ) do |match|
+      value.gsub(LINK_REGEX) do |match|
         href = match.include?("://") ? match : "http://#{match}"
         "<a target=\"_blank\" href=\"#{href}\">#{match}</a>"
       end
