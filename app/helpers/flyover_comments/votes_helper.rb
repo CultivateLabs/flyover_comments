@@ -3,10 +3,14 @@ module FlyoverComments
 
     def vote_flyover_comment_buttons(comment, vote = nil)
       user = send(FlyoverComments.current_user_method.to_sym)
-      return unless comment && can_vote_flyover_comment?(comment, user)
+      if comment && can_vote_flyover_comment?(comment, user)
 
       vote ||= FlyoverComments::Vote.find_or_initialize_by(FlyoverComments.user_class_symbol => user, :comment => comment)
       render "flyover_comments/votes/vote_buttons.html", vote: vote, comment: comment
+      else
+        render "flyover_comments/votes/vote_count.html", comment: comment
+      end
+
     end
 
     def vote_button_method(vote, value)
