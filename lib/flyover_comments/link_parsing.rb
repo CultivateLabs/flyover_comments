@@ -1,12 +1,13 @@
 module FlyoverComments
   module LinkParsing
 
-    LINK_REGEX = /((?:http:\/\/|https:\/\/|www.)\S+)/
+    LINK_REGEX = /\b((?:https?:\/\/|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}\/?)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s\`!()\[\]{};:\'\".,<>?«»“”‘’]))/i
+    #shoutout to Ryan Angilly (http://ryanangilly.com/post/8654404046/grubers-improved-regex-for-matching-urls-written)
 
     def parse_links(field)
       content = send(field)
       return [] if content.blank?
-      content.scan(LINK_REGEX).flatten
+      content.scan(LINK_REGEX).flatten.compact
     end
 
     def contains_links?(field)

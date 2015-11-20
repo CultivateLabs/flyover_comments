@@ -44,8 +44,8 @@ module FlyoverComments
     describe "add_html_tags_to_detected_links" do
       it "adds link tags to all the links detected in the string" do
         widget = Widget.new
-        val = widget.add_html_tags_to_detected_links("This is a string containing https://google.com and http://www.google.com that should be identified but also www.google.com")
-        expect(val).to eq("This is a string containing <a target=\"_blank\" href=\"https://google.com\">https://google.com</a> and <a target=\"_blank\" href=\"http://www.google.com\">http://www.google.com</a> that should be identified but also <a target=\"_blank\" href=\"http://www.google.com\">www.google.com</a>")
+        val = widget.add_html_tags_to_detected_links("This is a string containing https://google.com and http://www.google.com that should be identified but also www.google.com. This work www.google.com? Maybe www.google.com, or www.google.com!")
+        expect(val).to eq("This is a string containing <a target=\"_blank\" href=\"https://google.com\">https://google.com</a> and <a target=\"_blank\" href=\"http://www.google.com\">http://www.google.com</a> that should be identified but also <a target=\"_blank\" href=\"http://www.google.com\">www.google.com</a>. This work <a target=\"_blank\" href=\"http://www.google.com\">www.google.com</a>? Maybe <a target=\"_blank\" href=\"http://www.google.com\">www.google.com</a>, or <a target=\"_blank\" href=\"http://www.google.com\">www.google.com</a>!")
       end
     end
 
