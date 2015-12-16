@@ -9,6 +9,14 @@ module FlyoverComments
       end
     end
 
+    def flyover_comments_empty_text
+      if params[:filter].present? || params[:sort].present? || params[:with_links].present? #possible filters
+        t('.no_comments_filter')
+      else
+        t('.no_comments')
+      end
+    end
+
     def flyover_comment_form(commentable, comment = nil,  parent: nil, form: {})
       comment ||= FlyoverComments::Comment.new({
         commentable_id: commentable.id,
