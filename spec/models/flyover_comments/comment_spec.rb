@@ -16,8 +16,8 @@ module FlyoverComments
       before{ FlyoverComments.insert_html_tags_for_detected_links = true }
 
       it "inserts html tags into links in comment content" do
-        comment = FlyoverComments::Comment.new(content: "Linked string http://www.cultivatelabs.com")
-        expect(comment.content).to eq("Linked string <a target=\"_blank\" href=\"http://www.cultivatelabs.com\">http://www.cultivatelabs.com</a>")
+        comment = FlyoverComments::Comment.new(content: "Linked string http://www.cultivatelabs.com. What about this.asdf")
+        expect(comment.content).to eq("Linked string <a target=\"_blank\" href=\"http://www.cultivatelabs.com\">http://www.cultivatelabs.com</a>. What about this.asdf")
       end
     end
 
