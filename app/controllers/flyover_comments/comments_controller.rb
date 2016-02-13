@@ -10,15 +10,19 @@ module FlyoverComments
     before_action :load_parent, only: :create
     before_action :load_commentable, only: [:index, :create]
 
-    respond_to :json, only: [:create, :update]
+    respond_to :json, only: [:create, :update, :index]
     respond_to :html, only: [:create, :show]
     respond_to :js, only: [:destroy, :show, :update]
 
     def index
       authorize_flyover_comment_index!
       load_filtered_comments_list(@commentable)
-      render partial: "flyover_comments/comments/comments", locals: { commentable: @commentable, comments: @comments }
-      # flyover_comments_list(@commentable, comments: @comments)
+
+      respond_with @comments do |format|
+        format.html{
+          render partial: "flyover_comments/comments/comments", locals: { commentable: @commentable, comments: @comments }
+        }
+      end
     end
 
     def create

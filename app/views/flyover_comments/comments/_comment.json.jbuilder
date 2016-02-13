@@ -8,5 +8,7 @@ json.extract! comment,
               :created_at,
               :updated_at
 
-json.content_html simple_format comment.content
-json.comment_html render(partial: "flyover_comments/comments/comment", locals: { comment: comment }, formats: [:html])
+unless local_assigns[:exclude_html]
+  json.content_html simple_format comment.content
+  json.comment_html render(partial: "flyover_comments/comments/comment", locals: { comment: comment }, formats: [:html])
+end

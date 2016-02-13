@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151028175153) do
+ActiveRecord::Schema.define(version: 20151027202316) do
 
   create_table "flyover_comments_comments", force: :cascade do |t|
     t.text     "content"
