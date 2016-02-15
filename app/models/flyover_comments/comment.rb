@@ -1,6 +1,9 @@
 module FlyoverComments
   class Comment < ActiveRecord::Base
     include FlyoverComments::LinkParsing
+
+    scope :with_includes, -> { includes(:children) }
+
     include FlyoverComments::Concerns::CommentAdditions
 
     belongs_to FlyoverComments.user_class_symbol, class_name: "#{FlyoverComments.user_class}", foreign_key: "#{FlyoverComments.user_class_underscore}_id"
