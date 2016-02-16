@@ -2,7 +2,7 @@ module FlyoverComments
   class Comment < ActiveRecord::Base
     include FlyoverComments::LinkParsing
 
-    scope :with_includes, -> { includes(:children) }
+    scope :with_includes, -> { }
 
     include FlyoverComments::Concerns::CommentAdditions
 
