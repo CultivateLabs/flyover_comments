@@ -1,6 +1,6 @@
 <div class="pagination-container">
   <div class="flyover-comments">
-    <%= content_tag :div, t('.empty'), class: "empty-text" if comments.empty? %>
+    <%= content_tag :div, flyover_comments_empty_text, class: "empty-text" if comments.empty? %>
 
     <% comments.each do |comment| %>
       <%= render "flyover_comments/comments/comment", comment: comment %>
