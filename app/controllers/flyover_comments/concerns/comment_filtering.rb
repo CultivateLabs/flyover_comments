@@ -7,6 +7,7 @@ module FlyoverComments
         @comments = @comments.highest_net_votes if params[:sort].present? && params[:sort] == "top" #need this first because of sql ordering or orders
         @comments = @comments.newest_first
         @comments = @comments.with_links if params[:with_links].present? && params[:with_links] != "false"
+        @comments = @comments.not_blank if params[:exclude_blank].present? && params[:exclude_blank] != "false"
 
         if params[:filter] == "current_user"
           user = send(FlyoverComments.current_user_method.to_sym)
