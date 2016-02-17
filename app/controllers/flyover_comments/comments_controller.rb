@@ -7,20 +7,17 @@ module FlyoverComments
     include FlyoverComments::Concerns::CommentFiltering
     include FlyoverComments::Concerns::CommentAlerts
 
-    before_action :load_parent, only: :create
-    before_action :load_commentable, only: [:index, :create]
-
     respond_to :json, only: [:create, :update, :index]
     respond_to :html, only: [:create, :show]
     respond_to :js, only: [:destroy, :show, :update]
 
     def index
-      load_filtered_comments_list(@commentable)
+      load_filtered_comments_list
       authorize_flyover_comment_index!
 
       respond_with @comments do |format|
         format.html{
-          render partial: "flyover_comments/comments/comments", locals: { commentable: @commentable, comments: @comments }
+          render partial: "flyover_comments/comments/comments", locals: { commentable: commentable, comments: @comments }
         }
       end
     end
@@ -28,8 +25,8 @@ module FlyoverComments
     def create
       @comment = FlyoverComments::Comment.new(comment_params)
       @comment._user = _flyover_comments_current_user
-      @comment.commentable = @commentable
-      @comment.parent = @parent
+      @comment.commentable = commentable
+      @comment.parent = parent
       authorize_flyover_comment_creation!
 
       flash_key = @comment.save ? :success : :error
@@ -87,33 +84,6 @@ module FlyoverComments
 
     def comment_params
       params.require(:comment).permit(:content, :all_flags_reviewed)
-    end
-
-    def parent_id
-      @parent_id ||= if params[:parent_id]
-        params.delete(:parent_id)
-      elsif params[:comment][:parent_id]
-        params[:comment].delete(:parent_id)
-      end
-    end
-
-    def load_parent
-      unless parent_id.blank?
-        @parent = FlyoverComments::Comment.find(parent_id)
-        @commentable = @parent.commentable
-        params[:comment].delete(:commentable_type)
-        params[:comment].delete(:commentable_id)
-      end
-    end
-
-    def load_commentable
-      if @commentable.nil?
-        type_param = params[:commentable_type] || params[:comment].delete(:commentable_type)
-        commentable_type = type_param.camelize.constantize
-        raise "Invalid commentable type" if commentable_type.reflect_on_association(:comments).nil?
-        id_param = params[:commentable_id] || params[:comment].delete(:commentable_id)
-        @commentable = commentable_type.find(id_param)
-      end
     end
 
     def authorize_flyover_comment_index!
