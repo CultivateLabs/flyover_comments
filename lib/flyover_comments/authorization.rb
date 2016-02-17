@@ -5,8 +5,8 @@ module FlyoverComments
       send(FlyoverComments.current_user_method.to_sym)
     end
 
-    def can_index_flyover_comments?(params, user)
-      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, params)
+    def can_index_flyover_comments?(comments, user)
+      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, comments)
         policy.index?
       elsif user.respond_to?(:can_index_flyover_comments?)
         user.can_index_flyover_comments?(params)

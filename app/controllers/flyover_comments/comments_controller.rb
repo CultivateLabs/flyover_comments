@@ -15,8 +15,8 @@ module FlyoverComments
     respond_to :js, only: [:destroy, :show, :update]
 
     def index
-      authorize_flyover_comment_index!
       load_filtered_comments_list(@commentable)
+      authorize_flyover_comment_index!
 
       respond_with @comments do |format|
         format.html{
@@ -117,8 +117,8 @@ module FlyoverComments
     end
 
     def authorize_flyover_comment_index!
-      _foc_authorize FlyoverComments::Comment
-      raise "User isn't allowed to index comments" unless can_index_flyover_comments?(params, _flyover_comments_current_user)
+      _foc_authorize @comments
+      raise "User isn't allowed to index comments" unless can_index_flyover_comments?(@comments, _flyover_comments_current_user)
     end
 
     def authorize_flyover_comment_show!
