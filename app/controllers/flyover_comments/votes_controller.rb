@@ -11,9 +11,10 @@ module FlyoverComments
 
     def create
       @comment = FlyoverComments::Comment.find(params[:comment_id])
-      authorize_flyover_vote_create!
       @vote = @comment.votes.new(value: params[:value])
-      @vote._user = send(FlyoverComments.current_user_method.to_sym)
+      @vote._user = _flyover_comments_current_user
+
+      authorize_flyover_vote_create!
 
       @vote.save
 
@@ -35,15 +36,18 @@ module FlyoverComments
   private
 
     def authorize_flyover_vote_create!
-      raise "User isn't allowed to vote on comment" unless can_vote_flyover_comment?(@comment, send(FlyoverComments.current_user_method.to_sym))
+      _foc_authorize @vote
+      raise "User #{_flyover_comments_current_user.id} isn't allowed to vote on comment #{@comment.id}" unless can_vote_flyover_comment?(@comment, _flyover_comments_current_user)
     end
 
     def authorize_flyover_vote_update!
-      raise "User isn't allowed to update vote" unless can_update_flyover_vote?(@vote, send(FlyoverComments.current_user_method.to_sym))
+      _foc_authorize @vote
+      raise "User #{_flyover_comments_current_user.id} isn't allowed to update vote #{{vote_id: @vote.id, _user_id: @vote._user.id}}" unless can_update_flyover_vote?(@vote, _flyover_comments_current_user)
     end
 
     def authorize_flyover_vote_delete!
-      raise "User isn't allowed to delete vote" unless can_delete_flyover_vote?(@vote, send(FlyoverComments.current_user_method.to_sym))
+      _foc_authorize @vote
+      raise "User #{_flyover_comments_current_user.id} isn't allowed to delete vote #{{vote_id: @vote.id, _user_id: @vote._user.id}}" unless can_delete_flyover_vote?(@vote, _flyover_comments_current_user)
     end
 
     def load_vote

@@ -36,7 +36,7 @@ module FlyoverComments
     end
 
     def edit_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.edit_link_text'), opt_overrides = {})
-      return unless comment && can_update_flyover_comment?(comment, send(FlyoverComments.current_user_method.to_sym))
+      return unless comment && can_update_flyover_comment?(comment, _flyover_comments_current_user)
 
       opts = {
         id: "edit_flyover_comment_#{comment.id}",
@@ -51,7 +51,7 @@ module FlyoverComments
     end
 
     def soft_delete_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.delete_link_text'), opt_overrides = {})
-      return unless comment && can_soft_delete_flyover_comment?(comment, send(FlyoverComments.current_user_method.to_sym)) && comment.deleted_at.nil?
+      return unless comment && can_soft_delete_flyover_comment?(comment, _flyover_comments_current_user) && comment.deleted_at.nil?
 
       opts = {
         id: "delete_flyover_comment_#{comment.id}",
@@ -69,7 +69,7 @@ module FlyoverComments
     end
 
     def hard_delete_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.delete_link_text'), opt_overrides = {})
-      return unless comment && can_hard_delete_flyover_comment?(comment, send(FlyoverComments.current_user_method.to_sym))
+      return unless comment && can_hard_delete_flyover_comment?(comment, _flyover_comments_current_user)
 
       opts = {
         id: "delete_flyover_comment_#{comment.id}",
@@ -87,7 +87,7 @@ module FlyoverComments
     end
 
     def flag_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.flag_link_text'), opt_overrides = {})
-      user = send(FlyoverComments.current_user_method.to_sym)
+      user = _flyover_comments_current_user
       return unless comment && can_flag_flyover_comment?(comment, user)
 
       opts = {
@@ -115,12 +115,12 @@ module FlyoverComments
       render "flyover_comments/flags/modal"
     end
 
-    def user_already_flagged_comment?(comment, user = send(FlyoverComments.current_user_method.to_sym))
+    def user_already_flagged_comment?(comment, user = _flyover_comments_current_user)
       FlyoverComments::Flag.where(:comment => comment, FlyoverComments.user_class_symbol => user).exists?
     end
 
     def flag_flyover_comment_modal_link(comment, content = I18n.t('flyover_comments.comments.flag_link_text'), opt_overrides = {})
-      user = send(FlyoverComments.current_user_method.to_sym)
+      user = _flyover_comments_current_user
       return unless comment && can_flag_flyover_comment?(comment, user)
 
       opts = {

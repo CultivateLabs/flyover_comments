@@ -9,9 +9,9 @@ module FlyoverComments
 
     def create
       @comment = FlyoverComments::Comment.find(params[:comment_id])
-      authorize_flyover_flag_creation!
       @flag = @comment.flags.new(flag_params)
-      @flag._user = send(FlyoverComments.current_user_method.to_sym)
+      @flag._user = _flyover_comments_current_user
+      authorize_flyover_flag_creation!
       @flag.save
       respond_with @flag
     end
@@ -19,7 +19,8 @@ module FlyoverComments
     private
 
     def authorize_flyover_flag_creation!
-      raise "User isn't allowed to flag comment" unless can_flag_flyover_comment?(@comment, send(FlyoverComments.current_user_method.to_sym))
+      _foc_authorize @flag
+      raise "User isn't allowed to flag comment" unless can_flag_flyover_comment?(@comment, _flyover_comments_current_user)
     end
 
     def flag_params

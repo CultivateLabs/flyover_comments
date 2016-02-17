@@ -2,7 +2,7 @@ module FlyoverComments
   module VotesHelper
 
     def vote_flyover_comment_buttons(comment, vote = nil)
-      user = send(FlyoverComments.current_user_method.to_sym)
+      user = _flyover_comments_current_user
       if comment && can_vote_flyover_comment?(comment, user)
 
       vote ||= FlyoverComments::Vote.find_or_initialize_by(FlyoverComments.user_class_symbol => user, :comment => comment)

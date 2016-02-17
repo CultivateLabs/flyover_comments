@@ -10,7 +10,7 @@ module FlyoverComments
         @comments = @comments.not_blank if params[:exclude_blank].present? && params[:exclude_blank] != "false"
 
         if params[:filter] == "current_user"
-          user = send(FlyoverComments.current_user_method.to_sym)
+          user = _flyover_comments_current_user
           if user.respond_to?(:filter_flyover_comments)
             @comments = user.filter_flyover_comments(@comments)
           end
