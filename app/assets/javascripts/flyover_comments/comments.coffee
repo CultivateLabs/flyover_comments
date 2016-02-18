@@ -12,7 +12,7 @@ $ ->
         $f.attr("id", "#flyover-comment-reply-to-#{parentId}")
         $f.data("flyover-comment-append-to", "[id=flyover-comment-#{parentId}-replies]")
         $f.addClass("flyover-comment-reply-form")
-        $f.find("[name='comment[parent_id]']").val(parentId)
+        $f.find("[name='parent_id']").val(parentId)
         $f.find(".flyover-comment-cancel").removeClass("hide")
         $f.find("textarea").val("")
         $f.find(".flyover-comment-submit").find("input").attr('disabled',true)

@@ -17,21 +17,11 @@ module FlyoverComments
         end
       end
 
-      def parent_id
-        @parent_id ||= if params[:parent_id]
-          params.delete(:parent_id)
-        elsif params[:comment][:parent_id]
-          params[:comment].delete(:parent_id)
-        end
-      end
-
       def parent
         @parent ||= begin
-          unless parent_id.blank?
-            parent = FlyoverComments::Comment.find(parent_id)
+          unless params[:parent_id].blank?
+            parent = FlyoverComments::Comment.find(params[:parent_id])
             @commentable = @parent.commentable
-            params[:comment].delete(:commentable_type)
-            params[:comment].delete(:commentable_id)
             parent
           end
         end
