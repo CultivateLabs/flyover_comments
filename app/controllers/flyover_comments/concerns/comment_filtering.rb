@@ -21,7 +21,7 @@ module FlyoverComments
         @parent ||= begin
           unless params[:parent_id].blank?
             parent = FlyoverComments::Comment.find(params[:parent_id])
-            @commentable = @parent.commentable
+            @commentable = parent.commentable
             parent
           end
         end
