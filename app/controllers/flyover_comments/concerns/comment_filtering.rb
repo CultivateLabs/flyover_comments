@@ -29,11 +29,16 @@ module FlyoverComments
 
       def commentable
         @commentable ||= begin
-          type_param = params[:commentable_type] || params[:comment].delete(:commentable_type)
-          commentable_type = type_param.camelize.constantize
-          raise "Invalid commentable type" if commentable_type.reflect_on_association(:comments).nil?
-          id_param = params[:commentable_id] || params[:comment].delete(:commentable_id)
-          @commentable = commentable_type.find(id_param)
+          type_param = params[:commentable_type]
+
+          if type_param
+            commentable_type = type_param.camelize.constantize
+            raise "Invalid commentable type" if commentable_type.reflect_on_association(:comments).nil?
+            id_param = params[:commentable_id] || params[:comment].delete(:commentable_id)
+            @commentable = commentable_type.find(id_param)
+          else
+            @commentable = parent.commentable
+          end
         end
       end
 

@@ -3,7 +3,7 @@ $ ->
     e.preventDefault()
     parentId = $(@).data("parent-id")
     container = $(@).data("flyover-comments-form-container") || $(@).attr("href")
-
+    
     $(container).each ->
       if $(@).children(".flyover-comment-reply-form").length
         $(@).children(".flyover-comment-reply-form").remove()
