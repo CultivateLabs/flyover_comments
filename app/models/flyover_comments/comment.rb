@@ -23,6 +23,9 @@ module FlyoverComments
     before_save :update_contains_links
     after_save :update_flags
 
+    after_create :increment_children_counter_cache
+    after_destroy :decrement_children_counter_cache
+
     scope :with_unreviewed_flags, ->{ joins(:flags).where(flyover_comments_flags: { reviewed: false }) }
     scope :with_links, ->{ where(contains_links: true) }
     scope :top_level, -> { where(parent_id: nil) }
@@ -99,6 +102,16 @@ module FlyoverComments
 
     def vote_value_for_user(user)
       votes.where(FlyoverComments.user_class_symbol => user).pluck(:value).first || 0
+    end
+
+  private
+
+    def increment_children_counter_cache
+      self.class.increment_counter("children_count", parent_id) unless parent_id.nil?
+    end
+
+    def decrement_children_counter_cache
+      self.class.decrement_counter("children_count", parent_id) unless parent_id.nil?
     end
 
   end
