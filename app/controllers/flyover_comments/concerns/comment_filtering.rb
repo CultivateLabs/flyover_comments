@@ -19,8 +19,8 @@ module FlyoverComments
 
       def parent
         @parent ||= begin
-          unless params[:parent_id].blank?
-            parent = FlyoverComments::Comment.find(params[:parent_id])
+          if params[:parent_id].present? || params[:comment][:parent_id].present?
+            parent = FlyoverComments::Comment.find(params[:parent_id] || params[:comment][:parent_id])
             @commentable = parent.commentable
             parent
           end

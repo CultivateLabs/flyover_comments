@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151027202316) do
+ActiveRecord::Schema.define(version: 20160220204351) do
 
   create_table "flyover_comments_comments", force: :cascade do |t|
     t.text     "content"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20151027202316) do
     t.datetime "deleted_at"
     t.integer  "upvote_count",     default: 0
     t.integer  "downvote_count",   default: 0
+    t.integer  "children_count",   default: 0
   end
 
   add_index "flyover_comments_comments", ["commentable_type", "commentable_id"], name: "idx_flyover_comments_comments_commentable_type_commentable_id"
