@@ -3,8 +3,8 @@
     <div class="flyover-comment flyover-comment-reply flyover-comment-load-more">
       <%= link_to t('.load_more_comments'), flyover_comments.comment_path(comment), remote: true, data: {type: 'script', disable_with: t('.loading')} %>
     </div>
-    <%= render children.last %>
+    <%= render children.last, child: true %>
   <% else %>
-    <%= render children %>
+    <%= render children, child: true %>
   <% end %>
 </div>
