@@ -4,7 +4,7 @@ module Kaminari
 
       def page_url_for(page)
         route_set = @params.delete(:route_set)
-        arguments = @params.merge(@param_name => (page <= 1 ? nil : page), :only_path => true).symbolize_keys
+        arguments = @params.merge(@param_name => (page < 1 ? nil : page), :only_path => true).symbolize_keys
         if route_set.nil?
           @template.url_for(arguments)
         else
