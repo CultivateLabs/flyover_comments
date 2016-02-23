@@ -7,6 +7,6 @@
     Last Updated At: <%= comment.last_updated_at.nil? ? "Never" : comment.last_updated_at  %>
   </div>
   <% unless local_assigns[:child] %>
-    <%= flyover_comment_replies comment, collapsed: true if comment.parent_id.nil?, children: @children if @children.present? %>
+    <%= flyover_comment_replies comment, collapsed: true if comment.parent_id.nil?, children: local_assigns[:children] || comment.children  %>
   <% end %>
 </div>
