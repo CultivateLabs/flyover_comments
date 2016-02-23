@@ -11,3 +11,5 @@
     <%= render "flyover_comments/comments/paginate_links", comments: comments, commentable: commentable %>
   </div>
 </div>
+
+<%= paginate @comments, remote: true %>
