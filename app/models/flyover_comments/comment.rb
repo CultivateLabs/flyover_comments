@@ -58,6 +58,12 @@ module FlyoverComments
       flags.where(FlyoverComments.user_class_symbol => flagger).exists?
     end
 
+    def page
+      return 1 if parent.nil?
+      previous_comment_count = parent.children.where(["id < ?",id]).count
+      previous_comment_count / self.class.default_per_page + 1
+    end
+
     def update_last_edited_at
       self.last_updated_at = Time.now if content_changed? && id
     end

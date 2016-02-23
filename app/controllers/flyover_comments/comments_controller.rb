@@ -46,11 +46,11 @@ module FlyoverComments
     def show
       @comment = FlyoverComments::Comment.find(params[:id])
       @top_level_comment = @comment.parent || @comment
-      @children = @comment.children.page(params[:page])
+      params[:page] ||= @comment.page
+      @children = @top_level_comment.children.page(params[:page])
 
       authorize_flyover_comment_show!
       if request.xhr?
-        # byebug
         render partial: "flyover_comments/comments/replies", locals: {comment: @comment, collapsed: true}
       else
         respond_with @comment
