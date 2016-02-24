@@ -6,7 +6,7 @@
     By: <%= comment.commenter_name %> &middot; <%= comment.created_at.strftime("%B %d, %Y %l:%M%P") %> &middot; <%= edit_flyover_comment_link comment %> &middot; <%= soft_delete_flyover_comment_link comment %> &middot; <%= hard_delete_flyover_comment_link comment %> &middot; <%= flag_flyover_comment_link comment %> &middot; <%= vote_flyover_comment_buttons comment %> &middot;
     Last Updated At: <%= comment.last_updated_at.nil? ? "Never" : comment.last_updated_at  %>
   </div>
-  <% unless local_assigns[:child] %>
+  <% unless local_assigns[:is_child] %>
     <%= flyover_comment_replies comment, collapsed: true if comment.parent_id.nil?, children: local_assigns[:children] || comment.children  %>
   <% end %>
 </div>
