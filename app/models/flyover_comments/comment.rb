@@ -6,6 +6,8 @@ module FlyoverComments
 
     include FlyoverComments::Concerns::CommentAdditions
 
+    paginates_per 10
+
     belongs_to FlyoverComments.user_class_symbol, class_name: "#{FlyoverComments.user_class}", foreign_key: "#{FlyoverComments.user_class_underscore}_id"
     belongs_to :commentable, polymorphic: true, counter_cache: FlyoverComments.enable_comment_counter_cache
     belongs_to :parent, class_name: "FlyoverComments::Comment"
@@ -54,6 +56,12 @@ module FlyoverComments
 
     def has_been_flagged_by?(flagger)
       flags.where(FlyoverComments.user_class_symbol => flagger).exists?
+    end
+
+    def page
+      return 1 if parent.nil?
+      previous_comment_count = parent.children.where(["created_at < ?", created_at]).count
+      previous_comment_count / self.class.default_per_page + 1
     end
 
     def update_last_edited_at
