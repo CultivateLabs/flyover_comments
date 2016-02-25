@@ -45,11 +45,11 @@ module FlyoverComments
     def show
       @comment = FlyoverComments::Comment.find(params[:id])
       @top_level_comment = @comment.parent || @comment
-      params[:page] ||= @comment.page
+      params[:page] ||= @comment.page unless params[:is_child]
       @children = @top_level_comment.children.page(params[:page])
 
       authorize_flyover_comment_show!
-      if request.xhr?
+      if pagination_request?
         render partial: "flyover_comments/comments/paginated_replies", locals: { children: @children, comment: @comment, collapsed: false}
       end
     end
@@ -119,5 +119,8 @@ module FlyoverComments
       raise "User isn't allowed to delete comment" unless can_soft_delete_flyover_comment?(@comment, _flyover_comments_current_user)
     end
 
+    def pagination_request?
+      request.xhr? && params[:is_child].blank?
+    end
   end
 end
