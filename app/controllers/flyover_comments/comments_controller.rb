@@ -14,7 +14,6 @@ module FlyoverComments
     def index
       load_filtered_comments_list
       authorize_flyover_comment_index!
-
       respond_with @comments do |format|
         format.html{
           render partial: "flyover_comments/comments/comments", locals: { commentable: commentable, comments: @comments }
@@ -50,7 +49,9 @@ module FlyoverComments
       @children = @top_level_comment.children.page(params[:page])
 
       authorize_flyover_comment_show!
-      respond_with @comment
+      if request.xhr?
+        render partial: "flyover_comments/comments/replies", locals: { children: @children, comment: @comment, collapsed: false, paginate_children: true}
+      end
     end
 
     def update

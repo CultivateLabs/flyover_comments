@@ -31,8 +31,8 @@ module FlyoverComments
       render "flyover_comments/comments/comments", commentable: commentable, comments: comments.page(page).per(per_page)
     end
 
-    def flyover_comment_replies(comment, collapsed: true, children: comment.children)
-      render "flyover_comments/comments/replies", comment: comment, collapsed: collapsed, children: children
+    def flyover_comment_replies(comment, collapsed: true, children: comment.children, paginate_children: false)
+      render "flyover_comments/comments/replies", comment: comment, collapsed: collapsed, children: children, paginate_children: paginate_children
     end
 
     def edit_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.edit_link_text'), opt_overrides = {})

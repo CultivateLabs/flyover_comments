@@ -7,4 +7,5 @@
   <% else %>
     <%= render children, is_child: true %>
   <% end %>
+  <%= paginate @children, remote: true if local_assigns[:paginate_children] %>
 </div>
