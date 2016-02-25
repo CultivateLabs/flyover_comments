@@ -1,0 +1,4 @@
+<div class="pagination-container">
+  <%= render "flyover_comments/comments/replies", comment: comment, collapsed: collapsed, children: children %>
+  <%= paginate @children, remote: true %>
+</div>

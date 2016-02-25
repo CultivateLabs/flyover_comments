@@ -50,7 +50,7 @@ module FlyoverComments
 
       authorize_flyover_comment_show!
       if request.xhr?
-        render partial: "flyover_comments/comments/replies", locals: { children: @children, comment: @comment, collapsed: false, paginate_children: true}
+        render partial: "flyover_comments/comments/paginated_replies", locals: { children: @children, comment: @comment, collapsed: false}
       end
     end
 
