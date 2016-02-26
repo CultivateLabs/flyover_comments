@@ -43,7 +43,7 @@ module FlyoverComments
     end
 
     def show
-      @comment = FlyoverComments::Comment.find(params[:id])
+      @comment = FlyoverComments::Comment.with_includes.find(params[:id])
       @top_level_comment = @comment.parent || @comment
       params[:page] ||= @comment.page unless params[:is_child]
       @children = @top_level_comment.children.with_includes.page(params[:page])
