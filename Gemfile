@@ -1,3 +1,6 @@
+LANG="en_US.UTF-8"
+LC_ALL="en_US.UTF-8"
+
 source 'https://rubygems.org'
 
 # Declare your gem's dependencies in flyover_comments.gemspec.
