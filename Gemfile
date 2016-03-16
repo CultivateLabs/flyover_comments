@@ -1,8 +1,5 @@
 source 'https://rubygems.org'
 
-Encoding.default_external = Encoding::UTF_8
-Encoding.default_internal = Encoding::UTF_8
-
 # Declare your gem's dependencies in flyover_comments.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
 # development dependencies will be added by default to the :development group.
