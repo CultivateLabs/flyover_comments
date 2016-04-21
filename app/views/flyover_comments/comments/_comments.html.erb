@@ -7,6 +7,14 @@
   </div>
 
   <div class="pull-right">
-    <%= render "flyover_comments/comments/paginate_links", comments: comments, commentable: commentable %>
+    <%= paginate comments, params: {
+                            route_set: flyover_comments,
+                            controller: "flyover_comments/comments",
+                            action: "index",
+                            id: nil,
+                            commentable_type: commentable.class.to_s,
+                            commentable_id: commentable.id
+                          },
+                          remote: true %>
   </div>
 </div>

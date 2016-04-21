@@ -1,1 +1,1 @@
-$("[id=flyover-comment-<%= @comment.id %>-replies]").replaceWith('<%= escape_javascript(flyover_comment_replies(@comment, collapsed: false)) %>');
+$("[id=flyover-comment-<%= @comment.id %>-replies]").replaceWith('<%= escape_javascript(flyover_comment_replies(@comment, replies_expanded: true)) %>');

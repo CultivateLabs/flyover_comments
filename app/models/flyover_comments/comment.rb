@@ -59,7 +59,7 @@ module FlyoverComments
     end
 
     def page
-      return 1 if parent.nil?
+      return 1 if is_top_level?
       previous_comment_count = parent.children.where(["created_at < ?", created_at]).count
       previous_comment_count / self.class.default_per_page + 1
     end

@@ -1,0 +1,6 @@
+<% if current_membership %>
+  <div class="hide">
+    <%= flyover_comment_form(nil, FlyoverComments::Comment.new, form: { remote: true }) %>
+  </div>
+  <%= flag_flyover_comment_modal %>
+<% end %>

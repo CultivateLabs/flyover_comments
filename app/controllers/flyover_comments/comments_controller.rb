@@ -45,12 +45,12 @@ module FlyoverComments
     def show
       @comment = FlyoverComments::Comment.with_includes.find(params[:id])
       @top_level_comment = @comment.parent || @comment
-      params[:page] ||= @comment.page unless params[:is_child]
-      @children = @top_level_comment.children.with_includes.page(params[:page])
-
+      @children = @top_level_comment.children.with_includes.page(params[:page] || @comment.page)
+      
       authorize_flyover_comment_show!
-      if pagination_request?
-        render partial: "flyover_comments/comments/paginated_replies", locals: { children: @children, comment: @comment, collapsed: false}
+
+      if request.xhr?
+        render partial: "flyover_comments/comments/comment_with_paginated_replies", locals: { children: @children, comment: @top_level_comment }
       end
     end
 
@@ -89,8 +89,5 @@ module FlyoverComments
       params.require(:comment).permit(:content, :all_flags_reviewed)
     end
 
-    def pagination_request?
-      request.xhr? && params[:is_child].blank?
-    end
   end
 end

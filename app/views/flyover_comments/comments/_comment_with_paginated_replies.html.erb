@@ -1,0 +1,7 @@
+<div class="pagination-container">
+  <%= render comment, replies_expanded: true, children: children %>
+
+  <div class="pull-right">
+    <%= paginate children, remote: true %>
+  </div>
+</div>
