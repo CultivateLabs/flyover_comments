@@ -64,6 +64,14 @@ module FlyoverComments
       previous_comment_count / self.class.default_per_page + 1
     end
 
+    def is_reply?
+      !is_top_level?
+    end
+
+    def is_top_level?
+      parent_id.nil?
+    end
+
     def update_last_edited_at
       self.last_updated_at = Time.now if content_changed? && id
     end

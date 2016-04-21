@@ -22,9 +22,6 @@ en:
         comment_content_placeholder: "Enter your comment"
         submit: "Submit"
         submitting: "Submitting..."
-      replies:
-        load_more_comments: "Load more comments"
-        loading: "Loading..."
     flags:
       flagged: "Flagged"
       form:
@@ -33,6 +30,10 @@ en:
         submitting: "Submitting..."
       modal:
         reason: "Reason for Flag"
+    replies:
+      replies:
+        load_more_comments: "Load more comments"
+        loading: "Loading..."
     votes:
       downvote: "Downvote"
       downvoted: "Downvoted"

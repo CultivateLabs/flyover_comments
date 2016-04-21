@@ -31,10 +31,8 @@ module FlyoverComments
       render "flyover_comments/comments/comments", commentable: commentable, comments: comments.page(page).per(per_page)
     end
 
-    def flyover_comment_replies(comment, collapsed: true, children: comment.children, paginate_children: false, is_child: false)
-      return "" if is_child
-      partial_view = paginate_children ? "paginated_replies" : "replies"
-      render "flyover_comments/comments/#{partial_view}", comment: comment, collapsed: collapsed, children: children
+    def flyover_comment_replies(comment, collapsed: true, children: comment.children)
+      render "flyover_comments/replies/replies", comment: comment, collapsed: collapsed, children: children
     end
 
     def edit_flyover_comment_link(comment, content = I18n.t('flyover_comments.comments.edit_link_text'), opt_overrides = {})
@@ -141,6 +139,19 @@ module FlyoverComments
       end
 
       link_to content, "#flyover-comment-#{comment.id}-flag-modal", opts
+    end
+
+    def flyover_comment_reply_link(text, parent, opts = {})
+      data = {
+        flyover_comments_reply_link: true,
+        flyover_comments_form_container: "[id=flyover_comment_#{parent.id}]",
+        parent_id: parent.id
+      }
+
+      data.merge!(opts[:data]) if opts[:data]
+      opts[:data] = data
+
+      link_to text, "#flyover_comment_#{parent.id}", opts
     end
 
     def mark_flyover_comment_flags_reviewed_link(comment, content = I18n.t('flyover_comments.comments.approve_link_text'), opt_overrides = {})
