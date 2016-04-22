@@ -141,17 +141,17 @@ module FlyoverComments
       link_to content, "#flyover-comment-#{comment.id}-flag-modal", opts
     end
 
-    def flyover_comment_reply_link(text, parent, opts = {})
+    def flyover_comment_reply_link(text, parent, container_id, opts = {})
       data = {
         flyover_comments_reply_link: true,
-        flyover_comments_form_container: "[id=flyover_comment_#{parent.id}]",
+        flyover_comments_form_container: "[id=#{container_id}]",
         parent_id: parent.id
       }
 
       data.merge!(opts[:data]) if opts[:data]
       opts[:data] = data
 
-      link_to text, "#flyover_comment_#{parent.id}", opts
+      link_to text, "##{container_id}", opts
     end
 
     def mark_flyover_comment_flags_reviewed_link(comment, content = I18n.t('flyover_comments.comments.approve_link_text'), opt_overrides = {})
