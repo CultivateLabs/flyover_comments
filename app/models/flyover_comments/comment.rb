@@ -72,6 +72,10 @@ module FlyoverComments
       parent_id.nil?
     end
 
+    def deleted?
+      deleted_at.present?
+    end
+
     def update_last_edited_at
       self.last_updated_at = Time.now if content_changed? && id
     end
