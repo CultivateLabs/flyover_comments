@@ -34,6 +34,7 @@ module FlyoverComments
     scope :newest_first, -> { order(created_at: :desc) }
     scope :highest_net_votes, -> { order("flyover_comments_comments.upvote_count - flyover_comments_comments.downvote_count DESC") }
     scope :not_blank, -> { where("content <> ''") }
+    scope :exclude_content, ->(content){ where.not(content: content) }
 
     def content=(value)
       value = ERB::Util.html_escape(value) if FlyoverComments.auto_escapes_html_in_comment_content
