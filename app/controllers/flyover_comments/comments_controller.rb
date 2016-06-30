@@ -6,6 +6,7 @@ module FlyoverComments
     include FlyoverComments::Authorization
     include FlyoverComments::Concerns::CommentFiltering
     include FlyoverComments::Concerns::CommentAlerts
+    include FlyoverComments::Concerns::CommentsControllerAdditions
 
     respond_to :json, only: [:create, :update, :index]
     respond_to :html, only: [:create, :show]
