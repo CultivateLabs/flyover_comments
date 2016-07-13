@@ -23,6 +23,7 @@ module FlyoverComments
     end
 
     def create
+      set_commentable_params if params[:commentable_type].nil? && params[:commentable_id].nil?
       @comment = FlyoverComments::Comment.new(comment_params)
       @comment._user = _flyover_comments_current_user
       @comment.commentable = commentable
