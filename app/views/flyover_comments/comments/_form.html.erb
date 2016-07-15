@@ -3,7 +3,9 @@
   <%= hidden_field_tag :commentable_type, comment.commentable_type if comment.commentable_type %>
   <%= hidden_field_tag :parent_id, comment.parent_id %>
   <div class="flyover-comment-text-area form-group">
-    <%= f.text_area :content, class: "form-control flyover-comment-text-area-input", placeholder: t('.comment_content_placeholder') %>
+    <%= f.text_area :content,
+                    class: "form-control flyover-comment-text-area-input",
+                    placeholder: form_opts[:placeholder_text] || t('.comment_content_placeholder') %>
   </div>
   <div class="flyover-comment-submit">
     <%= f.submit t('.submit'), class: "btn btn-primary", data: { disable_with: t('.submitting') } %>
