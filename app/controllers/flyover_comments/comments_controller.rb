@@ -23,7 +23,7 @@ module FlyoverComments
     end
 
     def create
-      set_commentable_params if params[:commentable_type].nil? && params[:commentable_id].nil?
+      prepare_for_comment_creation
       @comment = FlyoverComments::Comment.new(comment_params)
       @comment._user = _flyover_comments_current_user
       @comment.commentable = commentable
@@ -48,7 +48,7 @@ module FlyoverComments
       @comment = FlyoverComments::Comment.with_includes.find(params[:id])
       @top_level_comment = @comment.parent || @comment
       @children = @top_level_comment.children.with_includes.page(params[:page] || @comment.page)
-      
+
       authorize_flyover_comment_show!
 
       if request.xhr?

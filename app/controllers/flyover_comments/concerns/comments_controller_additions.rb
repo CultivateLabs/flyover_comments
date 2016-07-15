@@ -1,7 +1,7 @@
 module FlyoverComments
   module Concerns
     module CommentsControllerAdditions
-      def set_commentable_params
+      def prepare_for_comment_creation
       end
     end
   end
