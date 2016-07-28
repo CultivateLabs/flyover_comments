@@ -5,7 +5,6 @@ module FlyoverComments
   class CommentsController < ApplicationController
     include FlyoverComments::Authorization
     include FlyoverComments::Concerns::CommentFiltering
-    include FlyoverComments::Concerns::CommentAlerts
     include FlyoverComments::Concerns::CommentsControllerAdditions
 
     respond_to :json, only: [:create, :update, :index]
@@ -23,15 +22,15 @@ module FlyoverComments
     end
 
     def create
-      prepare_for_comment_creation
       @comment = FlyoverComments::Comment.new(comment_params)
+      prepare_for_comment_creation
       @comment._user = _flyover_comments_current_user
       @comment.commentable = commentable
       @comment.parent = parent
       authorize_flyover_comment_creation!
 
       flash_key = @comment.save ? :success : :error
-      process_comment_creation(@comment) if @comment.persisted?
+
       respond_with @comment do |format|
         format.html{ redirect_to :back, :flash => { flash_key => t("flyover_comments.comments.flash.create.#{flash_key.to_s}") } }
         format.json{
