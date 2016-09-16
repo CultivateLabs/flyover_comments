@@ -173,5 +173,10 @@ module FlyoverComments
 
       button_to content, flyover_comments.comment_path(comment), opts
     end
+
+    def no_comments(comments)
+      comments.blank?
+    end
+
   end
 end
