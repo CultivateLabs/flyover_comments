@@ -7,5 +7,5 @@ json.extract! vote,
               :updated_at
 
 if @include_buttons_html
-  json.updated_buttons_html vote_flyover_comment_buttons(vote.comment, vote)
+  json.updated_buttons_html vote_flyover_comment_buttons(vote.comment, vote: vote)
 end
