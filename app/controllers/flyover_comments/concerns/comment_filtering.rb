@@ -8,7 +8,7 @@ module FlyoverComments
         @comments = @comments.newest_first
         @comments = @comments.with_links if params[:with_links].present? && params[:with_links] != "false"
         @comments = @comments.not_blank if params[:exclude_blank].present? && params[:exclude_blank] != "false"
-        @comments = apply_additional_filters(@comments, params)
+        apply_additional_filters
 
         if params[:filter] == "current_user"
           user = _flyover_comments_current_user
@@ -18,8 +18,7 @@ module FlyoverComments
         end
       end
 
-      def apply_additional_filters(comments, params)
-        comments
+      def apply_additional_filters
       end
 
       def parent

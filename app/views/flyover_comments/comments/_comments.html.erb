@@ -1,6 +1,9 @@
-<div class="pagination-container">
+<div class="pagination-container"
+     data-page="<%= params[:page] || 1 %>"
+     data-comments-count="<%= comments.length %>"
+     data-params="<%= pagination_params(commentable).to_json %>">
   <div class="flyover-comments">
-    <% if no_comments(comments) %>
+    <% if display_empty_comments_message?(comments) %>
       <%= content_tag :div, flyover_comments_empty_text, class: "empty-text" %>
     <% else %>
       <% comments.each do |comment| %>

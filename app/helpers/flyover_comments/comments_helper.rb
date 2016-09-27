@@ -174,8 +174,12 @@ module FlyoverComments
       button_to content, flyover_comments.comment_path(comment), opts
     end
 
-    def no_comments(comments)
+    def display_empty_comments_message?(comments)
       comments.blank?
+    end
+
+    def pagination_params(commentable)
+      params.reject{|k,v| ["controller", "action"].include?(k) }.merge(commentable_id: commentable.id, commentable_type: commentable.class.to_s)
     end
 
   end
