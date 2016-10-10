@@ -8,16 +8,16 @@ module FlyoverComments
 
     paginates_per 10
 
-    belongs_to FlyoverComments.user_class_symbol, class_name: "#{FlyoverComments.user_class}", foreign_key: "#{FlyoverComments.user_class_underscore}_id"
     belongs_to :commentable, polymorphic: true, counter_cache: FlyoverComments.enable_comment_counter_cache
     belongs_to :parent, class_name: "FlyoverComments::Comment"
+    belongs_to :commenter, polymorphic: true
 
     has_many :children, ->{ order(:created_at) } , class_name: "FlyoverComments::Comment", foreign_key: "parent_id"
     has_many :flags, dependent: :destroy
     has_many :votes, dependent: :destroy
 
     validates :commentable, presence: true
-    validates "#{FlyoverComments.user_class_underscore}_id", presence: true
+    validates :commenter, presence: true
 
     attr_accessor :all_flags_reviewed
 
@@ -43,15 +43,14 @@ module FlyoverComments
     end
 
     def commenter_name
-      user = send(FlyoverComments.user_class_underscore)
-      if user.respond_to?(:flyover_comments_name)
-        user.flyover_comments_name
-      elsif user.respond_to?(:name)
-        user.name
-      elsif user.respond_to?(:full_name)
-        user.full_name
+      if commenter.respond_to?(:flyover_comments_name)
+        commenter.flyover_comments_name
+      elsif commenter.respond_to?(:name)
+        commenter.name
+      elsif commenter.respond_to?(:full_name)
+        commenter.full_name
       else
-        user.email
+        commenter.email
       end
     end
 
