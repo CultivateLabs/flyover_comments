@@ -1,7 +1,7 @@
 module FlyoverComments
   class Vote < ActiveRecord::Base
     belongs_to :comment, touch: true
-    belongs_to FlyoverComments.user_class_symbol, class_name: "#{FlyoverComments.user_class}", foreign_key: "#{FlyoverComments.user_class_underscore}_id"
+    belongs_to :commenter, polymorphic: true
 
     validates :comment_id, presence: true, uniqueness: {scope: "#{FlyoverComments.user_class_underscore}_id"}
     validates "#{FlyoverComments.user_class_underscore}_id", presence: true
