@@ -66,7 +66,7 @@ module FlyoverComments
     end
 
     def can_flag_flyover_comment?(comment, user)
-      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, FlyoverComments::Flag.new(:comment => comment, FlyoverComments.user_class_symbol => user))
+      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, FlyoverComments::Flag.new(comment: comment, commenter: user))
         policy.create?
       elsif user.respond_to?(:can_flag_flyover_comment?)
         user.can_flag_flyover_comment?(comment)
@@ -76,7 +76,7 @@ module FlyoverComments
     end
 
     def can_vote_flyover_comment?(comment, user)
-      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, FlyoverComments::Vote.new(:comment => comment, FlyoverComments.user_class_symbol => user))
+      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, FlyoverComments::Vote.new(comment: comment, commenter: user))
         policy.create?
       elsif user.respond_to?(:can_vote_flyover_comment?)
         user.can_vote_flyover_comment?(comment)

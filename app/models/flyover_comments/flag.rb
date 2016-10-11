@@ -3,8 +3,9 @@ module FlyoverComments
     belongs_to :comment
     belongs_to :commenter, polymorphic: true
 
-    validates :comment_id, presence: true, uniqueness: {scope: "#{FlyoverComments.user_class_underscore}_id"}
-    validates "#{FlyoverComments.user_class_underscore}_id", presence: true
+    validates :comment_id, presence: true, uniqueness: {scope: [:commenter_id, :commenter_type]}
+    validates :commenter_id, presence: true
+    validates :commenter_type, presence: true
 
     delegate FlyoverComments.user_class_symbol, to: :comment, prefix: true, allow_nil: true
 

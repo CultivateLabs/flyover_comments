@@ -115,12 +115,12 @@ module FlyoverComments
       render "flyover_comments/flags/modal"
     end
 
-    def user_already_flagged_comment?(comment, user = _flyover_comments_current_user)
-      FlyoverComments::Flag.where(:comment => comment, FlyoverComments.user_class_symbol => user).exists?
+    def user_already_flagged_comment?(comment, user = comment.commenter)
+      FlyoverComments::Flag.where(comment: comment, commenter: user).exists?
     end
 
     def flag_flyover_comment_modal_link(comment, content = I18n.t('flyover_comments.comments.flag_link_text'), opt_overrides = {})
-      user = _flyover_comments_current_user
+      user = comment.commenter
       return unless comment && can_flag_flyover_comment?(comment, user)
 
       opts = {
