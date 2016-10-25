@@ -1,11 +1,11 @@
 module FlyoverComments
   class Vote < ActiveRecord::Base
     belongs_to :comment, touch: true
-    belongs_to :commenter, polymorphic: true
+    belongs_to :voter, polymorphic: true
 
-    validates :comment_id, presence: true, uniqueness: {scope: [:commenter_id, :commenter_type]}
-    validates :commenter_id, presence: true
-    validates :commenter_type, presence: true
+    validates :comment_id, presence: true, uniqueness: {scope: [:voter_id, :voter_type]}
+    validates :voter_id, presence: true
+    validates :voter_type, presence: true
 
     delegate FlyoverComments.user_class_symbol, to: :comment, prefix: true, allow_nil: true
 
