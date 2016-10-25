@@ -31,7 +31,7 @@ module FlyoverComments
       elsif user.respond_to?(:can_soft_delete_flyover_comment?)
         user.can_soft_delete_flyover_comment?(comment)
       else
-        comment._user == user
+        comment.commenter == user
       end
     end
 
@@ -51,7 +51,7 @@ module FlyoverComments
       elsif user.respond_to?(:can_create_flyover_comment?)
         user.can_create_flyover_comment?(comment)
       else
-        comment._user == user
+        comment.commenter == user
       end
     end
 
@@ -61,12 +61,12 @@ module FlyoverComments
       elsif user.respond_to?(:can_update_flyover_comment?)
         user.can_update_flyover_comment?(comment)
       else
-        comment._user == user
+        comment.commenter == user
       end
     end
 
     def can_flag_flyover_comment?(comment, user)
-      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, FlyoverComments::Flag.new(comment: comment, commenter: user))
+      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, FlyoverComments::Flag.new(comment: comment, flagger: user))
         policy.create?
       elsif user.respond_to?(:can_flag_flyover_comment?)
         user.can_flag_flyover_comment?(comment)
@@ -76,7 +76,7 @@ module FlyoverComments
     end
 
     def can_vote_flyover_comment?(comment, user)
-      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, FlyoverComments::Vote.new(comment: comment, commenter: user))
+      if Object.const_defined?("Pundit") && policy = Pundit.policy(user, FlyoverComments::Vote.new(comment: comment, voter: user))
         policy.create?
       elsif user.respond_to?(:can_vote_flyover_comment?)
         user.can_vote_flyover_comment?(comment)
@@ -91,7 +91,7 @@ module FlyoverComments
       elsif user.respond_to?(:can_update_flyover_vote?)
         user.can_update_flyover_vote?(vote)
       else
-        vote._user == user
+        vote.voter == user
       end
     end
 
@@ -101,7 +101,7 @@ module FlyoverComments
       elsif user.respond_to?(:can_delete_flyover_vote?)
         user.can_delete_flyover_vote?(vote)
       else
-        vote._user == user
+        vote.voter == user
       end
     end
 

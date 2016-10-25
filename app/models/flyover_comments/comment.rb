@@ -55,7 +55,7 @@ module FlyoverComments
     end
 
     def has_been_flagged_by?(flagger)
-      flags.where(commenter: flagger).exists?
+      flags.where(flagger: flagger).exists?
     end
 
     def page
@@ -121,7 +121,7 @@ module FlyoverComments
     end
 
     def vote_value_for_user(user)
-      votes.where(commenter: user).pluck(:value).first || 0
+      votes.where(voter: user).pluck(:value).first || 0
     end
 
   private

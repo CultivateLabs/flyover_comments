@@ -17,7 +17,7 @@ RSpec.feature "Comments" do
     expect(post.comments.count).to eq(comment_count + 1)
     comment = post.comments.last
     expect(comment.content).to eq("Some comment content")
-    expect(comment._user).to eq(current_user)
+    expect(comment.commenter).to eq(current_user)
   end
 
   it "shows a list of comments" do

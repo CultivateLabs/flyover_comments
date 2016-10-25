@@ -3,9 +3,10 @@ module FlyoverComments
 
     def vote_flyover_comment_buttons(comment, options = {})
       user = comment.commenter
+
       if comment && can_vote_flyover_comment?(comment, user)
         vote = options[:vote]
-        vote ||= FlyoverComments::Vote.find_or_initialize_by(commenter: user, comment: comment)
+        vote ||= FlyoverComments::Vote.find_or_initialize_by(voter: user, comment: comment)
         render "flyover_comments/votes/vote_buttons.html", options.merge({vote: vote, comment: comment})
       else
         render "flyover_comments/votes/vote_count.html", comment: comment

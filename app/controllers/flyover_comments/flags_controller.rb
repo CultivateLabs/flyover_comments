@@ -10,7 +10,7 @@ module FlyoverComments
     def create
       @comment = FlyoverComments::Comment.find(params[:comment_id])
       @flag = @comment.flags.new(flag_params)
-      @flag._user = _flyover_comments_current_user
+      @flag.flagger = _flyover_comments_current_user
       authorize_flyover_flag_creation!
       @flag.save
       respond_with @flag

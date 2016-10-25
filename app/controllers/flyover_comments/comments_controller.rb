@@ -24,7 +24,7 @@ module FlyoverComments
     def create
       @comment = FlyoverComments::Comment.new(comment_params)
       prepare_for_comment_creation
-      @comment.commenter = current_membership || current_user
+      @comment.commenter = _flyover_comments_current_user
       @comment.commentable = commentable
       @comment.parent = parent
       authorize_flyover_comment_creation!
