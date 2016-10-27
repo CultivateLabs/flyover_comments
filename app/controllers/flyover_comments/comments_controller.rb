@@ -27,6 +27,7 @@ module FlyoverComments
       @comment.commenter = _flyover_comments_current_user
       @comment.commentable = commentable
       @comment.parent = parent
+
       authorize_flyover_comment_creation!
       flash_key = @comment.save ? :success : :error
 
