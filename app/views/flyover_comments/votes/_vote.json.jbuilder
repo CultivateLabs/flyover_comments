@@ -1,6 +1,7 @@
 json.extract! vote,
               :id,
-              FlyoverComments.user_class_symbol,
+              :voter_id,
+              :voter_type,
               :comment_id,
               :value,
               :created_at,

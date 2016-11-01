@@ -2,7 +2,7 @@ module FlyoverComments
   module VotesHelper
 
     def vote_flyover_comment_buttons(comment, options = {})
-      user = comment.commenter
+      user = _flyover_comments_current_user
 
       if comment && can_vote_flyover_comment?(comment, user)
         vote = options[:vote]

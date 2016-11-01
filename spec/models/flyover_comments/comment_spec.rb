@@ -5,7 +5,7 @@ module FlyoverComments
 
     it "tracks whether there is a link in the comment" do
       post = FactoryGirl.create(:post)
-      comment = FlyoverComments::Comment.new(content: "Linked string http://www.cultivatelabs.com", commentable: post, ident_user_id: 123)
+      comment = FlyoverComments::Comment.new(content: "Linked string http://www.cultivatelabs.com", commentable: post, commenter: FactoryGirl.create(:user))
       expect(comment.contains_links).to eq(false)
       comment.save
       comment.reload

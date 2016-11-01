@@ -10,7 +10,7 @@ module FlyoverComments
     describe "#create" do
 
       it "increments vote count on upvote" do
-        vote = comment.votes.create(value: 1, ident_user: user)
+        vote = comment.votes.create(value: 1, voter: user)
         comment.reload
         expect(comment.upvote_count).to eq(1)
         expect(comment.downvote_count).to eq(0)
@@ -20,7 +20,7 @@ module FlyoverComments
       end
 
       it "decrements vote count on downvote" do
-        vote = comment.votes.create(value: -1, ident_user: user)
+        vote = comment.votes.create(value: -1, voter: user)
         comment.reload
         expect(comment.upvote_count).to eq(0)
         expect(comment.downvote_count).to eq(1)
@@ -34,7 +34,7 @@ module FlyoverComments
     describe "#update" do
 
       it "increments vote count on upvote update" do
-        vote = comment.votes.create(value: -1, ident_user: user)
+        vote = comment.votes.create(value: -1, voter: user)
         comment.reload
         expect(comment.upvote_count).to eq(0)
         expect(comment.downvote_count).to eq(1)
@@ -52,7 +52,7 @@ module FlyoverComments
       end
 
       it "decrements vote count on downvote update" do
-        vote = comment.votes.create(value: 1, ident_user: user)
+        vote = comment.votes.create(value: 1, voter: user)
         comment.reload
         expect(comment.upvote_count).to eq(1)
         expect(comment.downvote_count).to eq(0)
@@ -74,7 +74,7 @@ module FlyoverComments
     describe "#destroy" do
 
       it "decrements vote count on upvote destroy" do
-        vote = comment.votes.create(value: 1, ident_user: user)
+        vote = comment.votes.create(value: 1, voter: user)
         comment.reload
         expect(comment.upvote_count).to eq(1)
         expect(comment.downvote_count).to eq(0)
@@ -91,7 +91,7 @@ module FlyoverComments
       end
 
       it "increments vote count on downvote destroy" do
-        vote = comment.votes.create(value: -1, ident_user: user)
+        vote = comment.votes.create(value: -1, voter: user)
         comment.reload
         expect(comment.upvote_count).to eq(0)
         expect(comment.downvote_count).to eq(1)

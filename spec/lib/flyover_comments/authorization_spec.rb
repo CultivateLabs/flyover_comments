@@ -5,7 +5,7 @@ module FlyoverComments
 
     describe "can_hard_delete_flyover_comment?" do
       let(:user){ Ident::User.new }
-      let(:comment){ FlyoverComments::Comment.new(ident_user: user) }
+      let(:comment){ FlyoverComments::Comment.new(commenter: user) }
 
       it "calls can_hard_delete_flyover_comment? on the passed user if the user defines it" do
         def user.can_hard_delete_flyover_comment?(comment)
@@ -29,7 +29,7 @@ module FlyoverComments
 
     describe "can_soft_delete_flyover_comment?" do
       let(:user){ Ident::User.new }
-      let(:comment){ FlyoverComments::Comment.new(ident_user: user) }
+      let(:comment){ FlyoverComments::Comment.new(commenter: user) }
 
       it "calls can_soft_delete_flyover_comment? on the passed user if the user defines it" do
         def user.can_soft_delete_flyover_comment?(comment)
@@ -53,7 +53,7 @@ module FlyoverComments
 
     describe "can_create_flyover_comment?" do
       let(:user){ Ident::User.new }
-      let(:comment){ FlyoverComments::Comment.new(ident_user: user) }
+      let(:comment){ FlyoverComments::Comment.new(commenter: user) }
 
       it "calls can_create_flyover_comment? on the passed user if the user defines it" do
         def user.can_create_flyover_comment?(comment)
@@ -77,7 +77,7 @@ module FlyoverComments
 
     describe "can_flag_flyover_comment?" do
       let(:user){ Ident::User.new }
-      let(:comment){ FlyoverComments::Comment.new(ident_user: user) }
+      let(:comment){ FlyoverComments::Comment.new(commenter: user) }
 
       it "calls can_flag_flyover_comment? on the passed user if the user defines it" do
         def user.can_flag_flyover_comment?(comment)

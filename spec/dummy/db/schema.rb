@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160220204351) do
+ActiveRecord::Schema.define(version: 20161010202701) do
 
   create_table "flyover_comments_comments", force: :cascade do |t|
     t.text     "content"
@@ -27,11 +26,12 @@ ActiveRecord::Schema.define(version: 20160220204351) do
     t.integer  "upvote_count",     default: 0
     t.integer  "downvote_count",   default: 0
     t.integer  "children_count",   default: 0
+    t.integer  "commenter_id"
+    t.string   "commenter_type"
+    t.index ["commentable_type", "commentable_id"], name: "idx_flyover_comments_comments_commentable_type_commentable_id"
+    t.index ["ident_user_id"], name: "index_flyover_comments_comments_on_ident_user_id"
+    t.index ["parent_id"], name: "index_flyover_comments_comments_on_parent_id"
   end
-
-  add_index "flyover_comments_comments", ["commentable_type", "commentable_id"], name: "idx_flyover_comments_comments_commentable_type_commentable_id"
-  add_index "flyover_comments_comments", ["ident_user_id"], name: "index_flyover_comments_comments_on_ident_user_id"
-  add_index "flyover_comments_comments", ["parent_id"], name: "index_flyover_comments_comments_on_parent_id"
 
   create_table "flyover_comments_flags", force: :cascade do |t|
     t.integer  "comment_id"
@@ -40,10 +40,11 @@ ActiveRecord::Schema.define(version: 20160220204351) do
     t.datetime "updated_at",                    null: false
     t.boolean  "reviewed",      default: false
     t.text     "reason"
+    t.integer  "flagger_id"
+    t.string   "flagger_type"
+    t.index ["comment_id"], name: "index_flyover_comments_flags_on_comment_id"
+    t.index ["ident_user_id"], name: "index_flyover_comments_flags_on_ident_user_id"
   end
-
-  add_index "flyover_comments_flags", ["comment_id"], name: "index_flyover_comments_flags_on_comment_id"
-  add_index "flyover_comments_flags", ["ident_user_id"], name: "index_flyover_comments_flags_on_ident_user_id"
 
   create_table "flyover_comments_votes", force: :cascade do |t|
     t.integer  "comment_id"
@@ -51,10 +52,11 @@ ActiveRecord::Schema.define(version: 20160220204351) do
     t.integer  "ident_user_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.integer  "voter_id"
+    t.string   "voter_type"
+    t.index ["comment_id"], name: "index_flyover_comments_votes_on_comment_id"
+    t.index ["ident_user_id"], name: "index_flyover_comments_votes_on_ident_user_id"
   end
-
-  add_index "flyover_comments_votes", ["comment_id"], name: "index_flyover_comments_votes_on_comment_id"
-  add_index "flyover_comments_votes", ["ident_user_id"], name: "index_flyover_comments_votes_on_ident_user_id"
 
   create_table "ident_users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -69,18 +71,16 @@ ActiveRecord::Schema.define(version: 20160220204351) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["email"], name: "index_ident_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_ident_users_on_reset_password_token", unique: true
   end
-
-  add_index "ident_users", ["email"], name: "index_ident_users_on_email", unique: true
-  add_index "ident_users", ["reset_password_token"], name: "index_ident_users_on_reset_password_token", unique: true
 
   create_table "posts", force: :cascade do |t|
     t.integer  "ident_user_id"
     t.string   "title"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.index ["ident_user_id"], name: "index_posts_on_ident_user_id"
   end
-
-  add_index "posts", ["ident_user_id"], name: "index_posts_on_ident_user_id"
 
 end

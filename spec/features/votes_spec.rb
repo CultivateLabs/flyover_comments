@@ -5,7 +5,7 @@ RSpec.feature "Votes" do
   it "doesn't allow voting if not logged in" do
     post = FactoryGirl.create(:post)
     other_persons_comment = FactoryGirl.create(:comment, commentable: post)
-    comment_to_vote = FactoryGirl.create(:comment, commentable: post, ident_user: current_user)
+    comment_to_vote = FactoryGirl.create(:comment, commentable: post, commenter: current_user)
 
     visit main_app.post_path(post)
 
@@ -13,14 +13,13 @@ RSpec.feature "Votes" do
     expect(page).to_not have_button('Upvote')
     expect(page).to_not have_button('Downvote')
     expect(page).to have_content(comment_to_vote.content)
-
   end
 
   it "upvotes a comment", js: true do
     login
 
     post = FactoryGirl.create(:post)
-    comment_to_upvote = FactoryGirl.create(:comment, commentable: post, ident_user: current_user)
+    comment_to_upvote = FactoryGirl.create(:comment, commentable: post, commenter: current_user)
 
     visit main_app.post_path(post)
 
@@ -39,7 +38,7 @@ RSpec.feature "Votes" do
 
     vote = FlyoverComments::Vote.last
     expect(vote.comment_id).to eq(comment_to_upvote.id)
-    expect(vote.ident_user).to eq(current_user)
+    expect(vote.voter).to eq(current_user)
     expect(vote.value).to eq(1)
     expect(vote.comment.upvote_count).to eq(1)
     expect(vote.comment.downvote_count).to eq(0)
@@ -49,7 +48,7 @@ RSpec.feature "Votes" do
     login
 
     post = FactoryGirl.create(:post)
-    comment_to_downvote = FactoryGirl.create(:comment, commentable: post, ident_user: current_user)
+    comment_to_downvote = FactoryGirl.create(:comment, commentable: post, commenter: current_user)
 
     visit main_app.post_path(post)
 
@@ -68,7 +67,7 @@ RSpec.feature "Votes" do
 
     vote = FlyoverComments::Vote.last
     expect(vote.comment_id).to eq(comment_to_downvote.id)
-    expect(vote.ident_user).to eq(current_user)
+    expect(vote.voter).to eq(current_user)
     expect(vote.value).to eq(-1)
     expect(vote.comment.upvote_count).to eq(0)
     expect(vote.comment.downvote_count).to eq(1)

@@ -25,7 +25,7 @@ module FlyoverComments
           else
             "Comment #{i} with link http://www.cultivatelabs.com"
           end
-          FactoryGirl.create(:comment, commentable: post, content: content, ident_user: send("user#{i%3}"))
+          FactoryGirl.create(:comment, commentable: post, content: content, commenter: send("user#{i%3}"))
         end
       end
 
@@ -64,7 +64,7 @@ module FlyoverComments
 
       it "gives back a list of comments filtered by the current user's custom preferences" do
         def current_user.filter_flyover_comments(comments)
-          comments.where(ident_user: Ident::User.last)
+          comments.where(commenter: Ident::User.last)
         end
 
         get comments_path(commentable_id: post.id, commentable_type: post.class.to_s, filter: "current_user")
@@ -72,11 +72,11 @@ module FlyoverComments
 
         user = Ident::User.last
 
-        FlyoverComments::Comment.where(ident_user: user).each do |comment|
+        FlyoverComments::Comment.where(commenter: user).each do |comment|
           expect(node).to have_selector("#flyover_comment_#{comment.id}")
         end
-        
-        FlyoverComments::Comment.where.not(ident_user: user).each do |comment|
+
+        FlyoverComments::Comment.where.not(commenter: user).each do |comment|
           expect(node).to_not have_selector("#flyover_comment_#{comment.id}")
         end
       end

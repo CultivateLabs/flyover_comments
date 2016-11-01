@@ -41,7 +41,7 @@ RSpec.feature "Comments" do
   it "edits a comment", js: true do
     post = FactoryGirl.create(:post)
     other_persons_comment = FactoryGirl.create(:comment, commentable: post)
-    comment_to_edit = FactoryGirl.create(:comment, commentable: post, ident_user: current_user)
+    comment_to_edit = FactoryGirl.create(:comment, commentable: post, commenter: current_user)
     new_content = "Updated comment content"
     expect(comment_to_edit.last_updated_at).to eq(nil)
 
@@ -67,7 +67,7 @@ RSpec.feature "Comments" do
   it "deletes a comment", js: true do
     post = FactoryGirl.create(:post)
     other_persons_comment = FactoryGirl.create(:comment, commentable: post)
-    comment_to_delete = FactoryGirl.create(:comment, commentable: post, ident_user: current_user)
+    comment_to_delete = FactoryGirl.create(:comment, commentable: post, commenter: current_user)
 
     visit main_app.post_path(post)
 
@@ -83,10 +83,9 @@ RSpec.feature "Comments" do
   end
 
   it "sets a comment as reviewed", js: true do
-
     post = FactoryGirl.create(:post)
-    comment = FactoryGirl.create(:comment, commentable: post, ident_user: current_user)
-    flag = FactoryGirl.create(:flag, comment: comment, ident_user: current_user)
+    comment = FactoryGirl.create(:comment, commentable: post, commenter: current_user)
+    flag = FactoryGirl.create(:flag, comment: comment, flagger: current_user)
 
     visit main_app.flags_path
 
@@ -105,9 +104,9 @@ RSpec.feature "Comments" do
   it "views a comment as replies", js: true do
 
     post = FactoryGirl.create(:post)
-    comment = FactoryGirl.create(:comment, commentable: post, ident_user: current_user)
-    sub_comment1 = FactoryGirl.create(:comment, commentable: post, parent_id: comment.id, ident_user: current_user)
-    sub_comment2 = FactoryGirl.create(:comment, commentable: post, parent_id: comment.id, ident_user: current_user)
+    comment = FactoryGirl.create(:comment, commentable: post, commenter: current_user)
+    sub_comment1 = FactoryGirl.create(:comment, commentable: post, parent_id: comment.id, commenter: current_user)
+    sub_comment2 = FactoryGirl.create(:comment, commentable: post, parent_id: comment.id, commenter: current_user)
 
     visit main_app.post_path(post)
 
