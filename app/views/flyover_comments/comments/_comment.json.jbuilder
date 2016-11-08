@@ -1,6 +1,7 @@
 json.extract! comment,
               :id,
-              "#{FlyoverComments.user_class_symbol}_id",
+              :commenter_id,
+              :commenter_type,
               :content,
               :commentable_id,
               :commentable_type,

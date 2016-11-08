@@ -10,11 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161010202701) do
+ActiveRecord::Schema.define(version: 20161108202431) do
 
   create_table "flyover_comments_comments", force: :cascade do |t|
     t.text     "content"
-    t.integer  "ident_user_id"
     t.integer  "commentable_id"
     t.string   "commentable_type"
     t.integer  "parent_id"
@@ -28,34 +27,32 @@ ActiveRecord::Schema.define(version: 20161010202701) do
     t.integer  "children_count",   default: 0
     t.integer  "commenter_id"
     t.string   "commenter_type"
+    t.integer  "ident_user"
     t.index ["commentable_type", "commentable_id"], name: "idx_flyover_comments_comments_commentable_type_commentable_id"
-    t.index ["ident_user_id"], name: "index_flyover_comments_comments_on_ident_user_id"
     t.index ["parent_id"], name: "index_flyover_comments_comments_on_parent_id"
   end
 
   create_table "flyover_comments_flags", force: :cascade do |t|
     t.integer  "comment_id"
-    t.integer  "ident_user_id"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.boolean  "reviewed",      default: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.boolean  "reviewed",     default: false
     t.text     "reason"
     t.integer  "flagger_id"
     t.string   "flagger_type"
+    t.integer  "ident_user"
     t.index ["comment_id"], name: "index_flyover_comments_flags_on_comment_id"
-    t.index ["ident_user_id"], name: "index_flyover_comments_flags_on_ident_user_id"
   end
 
   create_table "flyover_comments_votes", force: :cascade do |t|
     t.integer  "comment_id"
     t.integer  "value"
-    t.integer  "ident_user_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer  "voter_id"
     t.string   "voter_type"
+    t.integer  "ident_user"
     t.index ["comment_id"], name: "index_flyover_comments_votes_on_comment_id"
-    t.index ["ident_user_id"], name: "index_flyover_comments_votes_on_ident_user_id"
   end
 
   create_table "ident_users", force: :cascade do |t|
