@@ -7,13 +7,20 @@ class AddCommenterFieldsToFlagsAndVotes < ActiveRecord::Migration
 
     user_class_underscore = FlyoverComments.user_class_underscore
     FlyoverComments::Flag.update_all(flagger_type: user_class_underscore.split("_").map(&:capitalize).join("::").constantize)
-    FlyoverComments::Flag.find_each do |flag|
-      flag.update_attribute(:flagger_id, flag.send("#{user_class_underscore}_id"))
+    
+    user_id_sym = "#{user_class_underscore}_id".to_sym
+
+    FlyoverComments::Flag.distinct.pluck(user_id_sym).each do |flagger_id|
+      flags_by_user = FlyoverComments::Flag.where(user_id_sym => flagger_id)
+      flags_by_user.update_all(flagger_id: flagger_id)
     end
 
+
     FlyoverComments::Vote.update_all(voter_type: user_class_underscore.split("_").map(&:capitalize).join("::").constantize)
-    FlyoverComments::Vote.find_each do |vote|
-      vote.update_attribute(:voter_id, vote.send("#{user_class_underscore}_id"))
+
+    FlyoverComments::Vote.distinct.pluck(user_id_sym).each do |voter_id|
+      votes_by_user = FlyoverComments::Vote.where(user_id_sym => voter_id)
+      votes_by_user.update_all(voter_id: voter_id)
     end
   end
 end

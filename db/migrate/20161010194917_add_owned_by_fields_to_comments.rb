@@ -5,8 +5,12 @@ class AddOwnedByFieldsToComments < ActiveRecord::Migration
 
     user_class_underscore = FlyoverComments.user_class_underscore
     FlyoverComments::Comment.update_all(commenter_type: user_class_underscore.split("_").map(&:capitalize).join("::").constantize)
-    FlyoverComments::Comment.find_each do |comment|
-      comment.update_attribute(:commenter_id, comment.send("#{user_class_underscore}_id"))
+
+    user_id_sym = "#{user_class_underscore}_id".to_sym
+
+    FlyoverComments::Comment.distinct.pluck(user_id_sym).each do |commenter_id|
+      comments_by_user = FlyoverComments::Comment.where(user_id_sym => commenter_id)
+      comments_by_user.update_all(commenter_id: commenter_id)
     end
   end
 end
