@@ -4,6 +4,7 @@ require_dependency "flyover_comments/authorization"
 module FlyoverComments
   class FlagsController < ApplicationController
     include FlyoverComments::Authorization
+    include FlyoverComments::Concerns::FlagsControllerAdditions
 
     respond_to :js, only: [:create]
 

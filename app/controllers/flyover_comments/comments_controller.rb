@@ -15,9 +15,9 @@ module FlyoverComments
       load_filtered_comments_list
       authorize_flyover_comment_index!
       respond_with @comments do |format|
-        format.html{
+        format.html do
           render partial: "flyover_comments/comments/comments", locals: { commentable: commentable, comments: @comments }
-        }
+        end
       end
     end
 
@@ -33,13 +33,13 @@ module FlyoverComments
 
       respond_with @comment do |format|
         format.html{ redirect_back fallback_location: "/", flash: { flash_key => t("flyover_comments.comments.flash.create.#{flash_key.to_s}") } }
-        format.json{
+        format.json do
           if @comment.errors.any?
             render json: { errors: @comment.errors }, status: :unprocessable_entity
           else
             render partial: "flyover_comments/comments/comment", locals: { comment: @comment }
           end
-        }
+        end
       end
     end
 
@@ -61,13 +61,13 @@ module FlyoverComments
       authorize_flyover_comment_update!
       @comment.save
       respond_with @comment do |format|
-        format.json{
+        format.json do
           if @comment.errors.any?
             render json: { errors: @comment.errors }, status: :unprocessable_entity
           else
             render partial: "flyover_comments/comments/comment", locals: { comment: @comment }
           end
-        }
+        end
       end
     end
 
