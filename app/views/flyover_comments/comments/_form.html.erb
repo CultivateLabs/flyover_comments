@@ -8,7 +8,7 @@
                     placeholder: form_opts[:placeholder_text] || t('.comment_content_placeholder') %>
   </div>
   <div class="flyover-comment-submit">
-    <%= f.submit t('.submit'), class: "btn btn-primary", data: { disable_with: t('.submitting') } %>
+    <%= f.submit t('.submit'), class: "btn btn-primary", data: { disable_with: t('.submitting') }, disabled: true %>
     <%= link_to t('.cancel'), "#", class: "flyover-comment-cancel hide" %>
   </div>
 <% end %>
