@@ -4,6 +4,7 @@ require_dependency "flyover_comments/authorization"
 module FlyoverComments
   class VotesController < ApplicationController
     include FlyoverComments::Authorization
+    include FlyoverComments::Concerns::VotesControllerAdditions
 
     respond_to :json, only: [:create, :update, :destroy]
 
