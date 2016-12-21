@@ -18,7 +18,6 @@ module FlyoverComments
 
     validates :commentable, presence: true
     validates :commenter, presence: true
-    validates :content, presence: true
 
     attr_accessor :all_flags_reviewed
 
