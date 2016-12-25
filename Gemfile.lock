@@ -4,7 +4,7 @@ PATH
     flyover_comments (0.0.1)
       jbuilder
       kaminari
-      rails (~> 5)
+      rails (>= 5)
 
 GEM
   remote: https://rubygems.org/
