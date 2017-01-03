@@ -3,7 +3,7 @@ $ ->
     e.preventDefault()
     parentId = $(@).data("parent-id")
     container = $(@).data("flyover-comments-form-container") || $(@).attr("href")
-    
+
     $(container).each ->
       if $(@).children(".flyover-comment-reply-form").length
         $(@).children(".flyover-comment-reply-form").remove()
@@ -42,8 +42,11 @@ $ ->
     $modal.modal("hide")
 
   $(document).on "ajax:success", "form.vote-button", (e, response, status, err)->
+    console.log "ajax:success - form.vote-button - start"
     voteButtons = $(@).closest(".vote-buttons")
     sameVoteableButtons = $("[data-comment-id='#{voteButtons.data('comment-id')}']")
+    console.log "ajax:success - form.vote-button - replacing buttons"
+    console.log response.updated_buttons_html
     sameVoteableButtons.replaceWith(response.updated_buttons_html)
 
   $(document).on "click", ".flag-flyover-comment-modal-link", (e)->
