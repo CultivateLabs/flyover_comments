@@ -14,6 +14,7 @@ module FlyoverComments
     def index
       load_filtered_comments_list
       authorize_flyover_comment_index!
+      prepare_for_comment_index
       respond_with @comments do |format|
         format.html do
           render partial: "flyover_comments/comments/comments", locals: { commentable: commentable, comments: @comments }

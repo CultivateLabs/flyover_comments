@@ -4,6 +4,9 @@ module FlyoverComments
 
       def prepare_for_comment_creation
       end
+
+      def prepare_for_comment_index
+      end
       
     end
   end
