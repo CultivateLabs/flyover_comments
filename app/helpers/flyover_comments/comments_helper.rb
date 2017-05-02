@@ -2,11 +2,19 @@ module FlyoverComments
   module CommentsHelper
 
     def flyover_comment_content(comment)
-      if comment.deleted_at.nil?
-        comment.content
-      else
+      if comment.deleted_at?
         I18n.t('flyover_comments.comments.comment_deleted_text', deleted_time_stamp: comment.deleted_at.to_s(:normal))
+      elsif hide_flagged_comments? && comment.flags.exists? && !membership_can_view_flagged_comment?
+        I18n.t('flyover_comments.comments.comment_flagged_text')
+      else
+        comment.content
       end
+    end
+
+    def membership_can_view_flagged_comment?
+      # if there isn't a current_membership, or the membership doesn't have a method called
+      # can_view_flagged_comment?, then this will return false
+      current_membership&.try(:can_view_flagged_comment?, comment)
     end
 
     def flyover_comments_empty_text

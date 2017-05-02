@@ -4,6 +4,7 @@ en:
       approve_confirmation: "Are you sure you want to approve this comment?"
       approve_link_text: "Approve"
       comment_deleted_text: "Comment deleted on %{deleted_time_stamp}"
+      comment_flagged_text: "Comment has been flagged for review"
       comments:
         no_comments_filter: "No comments match your filter"
         no_comments: "Currently no comments"
