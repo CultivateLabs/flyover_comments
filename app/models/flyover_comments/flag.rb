@@ -1,5 +1,6 @@
 module FlyoverComments
   class Flag < ActiveRecord::Base
+    include FlyoverComments::Concerns::FlagAdditions
     belongs_to :comment
     belongs_to :flagger, polymorphic: true
 
