@@ -1,5 +1,6 @@
 module FlyoverComments
   class Flag < ActiveRecord::Base
+    include FlyoverComments::Concerns::FlagAdditions
     belongs_to :comment
     belongs_to :flagger, polymorphic: true
 
@@ -9,7 +10,7 @@ module FlyoverComments
 
     delegate FlyoverComments.user_class_symbol, to: :comment, prefix: true, allow_nil: true
 
-    scope :not_reviewed, ->{ where reviewed: false }
+    scope :not_reviewed, ->{ where(reviewed: false) }
 
     def _user=(val)
       send("#{FlyoverComments.user_class_symbol}=", val)

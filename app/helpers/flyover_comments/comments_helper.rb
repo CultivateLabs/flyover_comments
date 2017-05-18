@@ -1,14 +1,6 @@
 module FlyoverComments
   module CommentsHelper
 
-    def flyover_comment_content(comment)
-      if comment.deleted_at.nil?
-        comment.content
-      else
-        I18n.t('flyover_comments.comments.comment_deleted_text', deleted_time_stamp: comment.deleted_at.to_s(:normal))
-      end
-    end
-
     def flyover_comments_empty_text
       if params[:filter].present? || params[:sort].present? || params[:with_links].present? #possible filters
         t('.no_comments_filter')

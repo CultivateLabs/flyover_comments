@@ -4,7 +4,7 @@ module FlyoverComments
 
     scope :with_includes, -> { }
 
-    include FlyoverComments::Concerns::CommentAdditions
+    prepend FlyoverComments::Concerns::CommentAdditions
 
     paginates_per 10
 
@@ -33,13 +33,22 @@ module FlyoverComments
     scope :top_level, -> { where(parent_id: nil) }
     scope :newest_first, -> { order(created_at: :desc) }
     scope :highest_net_votes, -> { order("flyover_comments_comments.upvote_count - flyover_comments_comments.downvote_count DESC") }
-    scope :not_blank, -> { where("content <> ''") }
-    scope :exclude_content, ->(content){ where.not(content: content) }
+    scope :not_blank, -> { where("raw_content <> ''") }
+    scope :exclude_content, ->(excluded_content){ where.not(raw_content: excluded_content) }
+    scope :deleted, ->{ where.not(deleted_at: nil) }
 
     def content=(value)
       value = ERB::Util.html_escape(value) if FlyoverComments.auto_escapes_html_in_comment_content
       value = add_html_tags_to_detected_links(value) if FlyoverComments.insert_html_tags_for_detected_links
-      self[:content] = value
+      self.raw_content = value
+    end
+
+    def content
+      if deleted_at?
+        I18n.t('flyover_comments.comments.comment_deleted_text', deleted_time_stamp: deleted_at.to_s(:normal))
+      else
+        raw_content
+      end
     end
 
     def commenter_name
@@ -77,7 +86,7 @@ module FlyoverComments
     end
 
     def update_last_edited_at
-      self.last_updated_at = Time.now if content_changed? && id
+      self.last_updated_at = Time.now if raw_content_changed? && id
     end
 
     def update_contains_links
