@@ -1,6 +1,6 @@
 <div id="flyover_comment_<%= comment.id %>" class="flyover-comment">
   <div class="flyover-comment-content">
-    <%= flyover_comment_content(comment) %>
+    <%= comment.content %>
   </div>
   <div class="flyover-comment-details">
     By: <%= comment.commenter_name %> &middot; <%= comment.created_at.strftime("%B %d, %Y %l:%M%P") %> &middot; <%= edit_flyover_comment_link comment %> &middot; <%= soft_delete_flyover_comment_link comment %> &middot; <%= hard_delete_flyover_comment_link comment %> &middot; <%= flag_flyover_comment_link comment %> &middot; <%= vote_flyover_comment_buttons comment %> &middot;

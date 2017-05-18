@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161108202431) do
+ActiveRecord::Schema.define(version: 20170518171535) do
 
   create_table "flyover_comments_comments", force: :cascade do |t|
-    t.text     "content"
+    t.text     "raw_content"
     t.integer  "commentable_id"
     t.string   "commentable_type"
     t.integer  "parent_id"
