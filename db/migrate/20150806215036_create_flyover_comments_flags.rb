@@ -1,4 +1,4 @@
-class CreateFlyoverCommentsFlags < ActiveRecord::Migration
+class CreateFlyoverCommentsFlags < ActiveRecord::Migration[4.2]
   def change
     create_table :flyover_comments_flags do |t|
       t.references :comment, index: true

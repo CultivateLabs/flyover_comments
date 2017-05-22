@@ -1,4 +1,4 @@
-class CreateFlyoverCommentsVotes < ActiveRecord::Migration
+class CreateFlyoverCommentsVotes < ActiveRecord::Migration[4.2]
   def change
     create_table :flyover_comments_votes do |t|
       t.references :comment, index: true

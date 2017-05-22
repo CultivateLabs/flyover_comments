@@ -1,4 +1,4 @@
-class CreateFlyoverCommentsComments < ActiveRecord::Migration
+class CreateFlyoverCommentsComments < ActiveRecord::Migration[4.2]
   def change
     create_table :flyover_comments_comments do |t|
       t.text :content

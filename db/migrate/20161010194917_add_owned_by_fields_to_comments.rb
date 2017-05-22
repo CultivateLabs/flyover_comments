@@ -1,4 +1,4 @@
-class AddOwnedByFieldsToComments < ActiveRecord::Migration
+class AddOwnedByFieldsToComments < ActiveRecord::Migration[4.2]
   def change
     add_column :flyover_comments_comments, :commenter_id, :integer
     add_column :flyover_comments_comments, :commenter_type, :string

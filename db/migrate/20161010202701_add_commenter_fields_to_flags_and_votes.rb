@@ -1,4 +1,4 @@
-class AddCommenterFieldsToFlagsAndVotes < ActiveRecord::Migration
+class AddCommenterFieldsToFlagsAndVotes < ActiveRecord::Migration[4.2]
   def change
     add_column :flyover_comments_flags, :flagger_id, :integer
     add_column :flyover_comments_flags, :flagger_type, :string

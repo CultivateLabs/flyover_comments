@@ -1,4 +1,4 @@
-class DeviseCreateIdentUsers < ActiveRecord::Migration
+class DeviseCreateIdentUsers < ActiveRecord::Migration[4.2]
   def change
     create_table(:ident_users) do |t|
       ## Database authenticatable
