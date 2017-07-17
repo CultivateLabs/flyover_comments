@@ -80,6 +80,7 @@ module FlyoverComments
       else
         authorize_flyover_comment_soft_deletion!
         @comment.deleted_at = Time.now
+        @comment.flags.update_all(reviewed: false)
         @comment.save
       end
       respond_with @comment

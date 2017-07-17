@@ -23,6 +23,7 @@ module FlyoverComments
 
     before_save :update_last_edited_at
     before_save :update_contains_links
+    before_save :update_deleted_at_if_approved
     after_save :update_flags
 
     after_create :increment_children_counter_cache
@@ -95,9 +96,11 @@ module FlyoverComments
     end
 
     def update_flags
-      if all_flags_reviewed
-        flags.update_all reviewed: true
-      end
+      flags.update_all reviewed: true if all_flags_reviewed
+    end
+
+    def update_deleted_at_if_approved
+      self.deleted_at = nil if all_flags_reviewed
     end
 
     def unreviewed_flag_count
