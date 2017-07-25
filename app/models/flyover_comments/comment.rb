@@ -28,6 +28,7 @@ module FlyoverComments
     after_create :increment_children_counter_cache
     after_destroy :decrement_children_counter_cache
 
+    scope :with_reviewed_flags, ->{ joins(:flags).where(flyover_comments_flags: { reviewed: true }) }
     scope :with_unreviewed_flags, ->{ joins(:flags).where(flyover_comments_flags: { reviewed: false }) }
     scope :with_links, ->{ where(contains_links: true) }
     scope :top_level, -> { where(parent_id: nil) }
@@ -36,6 +37,7 @@ module FlyoverComments
     scope :not_blank, -> { where("raw_content <> ''") }
     scope :exclude_content, ->(excluded_content){ where.not(raw_content: excluded_content) }
     scope :deleted, ->{ where.not(deleted_at: nil) }
+    scope :not_deleted, ->{ where(deleted_at: nil) }
 
     def content=(value)
       value = ERB::Util.html_escape(value) if FlyoverComments.auto_escapes_html_in_comment_content
@@ -95,9 +97,7 @@ module FlyoverComments
     end
 
     def update_flags
-      if all_flags_reviewed
-        flags.update_all reviewed: true
-      end
+      flags.update_all(reviewed: true) if all_flags_reviewed
     end
 
     def unreviewed_flag_count
