@@ -74,22 +74,23 @@ module FlyoverComments
 
     def destroy
       @comment = FlyoverComments::Comment.find(params[:id])
+
       if params[:hard_delete] == "true"
         authorize_flyover_comment_hard_deletion!
         @comment.destroy
       else
         authorize_flyover_comment_soft_deletion!
         @comment.deleted_at = Time.now
-        @comment.flags.update_all(reviewed: false)
         @comment.save
       end
+
       respond_with @comment
     end
 
   private
 
     def comment_params
-      params.require(:comment).permit(:content, :all_flags_reviewed)
+      params.require(:comment).permit(:content, :all_flags_reviewed, :deleted_at)
     end
 
   end
