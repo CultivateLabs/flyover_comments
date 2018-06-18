@@ -133,6 +133,13 @@ module FlyoverComments
       votes.where(voter: user).pluck(:value).first || 0
     end
 
+    def self.delete_content
+      update_all(raw_content: nil)
+      ids = self.pluck(:id)
+      FlyoverComments::Flag.where(comment_id: ids).destroy_all
+      FlyoverComments::Vote.where(comment_id: ids).destroy_all
+    end
+
   private
 
     def increment_children_counter_cache
