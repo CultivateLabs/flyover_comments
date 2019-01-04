@@ -33,7 +33,7 @@ module FlyoverComments
     scope :with_links, ->{ where(contains_links: true) }
     scope :top_level, -> { where(parent_id: nil) }
     scope :newest_first, -> { order(created_at: :desc) }
-    scope :highest_net_votes, -> { order("flyover_comments_comments.upvote_count - flyover_comments_comments.downvote_count DESC") }
+    scope :highest_net_votes, -> { order(Arel.sql("flyover_comments_comments.upvote_count - flyover_comments_comments.downvote_count DESC")) }
     scope :not_blank, -> { where("raw_content <> ''") }
     scope :exclude_content, ->(excluded_content){ where.not(raw_content: excluded_content) }
     scope :deleted, ->{ where.not(deleted_at: nil) }
