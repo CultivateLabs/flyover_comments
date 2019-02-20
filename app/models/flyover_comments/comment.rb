@@ -8,7 +8,7 @@ module FlyoverComments
 
     paginates_per 10
 
-    belongs_to :commentable, polymorphic: true, counter_cache: FlyoverComments.enable_comment_counter_cache
+    belongs_to :commentable, polymorphic: true, counter_cache: FlyoverComments.enable_comment_counter_cache, touch: true
     belongs_to :parent, class_name: "FlyoverComments::Comment"
     belongs_to :commenter, polymorphic: true
 
