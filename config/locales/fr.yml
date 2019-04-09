@@ -1,0 +1,44 @@
+fr:
+  flyover_comments:
+    comments:
+      approve_confirmation: "Êtes-vous sûr de vouloir approuver ce commentaire?"
+      approve_link_text: "Approuver"
+      comment_deleted_text: "Commentaire supprimé %{deleted_time_stamp}"
+      comments:
+        no_comments_filter: "Aucun commentaire ne correspond à votre filtre"
+        no_comments: "Actuellement aucun commentaire"
+      delete_confirmation: "êtes-vous sûr de vouloir supprimer ce commentaire?"
+      delete_link_text: "Effacer"
+      edit_link_text: "Modifier"
+      flag_confirmation: "Êtes-vous sûr de vouloir signaler ce commentaire?"
+      flag_link_text: "Signaler"
+      flagged_link_text: "Signalé"
+      flash:
+        create:
+          success: "Commentaire créé avec succès."
+          error: "There was an error creating your comment."
+      form:
+        cancel: "Annuler"
+        comment_content_placeholder: "Entrez votre commentaire"
+        submit: "Soumettre"
+        submitting: "Soumission..."
+    flags:
+      flagged: "Signalé"
+      form:
+        cancel: "Annuler"
+        submit: "Soumettre"
+        submitting: "Soumission..."
+      modal:
+        reason: "Raison du rapport"
+    replies:
+      replies:
+        load_more_comments: "Charger plus de commentaires"
+        loading: "Chargement..."
+    votes:
+      downvote: "Voter négatif"
+      downvoted: "Voté négatif"
+      upvote: "Voter en faveur"
+      upvoted: "Voté en faveur"
+      upvotes: "Votes en faveur"
+
+      
