@@ -4,7 +4,7 @@ class AddOwnedByFieldsToComments < ActiveRecord::Migration[4.2]
     add_column :flyover_comments_comments, :commenter_type, :string
 
     user_class_underscore = FlyoverComments.user_class_underscore
-    FlyoverComments::Comment.update_all(commenter_type: user_class_underscore.split("_").map(&:capitalize).join("::").constantize)
+    FlyoverComments::Comment.update_all(commenter_type: user_class_underscore.split("_").map(&:capitalize).join("::").constantize.to_s)
 
     user_id_sym = "#{user_class_underscore}_id".to_sym
 
